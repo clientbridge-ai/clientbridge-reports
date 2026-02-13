@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit — gocoaching.io | ClientBridge LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0e1117;
+  --surface: #161a22;
+  --surface-2: #1c2029;
+  --surface-3: #252a34;
+  --border: #2a2f3a;
+  --text: #e4e7ec;
+  --text-muted: #8b92a5;
+  --text-dim: #5c6378;
+  --accent: #4f8cff;
+  --accent-glow: rgba(79,140,255,.15);
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,.1);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251,191,36,.1);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,.1);
+  --sidebar-w: 280px;
+  --font-body: 'DM Sans', sans-serif;
+  --font-display: 'Instrument Serif', serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.65; font-size: 15px; }
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed; top: 0; left: 0; width: var(--sidebar-w); height: 100vh;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column; z-index: 100;
+  overflow-y: auto;
+}
+.sidebar-logo { padding: 28px 24px 20px; border-bottom: 1px solid var(--border); }
+.sidebar-logo h2 { font-family: var(--font-display); font-size: 22px; font-weight: 400; color: var(--text); letter-spacing: -.02em; }
+.sidebar-logo span { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .12em; color: var(--text-dim); margin-top: 4px; font-family: var(--font-body); }
+.sidebar-nav { padding: 16px 0; flex: 1; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 24px; font-size: 13px; color: var(--text-muted);
+  text-decoration: none; transition: all .2s; border-left: 3px solid transparent;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active { color: var(--text); background: var(--surface-2); border-left-color: var(--accent); }
+.sidebar-nav a .nav-num { font-size: 10px; opacity: .5; font-weight: 600; min-width: 18px; }
+.sidebar-footer { padding: 16px 24px; border-top: 1px solid var(--border); }
+.sidebar-footer p { font-size: 11px; color: var(--text-dim); }
+
+/* MAIN */
+.main { margin-left: var(--sidebar-w); min-height: 100vh; }
+.main-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(14,17,23,.85); backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border); padding: 16px 48px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.main-header h1 { font-family: var(--font-display); font-size: 18px; font-weight: 400; }
+.main-header .date { font-size: 12px; color: var(--text-dim); }
+.content { padding: 40px 48px 80px; max-width: 960px; }
+
+/* SECTIONS */
+section { margin-bottom: 56px; }
+section h2 { font-family: var(--font-display); font-size: 32px; font-weight: 400; margin-bottom: 24px; letter-spacing: -.02em; }
+section h3 { font-size: 16px; font-weight: 600; margin-bottom: 12px; margin-top: 24px; }
+section p { color: var(--text-muted); margin-bottom: 12px; }
+
+/* SCORE HERO */
+.score-hero {
+  display: flex; align-items: center; gap: 40px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+  padding: 40px; margin-bottom: 40px;
+}
+.score-ring { position: relative; width: 160px; height: 160px; flex-shrink: 0; }
+.score-ring svg { width: 160px; height: 160px; transform: rotate(-90deg); }
+.score-ring circle { fill: none; stroke-width: 10; }
+.score-ring .track { stroke: var(--surface-3); }
+.score-ring .fill { stroke-linecap: round; transition: stroke-dashoffset 1.2s ease; }
+.score-ring .value {
+  position: absolute; inset: 0; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+}
+.score-ring .value strong { font-family: var(--font-display); font-size: 48px; font-weight: 400; line-height: 1; }
+.score-ring .value span { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+.score-hero .summary h3 { margin-top: 0; font-size: 18px; }
+.score-hero .summary p { font-size: 14px; }
+
+/* SCORE CARD GRID */
+.scorecard { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; margin-bottom: 40px; }
+.scorecard-item {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; cursor: pointer; transition: all .2s;
+}
+.scorecard-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+.scorecard-item .sc-top { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.scorecard-item .sc-label { font-size: 13px; font-weight: 600; }
+.scorecard-item .sc-weight { font-size: 11px; color: var(--text-dim); }
+.scorecard-item .sc-score { font-family: var(--font-display); font-size: 36px; font-weight: 400; }
+.scorecard-item .sc-bar { height: 4px; border-radius: 4px; background: var(--surface-3); margin-top: 8px; }
+.scorecard-item .sc-bar-fill { height: 100%; border-radius: 4px; transition: width .8s ease; }
+.sc-red .sc-score { color: var(--red); }
+.sc-amber .sc-score { color: var(--amber); }
+.sc-green .sc-score { color: var(--green); }
+.sc-red .sc-bar-fill { background: var(--red); }
+.sc-amber .sc-bar-fill { background: var(--amber); }
+.sc-green .sc-bar-fill { background: var(--green); }
+
+/* DETAIL SECTIONS */
+.detail-section {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 20px; overflow: hidden;
+}
+.detail-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 20px 24px; cursor: pointer; user-select: none; transition: background .2s;
+}
+.detail-header:hover { background: var(--surface-2); }
+.detail-header h3 { font-size: 15px; font-weight: 600; margin: 0; display: flex; align-items: center; gap: 12px; }
+.detail-header .score-badge {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 8px; font-size: 14px; font-weight: 700;
+}
+.badge-red { background: var(--red-bg); color: var(--red); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-green { background: var(--green-bg); color: var(--green); }
+.detail-header .chevron { font-size: 18px; color: var(--text-dim); transition: transform .3s; }
+.detail-header.open .chevron { transform: rotate(180deg); }
+.detail-body { padding: 0 24px 24px; display: none; }
+.detail-body.open { display: block; }
+.detail-body h4 { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: .08em; color: var(--text-dim); margin: 20px 0 10px; }
+
+.finding { padding: 12px 16px; border-radius: 8px; margin-bottom: 8px; font-size: 14px; }
+.finding-good { background: var(--green-bg); border-left: 3px solid var(--green); }
+.finding-issue { background: var(--red-bg); border-left: 3px solid var(--red); }
+.finding-rec { background: var(--accent-glow); border-left: 3px solid var(--accent); }
+
+.hypothesis {
+  background: var(--surface-2); border: 1px solid var(--border); border-radius: 10px;
+  padding: 16px 20px; margin-top: 16px; font-size: 13px; line-height: 1.7;
+}
+.hypothesis strong { color: var(--accent); }
+
+/* ICE TABLE */
+.ice-table-wrap { overflow-x: auto; }
+table.ice-table {
+  width: 100%; border-collapse: collapse; font-size: 13px;
+}
+table.ice-table th {
+  text-align: left; padding: 12px 16px; font-size: 11px; text-transform: uppercase;
+  letter-spacing: .08em; color: var(--text-dim); border-bottom: 1px solid var(--border);
+  cursor: pointer; user-select: none; white-space: nowrap;
+}
+table.ice-table th:hover { color: var(--accent); }
+table.ice-table td { padding: 12px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+table.ice-table tr:hover td { background: var(--surface-2); }
+.ice-score-cell { font-weight: 700; font-size: 14px; }
+
+/* QUICK WINS */
+.quick-win {
+  display: flex; gap: 16px; align-items: flex-start;
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 20px; margin-bottom: 12px;
+}
+.qw-num {
+  flex-shrink: 0; width: 36px; height: 36px; border-radius: 50%;
+  background: var(--accent-glow); color: var(--accent); font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center;
+}
+.qw-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.qw-content p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+/* ACTION PLAN */
+.action-step {
+  display: flex; gap: 20px; padding: 20px 0; border-bottom: 1px solid var(--border);
+}
+.action-step:last-child { border-bottom: none; }
+.action-step .step-time {
+  flex-shrink: 0; width: 80px; font-size: 12px; font-weight: 600;
+  color: var(--accent); text-transform: uppercase; padding-top: 2px;
+}
+.action-step .step-body h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+.action-step .step-body p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+/* NOTE BOX */
+.note-box {
+  background: var(--amber-bg); border: 1px solid rgba(251,191,36,.25); border-radius: 10px;
+  padding: 16px 20px; font-size: 13px; color: var(--amber); margin-bottom: 24px;
+}
+
+/* METHODOLOGY */
+.method-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.method-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 10px;
+  padding: 20px;
+}
+.method-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; }
+.method-card p { font-size: 13px; color: var(--text-muted); margin: 0; }
+
+/* PRINT */
+@media print {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .main-header { position: relative; }
+  .detail-body { display: block !important; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .content { padding: 24px; }
+  .score-hero { flex-direction: column; text-align: center; }
+  .method-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <h2>CRO Audit</h2>
+    <span>ClientBridge LLC</span>
+  </div>
+  <div class="sidebar-nav">
+    <a href="#executive" class="active"><span class="nav-num">01</span> Executive Summary</a>
+    <a href="#scorecard"><span class="nav-num">02</span> Scoring Overview</a>
+    <a href="#findings"><span class="nav-num">03</span> Detailed Findings</a>
+    <a href="#backlog"><span class="nav-num">04</span> Experiment Backlog</a>
+    <a href="#quickwins"><span class="nav-num">05</span> Quick Wins</a>
+    <a href="#actionplan"><span class="nav-num">06</span> 48-Hour Action Plan</a>
+    <a href="#methodology"><span class="nav-num">07</span> Methodology</a>
+  </div>
+  <div class="sidebar-footer">
+    <p>gocoaching.io<br>February 2026</p>
+  </div>
+</nav>
+
+<main class="main">
+  <header class="main-header">
+    <h1>gocoaching.io — Conversion Rate Optimization Audit</h1>
+    <span class="date">February 13, 2026</span>
+  </header>
+
+  <div class="content">
+
+    <!-- EXECUTIVE SUMMARY -->
+    <section id="executive">
+      <h2>Executive Summary</h2>
+
+      <div class="note-box">
+        ⚠ Analytics data not available. All findings are heuristic-based. ICE confidence scores capped at 6. Connecting GA4 to BigQuery is recommended as the #1 data infrastructure priority.
+      </div>
+
+      <div class="score-hero">
+        <div class="score-ring">
+          <svg viewBox="0 0 160 160">
+            <circle class="track" cx="80" cy="80" r="70"/>
+            <circle class="fill" cx="80" cy="80" r="70"
+              stroke="var(--amber)"
+              stroke-dasharray="440"
+              stroke-dashoffset="198"/>
+          </svg>
+          <div class="value">
+            <strong>5.5</strong>
+            <span>out of 10</span>
+          </div>
+        </div>
+        <div class="summary">
+          <h3>Moderate conversion potential with significant upside</h3>
+          <p>GO! Coaching has strong brand energy, credible social proof from million-dollar earners, and a clear niche in mortgage professional coaching. However, the homepage suffers from <strong>unclear conversion pathways</strong>, <strong>vague hero messaging</strong>, and <strong>missing pricing/program transparency</strong> that create unnecessary friction for high-intent visitors. The primary CTA ("Book a Free Strategy Call") links to a generic anchor rather than a dedicated booking page, which likely causes significant drop-off.</p>
+          <p style="margin-top:16px; font-size:13px;"><strong>Top 3 Wins:</strong> Strong coach credibility ($1M+ earners), video testimonials with real names, endorsement logos from recognizable industry brands.</p>
+          <p style="font-size:13px;"><strong>Business Type:</strong> Lead Gen (coaching/consulting) &nbsp;|&nbsp; <strong>Primary Goal:</strong> Strategy call booking &nbsp;|&nbsp; <strong>ICP:</strong> Loan officers seeking to scale via digital marketing</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCORECARD -->
+    <section id="scorecard">
+      <h2>Scoring Overview</h2>
+      <div class="scorecard">
+        <div class="scorecard-item sc-amber" onclick="scrollToDetail('d-message')">
+          <div class="sc-top"><span class="sc-label">Message Match & Clarity</span><span class="sc-weight">20%</span></div>
+          <div class="sc-score">5</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:50%"></div></div>
+        </div>
+        <div class="scorecard-item sc-amber" onclick="scrollToDetail('d-value')">
+          <div class="sc-top"><span class="sc-label">Value Proposition</span><span class="sc-weight">15%</span></div>
+          <div class="sc-score">6</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:60%"></div></div>
+        </div>
+        <div class="scorecard-item sc-green" onclick="scrollToDetail('d-trust')">
+          <div class="sc-top"><span class="sc-label">Trust & Credibility</span><span class="sc-weight">20%</span></div>
+          <div class="sc-score">7</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:70%"></div></div>
+        </div>
+        <div class="scorecard-item sc-red" onclick="scrollToDetail('d-cta')">
+          <div class="sc-top"><span class="sc-label">CTA & Conversion Path</span><span class="sc-weight">15%</span></div>
+          <div class="sc-score">4</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:40%"></div></div>
+        </div>
+        <div class="scorecard-item sc-amber" onclick="scrollToDetail('d-form')">
+          <div class="sc-top"><span class="sc-label">Form / Checkout UX</span><span class="sc-weight">15%</span></div>
+          <div class="sc-score">5</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:50%"></div></div>
+        </div>
+        <div class="scorecard-item sc-amber" onclick="scrollToDetail('d-content')">
+          <div class="sc-top"><span class="sc-label">Content & Persuasion</span><span class="sc-weight">10%</span></div>
+          <div class="sc-score">6</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:60%"></div></div>
+        </div>
+        <div class="scorecard-item sc-amber" onclick="scrollToDetail('d-mobile')">
+          <div class="sc-top"><span class="sc-label">Mobile Experience</span><span class="sc-weight">5%</span></div>
+          <div class="sc-score">5</div>
+          <div class="sc-bar"><div class="sc-bar-fill" style="width:50%"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DETAILED FINDINGS -->
+    <section id="findings">
+      <h2>Detailed Findings</h2>
+
+      <!-- 1. Message Match -->
+      <div class="detail-section" id="d-message">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-amber">5</span> Message Match & Clarity</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">Headline identifies the target audience (Loan Officers) and the value (recession-proof professionals).</div>
+          <div class="finding finding-good">"Endorsed by" logo bar provides immediate industry context — visitor knows they're in the right vertical.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">Hero headline is long and complex: "GO! Coaching Combines the Power of Loan Officers and Digital Marketing Experts to Build Recession-Proof Professionals." This requires System 2 processing — too many concepts jammed into one sentence for a 3-second scan.</div>
+          <div class="finding finding-issue">Sub-headline "Feeling Stuck With Outdated Tactics? GO! for a Change" is clever but vague — doesn't tell the visitor what they'll specifically get or what "a change" means.</div>
+          <div class="finding finding-issue">The page serves dual audiences (Loan Officers AND Real Estate Agents) with a dropdown navigation choice, creating a cognitive fork at the very top of the funnel. Visitors arriving from targeted campaigns will encounter content not meant for them.</div>
+          <div class="finding finding-issue">Cart/merch UI (shopping cart with "Astro Tee" placeholder items) is visible and clutters the navigation, detracting from the primary conversion goal.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Simplify the hero headline to one clear benefit: e.g., "Become a $1M+ Loan Officer in 6 Months" — short, specific, measurable.</div>
+          <div class="finding finding-rec">Create dedicated landing pages per audience (Loan Officer vs Agent) and route paid traffic directly to the relevant page, bypassing the homepage fork entirely.</div>
+          <div class="finding finding-rec">Remove or minimize the merch cart icon from the primary navigation — it competes with the conversion CTA.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we shorten the hero headline to ≤10 words focused on a single measurable outcome<br>
+            <strong>THEN</strong> homepage engagement rate will increase for paid traffic visitors<br>
+            <strong>BECAUSE</strong> shorter headlines reduce cognitive load and answer "Am I in the right place?" within 3 seconds (System 1 processing)
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Value Proposition -->
+      <div class="detail-section" id="d-value">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-amber">6</span> Value Proposition</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">"Programs Built By Million-Dollar Earners" is a strong credibility-backed value prop — it answers "why you?" with proof.</div>
+          <div class="finding finding-good">The "each coach earns $1M+ a year and averages 45 hours a week" stat is specific and compelling — it addresses both income and lifestyle aspirations.</div>
+          <div class="finding finding-good">The four pillars framework (Marketing, Sales, Operations, Finance) communicates breadth of coaching coverage.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">The "360° network alliance" language is abstract. Visitors don't know what a "360° network alliance" delivers in practical terms — leads? referrals? systems?</div>
+          <div class="finding finding-issue">No pricing or program tier information anywhere on the homepage. High-ticket coaching buyers need at least a range to self-qualify before booking a call. The absence creates anxiety (Conversion Equation: +Anxiety = −Conversion).</div>
+          <div class="finding finding-issue">The "Recession-Proof" claim in the page title and hero is not substantiated with data — no stats on member retention during downturns, no case studies showing revenue during 2023-2024 rate increases.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Add a program comparison section with tier names, key inclusions, and starting price ranges (e.g., "Starting at $X/month") to reduce anxiety and let visitors self-qualify.</div>
+          <div class="finding finding-rec">Replace "360° network alliance" with specific outcomes: "Get warm referrals from 1,000+ active real estate agents in the GO! network."</div>
+          <div class="finding finding-rec">Substantiate the "recession-proof" claim with at least 2-3 specific data points — member income during rate hikes, retention rate, etc.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we add a visible program tier comparison with starting price ranges<br>
+            <strong>THEN</strong> strategy call booking rate will increase<br>
+            <strong>BECAUSE</strong> price transparency reduces anxiety for high-ticket buyers and filters out unqualified leads, improving both conversion rate and lead quality
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Trust & Credibility -->
+      <div class="detail-section" id="d-trust">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-green">7</span> Trust & Credibility</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">Video testimonials with real names (Javier Garcia, Micah Filipsic, Chris Grano) and 5-star ratings are excellent social proof — video is the highest-trust testimonial format.</div>
+          <div class="finding finding-good">Industry endorsement logos (MBS Highway, MyHomeIQ, ShapeCRM, 4C) build vertical credibility.</div>
+          <div class="finding finding-good">Coach profiles with specific credentials ($1B+ funded, $560M+ funded, specific market rankings) are compelling authority signals.</div>
+          <div class="finding finding-good">Sherrie Liebert quote ("41 years in the mortgage business... reinventing myself") is powerful — shows even veterans find value.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">The "4.9 out of 5 based on 100+ happy students reviews" at the bottom of the page is buried below the fold. This is the single strongest trust signal and should be above the fold.</div>
+          <div class="finding finding-issue">No specific outcome metrics in testimonials — how much did revenue increase? How many loans closed after joining? Testimonials say "loving it" but don't quantify results.</div>
+          <div class="finding finding-issue">No Google Business Profile or third-party review links — all social proof is self-hosted, which reduces perceived objectivity.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Move the "4.9/5 from 100+ students" badge to the hero section, directly under the primary CTA.</div>
+          <div class="finding finding-rec">Add 2-3 outcome-focused testimonial snippets with specific numbers: "Went from $X to $Y in Z months" format.</div>
+          <div class="finding finding-rec">Link to or embed Google Reviews / Trustpilot for third-party validation.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we move the aggregate rating badge (4.9/5, 100+ reviews) to directly below the hero CTA<br>
+            <strong>THEN</strong> CTA click-through rate will increase<br>
+            <strong>BECAUSE</strong> proximity of social proof to the conversion action reduces anxiety at the exact decision moment (trust + CTA coupling)
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. CTA & Conversion Path -->
+      <div class="detail-section" id="d-cta">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-red">4</span> CTA & Conversion Path</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">Multiple CTA placements throughout the page — hero, mid-page, and bottom — ensure visibility.</div>
+          <div class="finding finding-good">CTA language "Book a Free Strategy Call" communicates zero risk.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue"><strong>Critical:</strong> The primary CTA "Book a Free Strategy Call" links to a "#" anchor — it does not navigate to a booking page, Calendly embed, or any functional conversion mechanism. If this is truly broken, it's a zero-conversion scenario for every visitor who clicks it.</div>
+          <div class="finding finding-issue">Multiple competing CTAs on the same viewport: "Book a Free Strategy Call," "Get Started," "Get Growing," "Let's Talk," and "Member Login" all fight for attention. The page violates the one-primary-CTA-per-viewport principle.</div>
+          <div class="finding finding-issue">The 3-step process (Schedule → Consultation → Get Growing) is good in concept but doesn't have clickable/actionable steps — Step 1 should BE the booking widget or link.</div>
+          <div class="finding finding-issue">"WATCH THIS" video CTA competes with the booking CTA in the hero area, splitting visitor attention between consuming content and converting.</div>
+          <div class="finding finding-issue">The "Creativ" program card links to "#" — another dead end that creates a broken user experience.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec"><strong>Urgent fix:</strong> Ensure all "Book a Call" CTAs link to a functional Calendly, HubSpot, or native booking page. This is the single highest-impact fix.</div>
+          <div class="finding finding-rec">Consolidate CTA language to a single phrase site-wide. Pick "Book a Free Strategy Call" and use it everywhere — remove "Get Started," "Get Growing," and "Let's Talk" as they dilute the primary action.</div>
+          <div class="finding finding-rec">Embed a Calendly widget directly on the page (or at minimum, as an in-page modal) so visitors never leave the site to book.</div>
+          <div class="finding finding-rec">Add a secondary CTA for lower-intent visitors: "Download our Free Guide" or "Watch the Free Training" to capture leads who aren't ready to talk.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we fix all CTA links to route to a functional booking page and consolidate to one CTA phrase<br>
+            <strong>THEN</strong> strategy call bookings will increase dramatically (estimated 5-15x if currently broken)<br>
+            <strong>BECAUSE</strong> a non-functional primary CTA means zero conversions — fixing it removes a total conversion blocker
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Form / Booking UX -->
+      <div class="detail-section" id="d-form">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-amber">5</span> Form / Booking UX</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">The newsletter signup form at the bottom is simple — Name, Email, and a dropdown — minimal friction for a secondary conversion.</div>
+          <div class="finding finding-good">Newsletter form includes a trust statement: "We will NEVER spam you or sell your information."</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">The primary booking flow (strategy call) has no visible form, modal, or embedded widget on the page. Visitors click a CTA and get nothing — there's no form to evaluate because the conversion path appears broken.</div>
+          <div class="finding finding-issue">The newsletter dropdown "What describes you best?" defaults to "Mortgage Advisor" with no visible alternative options — it may not serve the Real Estate Agent audience at all.</div>
+          <div class="finding finding-issue">No lead magnet or value exchange beyond "newsletter" — visitors who aren't ready to book a call have very limited options to engage.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Implement an embedded Calendly or HubSpot Meetings widget that appears either inline on the page or as a modal when CTA is clicked.</div>
+          <div class="finding finding-rec">Add a mid-funnel lead capture: free training video, downloadable playbook, or assessment quiz (e.g., "Rate Your Digital Marketing Maturity") in exchange for email.</div>
+          <div class="finding finding-rec">Add qualifying questions to the booking form (annual volume, biggest challenge) to improve lead quality and enable personalized follow-up.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we embed a booking widget directly on the page with 2-3 qualifying questions<br>
+            <strong>THEN</strong> both booking rate and lead quality will improve<br>
+            <strong>BECAUSE</strong> reducing navigation steps to book (from click → new page → select time) to (click → modal → select time) eliminates one full drop-off point
+          </div>
+        </div>
+      </div>
+
+      <!-- 6. Content & Persuasion -->
+      <div class="detail-section" id="d-content">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-amber">6</span> Content & Persuasion</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">The "How do we fuel your growth?" section with 7 benefit cards (Mentorship, Sustainable Growth, Consultations, Strategies, Community, Marketing, Alliance) covers key buyer concerns comprehensively.</div>
+          <div class="finding finding-good">FAQ section addresses common objections: speed of results, coaching format, and career progression ("Can I be a coach one day?").</div>
+          <div class="finding finding-good">The 3-step process creates a clear mental model of the buyer journey.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">No objection handling around price — the #1 objection for coaching programs. FAQs address what coaching includes but never touch on investment level, ROI expectations, or payment flexibility.</div>
+          <div class="finding finding-issue">No case study or "before/after" narrative — the page has testimonials but no detailed transformation story with specific numbers and timeline.</div>
+          <div class="finding finding-issue">The page is very long with repetitive sections — "Your growth begins three ways" (Classroom, Community, Coaching) essentially repeats the benefit cards above it. This dilutes impact.</div>
+          <div class="finding finding-issue">Urgency and scarcity are completely absent — no cohort dates, no limited spots, no enrollment deadlines. For high-ticket coaching, some form of real urgency drives action.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Add a "What's the Investment?" FAQ that addresses pricing philosophy even if exact numbers aren't listed. Frame it as ROI: "Our average member increases annual origination income by $X within Y months."</div>
+          <div class="finding finding-rec">Add 1-2 detailed case studies with before/after metrics, timeline, and the specific GO! strategies that drove results.</div>
+          <div class="finding finding-rec">Introduce real urgency: next cohort start date, limited coaching spots, or enrollment deadline.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we add a pricing/ROI FAQ and a detailed before/after case study<br>
+            <strong>THEN</strong> strategy call booking rate will increase for mid-funnel visitors<br>
+            <strong>BECAUSE</strong> addressing the price objection proactively reduces anxiety, and case studies provide the evidence needed for System 2 decision-making in high-ticket purchases
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Mobile Experience -->
+      <div class="detail-section" id="d-mobile">
+        <div class="detail-header" onclick="toggleDetail(this)">
+          <h3><span class="score-badge badge-amber">5</span> Mobile Experience</h3>
+          <span class="chevron">▾</span>
+        </div>
+        <div class="detail-body">
+          <h4>What's Working</h4>
+          <div class="finding finding-good">Webflow-built site provides a reasonable responsive foundation.</div>
+          <div class="finding finding-good">Mobile navigation with hamburger menu is present.</div>
+
+          <h4>Issues Found</h4>
+          <div class="finding finding-issue">The long hero headline will wrap to 4-5 lines on mobile, pushing the CTA well below the fold. Mobile visitors won't see the action step without scrolling.</div>
+          <div class="finding finding-issue">Shopping cart flyout with placeholder items may overlay critical content on mobile screens.</div>
+          <div class="finding finding-issue">Multiple scrolling logo bars and marquee text animations may cause performance issues and layout shifts on lower-end mobile devices.</div>
+          <div class="finding finding-issue">If CTAs are broken on desktop, they're broken on mobile too — and mobile visitors are even less tolerant of dead-end taps.</div>
+
+          <h4>Recommendations</h4>
+          <div class="finding finding-rec">Ensure the primary CTA is visible within the first mobile viewport (above the fold on a 390px-wide screen).</div>
+          <div class="finding finding-rec">Add a sticky mobile CTA bar at the bottom of the screen that persists on scroll — "Book a Free Call" always accessible.</div>
+          <div class="finding finding-rec">Test page load speed on mobile (target &lt;3 seconds) and reduce animation complexity if needed.</div>
+
+          <div class="hypothesis">
+            <strong>IF</strong> we add a sticky mobile CTA bar and shorten the hero headline for mobile<br>
+            <strong>THEN</strong> mobile conversion rate will increase<br>
+            <strong>BECAUSE</strong> persistent CTAs eliminate the need to scroll back to take action, and shorter headlines ensure the CTA is visible in the first mobile viewport
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- EXPERIMENT BACKLOG -->
+    <section id="backlog">
+      <h2>Experiment Backlog</h2>
+      <div class="ice-table-wrap">
+        <table class="ice-table" id="iceTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Recommendation</th>
+              <th onclick="sortTable(1)">Section</th>
+              <th onclick="sortTable(2)">Impact</th>
+              <th onclick="sortTable(3)">Confidence</th>
+              <th onclick="sortTable(4)">Ease</th>
+              <th onclick="sortTable(5)">ICE ▾</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Fix all CTA links to functional booking page</td><td>CTA</td><td>10</td><td>6</td><td>9</td><td class="ice-score-cell" style="color:var(--green)">8.3</td></tr>
+            <tr><td>Embed Calendly/booking widget on-page</td><td>Form UX</td><td>8</td><td>6</td><td>8</td><td class="ice-score-cell" style="color:var(--green)">7.3</td></tr>
+            <tr><td>Move 4.9/5 rating badge to hero section</td><td>Trust</td><td>7</td><td>6</td><td>9</td><td class="ice-score-cell" style="color:var(--green)">7.3</td></tr>
+            <tr><td>Shorten hero headline to ≤10 words</td><td>Message</td><td>7</td><td>5</td><td>9</td><td class="ice-score-cell" style="color:var(--green)">7.0</td></tr>
+            <tr><td>Add sticky mobile CTA bar</td><td>Mobile</td><td>7</td><td>5</td><td>8</td><td class="ice-score-cell" style="color:var(--amber)">6.7</td></tr>
+            <tr><td>Consolidate CTA copy to single phrase</td><td>CTA</td><td>6</td><td>5</td><td>8</td><td class="ice-score-cell" style="color:var(--amber)">6.3</td></tr>
+            <tr><td>Add pricing/ROI FAQ section</td><td>Content</td><td>8</td><td>5</td><td>6</td><td class="ice-score-cell" style="color:var(--amber)">6.3</td></tr>
+            <tr><td>Add program tier comparison with price ranges</td><td>Value Prop</td><td>8</td><td>5</td><td>5</td><td class="ice-score-cell" style="color:var(--amber)">6.0</td></tr>
+            <tr><td>Create dedicated landing pages per audience</td><td>Message</td><td>8</td><td>5</td><td>4</td><td class="ice-score-cell" style="color:var(--amber)">5.7</td></tr>
+            <tr><td>Add detailed before/after case study</td><td>Content</td><td>7</td><td>5</td><td>5</td><td class="ice-score-cell" style="color:var(--amber)">5.7</td></tr>
+            <tr><td>Add outcome metrics to testimonials</td><td>Trust</td><td>6</td><td>5</td><td>5</td><td class="ice-score-cell" style="color:var(--amber)">5.3</td></tr>
+            <tr><td>Add mid-funnel lead magnet (guide/quiz)</td><td>Form UX</td><td>7</td><td>4</td><td>4</td><td class="ice-score-cell" style="color:var(--amber)">5.0</td></tr>
+            <tr><td>Remove/minimize merch cart from nav</td><td>Message</td><td>4</td><td>4</td><td>9</td><td class="ice-score-cell" style="color:var(--amber)">5.7</td></tr>
+            <tr><td>Add urgency elements (cohort dates, limited spots)</td><td>Content</td><td>6</td><td>4</td><td>7</td><td class="ice-score-cell" style="color:var(--amber)">5.7</td></tr>
+            <tr><td>Connect GA4 to BigQuery for data-driven optimization</td><td>Analytics</td><td>9</td><td>6</td><td>3</td><td class="ice-score-cell" style="color:var(--amber)">6.0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- QUICK WINS -->
+    <section id="quickwins">
+      <h2>Quick Wins</h2>
+      <p style="margin-bottom:20px;">High-ICE items (score ≥ 7.0) — implement these first for maximum impact with minimum effort.</p>
+
+      <div class="quick-win">
+        <div class="qw-num">1</div>
+        <div class="qw-content">
+          <h4>Fix all CTA links to a functional booking page (ICE: 8.3)</h4>
+          <p>Every "Book a Call" CTA currently links to a "#" anchor. Connect these to Calendly, HubSpot Meetings, or any booking tool. This is likely the single highest-impact fix — if the CTAs are truly non-functional, conversion is literally zero.</p>
+        </div>
+      </div>
+      <div class="quick-win">
+        <div class="qw-num">2</div>
+        <div class="qw-content">
+          <h4>Embed booking widget on-page (ICE: 7.3)</h4>
+          <p>Instead of linking out to a separate booking page, embed the scheduling widget as an in-page modal or inline section. Reduces one full navigation step from the conversion path.</p>
+        </div>
+      </div>
+      <div class="quick-win">
+        <div class="qw-num">3</div>
+        <div class="qw-content">
+          <h4>Move the 4.9/5 rating to the hero (ICE: 7.3)</h4>
+          <p>The aggregate rating with 100+ reviews is currently buried at the bottom. Place it directly below the hero CTA to provide trust at the decision moment.</p>
+        </div>
+      </div>
+      <div class="quick-win">
+        <div class="qw-num">4</div>
+        <div class="qw-content">
+          <h4>Shorten the hero headline (ICE: 7.0)</h4>
+          <p>Replace the 17-word headline with something ≤10 words that focuses on a single measurable outcome. E.g., "Become a $1M+ Loan Officer in 6 Months."</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 48 HOUR ACTION PLAN -->
+    <section id="actionplan">
+      <h2>48-Hour Action Plan</h2>
+
+      <div class="action-step">
+        <div class="step-time">Hour 1</div>
+        <div class="step-body">
+          <h4>Fix all broken CTA links</h4>
+          <p>Audit every "Book a Call," "Let's Talk," and "Get Started" button. Ensure each one navigates to a functional booking page or opens a booking modal. If a Calendly or scheduling tool is already set up, just connect the links. Test on both desktop and mobile.</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-time">Hours 2-4</div>
+        <div class="step-body">
+          <h4>Embed a booking widget & add mobile sticky CTA</h4>
+          <p>Embed a Calendly inline widget or modal trigger on the homepage. Add a sticky footer CTA bar on mobile that says "Book a Free Strategy Call" and stays visible on scroll.</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-time">Hours 4-8</div>
+        <div class="step-body">
+          <h4>Simplify the hero & move social proof up</h4>
+          <p>Rewrite the hero headline to ≤10 words with one clear outcome. Move the "4.9/5 from 100+ students" rating badge directly below the hero CTA. Remove or relocate the merch cart icon from primary navigation.</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-time">Day 2</div>
+        <div class="step-body">
+          <h4>Add pricing context & connect GA4</h4>
+          <p>Add a FAQ entry addressing investment/pricing with an ROI frame. Begin the process of connecting GA4 to BigQuery to enable data-driven optimization going forward. If GA4 isn't set up, install it immediately.</p>
+        </div>
+      </div>
+      <div class="action-step">
+        <div class="step-time">Ongoing</div>
+        <div class="step-body">
+          <h4>Gather outcome data for testimonials & case studies</h4>
+          <p>Reach out to 3-5 successful members and collect specific before/after metrics (volume, income, timeline). Build a detailed case study to add to the page within 2 weeks.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- METHODOLOGY -->
+    <section id="methodology">
+      <h2>Methodology</h2>
+      <p style="margin-bottom:20px;">This audit was performed using established CRO frameworks and heuristic analysis. No analytics data was available; all findings are expert-opinion and framework-based.</p>
+
+      <div class="method-grid">
+        <div class="method-card">
+          <h4>Conversion Equation</h4>
+          <p>Motivation − Friction − Anxiety + Incentive = Conversion Likelihood. Applied to evaluate each page section's contribution to or detraction from conversion.</p>
+        </div>
+        <div class="method-card">
+          <h4>Visitor 5 Questions</h4>
+          <p>Every page must answer: Am I in the right place? Is this for me? Can I trust you? What will it cost? What do I do next?</p>
+        </div>
+        <div class="method-card">
+          <h4>ICE Scoring</h4>
+          <p>Impact × Confidence × Ease, each 1-10. Confidence capped at 6 (heuristic ceiling) due to absence of behavioral analytics data.</p>
+        </div>
+        <div class="method-card">
+          <h4>Decision Design</h4>
+          <p>Design for System 1 (fast, intuitive) first. System 2 (analytical) only where the purchase decision requires it — applicable for high-ticket coaching.</p>
+        </div>
+      </div>
+
+      <h3 style="margin-top:32px;">Data Sources</h3>
+      <p>Homepage content fetched and analyzed on February 13, 2026. Search results used to review program pages, team page, events page, and competitor positioning. No GA4, heatmap, or session recording data was available.</p>
+
+      <h3>Scoring Weights Applied</h3>
+      <p>Lead Generation business type weights: Message Match 20%, Value Prop 15%, Trust 20%, CTA 15%, Form UX 15%, Content 10%, Mobile 5%.</p>
+      <p style="margin-top:8px;">Weighted score: (5×.20) + (6×.15) + (7×.20) + (4×.15) + (5×.15) + (6×.10) + (5×.05) = <strong>5.50 / 10</strong></p>
+    </section>
+
+  </div>
+</main>
+
+<script>
+function toggleDetail(header) {
+  const body = header.nextElementSibling;
+  header.classList.toggle('open');
+  body.classList.toggle('open');
+}
+
+function scrollToDetail(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    const header = el.querySelector('.detail-header');
+    const body = el.querySelector('.detail-body');
+    if (!body.classList.contains('open')) {
+      header.classList.add('open');
+      body.classList.add('open');
+    }
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// Sidebar active state
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+const sections = document.querySelectorAll('section[id]');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.toggle('active', a.getAttribute('href') === '#' + current);
+  });
+});
+
+// ICE table sorting
+function sortTable(col) {
+  const table = document.getElementById('iceTable');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const isNum = col >= 2;
+  rows.sort((a, b) => {
+    const aVal = a.cells[col].textContent.trim();
+    const bVal = b.cells[col].textContent.trim();
+    if (isNum) return parseFloat(bVal) - parseFloat(aVal);
+    return aVal.localeCompare(bVal);
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// Open first detail section by default
+document.addEventListener('DOMContentLoaded', () => {
+  const first = document.querySelector('.detail-header');
+  if (first) { first.classList.add('open'); first.nextElementSibling.classList.add('open'); }
+});
+</script>
+
+</body>
+</html>
