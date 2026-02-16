@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mendful — Marketing Strategy & Go-to-Market Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --ink: #1a1a2e;
+  --warm: #f7f5f0;
+  --sage: #5a7a64;
+  --sage-light: #e8efe9;
+  --sage-dark: #3d5a45;
+  --terracotta: #c4654a;
+  --terracotta-light: #faf0ec;
+  --gold: #c9a84c;
+  --gold-light: #faf6e8;
+  --mist: #eae8e3;
+  --slate: #6b7280;
+  --white: #ffffff;
+  --border: #d4d0c8;
+  --shadow: rgba(26, 26, 46, 0.06);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--ink);
+  background: var(--warm);
+  line-height: 1.7;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* === COVER === */
+.cover {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 60px 40px;
+  background: linear-gradient(160deg, #1a1a2e 0%, #2d3a4a 40%, #3d5a45 100%);
+  color: var(--white);
+  position: relative;
+  overflow: hidden;
+}
+
+.cover::before {
+  content: '';
+  position: absolute;
+  top: -200px; right: -200px;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.15) 0%, transparent 70%);
+}
+
+.cover::after {
+  content: '';
+  position: absolute;
+  bottom: -150px; left: -150px;
+  width: 400px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(196,101,74,0.12) 0%, transparent 70%);
+}
+
+.cover-badge {
+  display: inline-block;
+  padding: 6px 20px;
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 20px;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+
+.cover h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: clamp(42px, 6vw, 72px);
+  font-weight: 400;
+  line-height: 1.15;
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+
+.cover h1 em {
+  font-style: italic;
+  color: var(--gold);
+}
+
+.cover-sub {
+  font-size: 18px;
+  font-weight: 300;
+  color: rgba(255,255,255,0.7);
+  max-width: 560px;
+  margin-bottom: 50px;
+  position: relative;
+  z-index: 1;
+}
+
+.cover-meta {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  position: relative;
+  z-index: 1;
+}
+
+/* === NAVIGATION === */
+.phase-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--white);
+  border-bottom: 1px solid var(--border);
+  padding: 0 20px;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.phase-nav-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  gap: 0;
+}
+
+.phase-nav a {
+  display: inline-block;
+  padding: 14px 18px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--slate);
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+}
+
+.phase-nav a:hover,
+.phase-nav a.active {
+  color: var(--sage-dark);
+  border-bottom-color: var(--sage);
+}
+
+/* === LAYOUT === */
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 30px;
+}
+
+.phase-section {
+  padding: 80px 0 60px;
+  border-bottom: 1px solid var(--mist);
+}
+
+.phase-section:last-child { border-bottom: none; }
+
+.phase-label {
+  display: inline-block;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--sage);
+  padding: 4px 12px;
+  background: var(--sage-light);
+  border-radius: 4px;
+  margin-bottom: 16px;
+}
+
+.phase-title {
+  font-family: 'DM Serif Display', serif;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 12px;
+}
+
+.phase-intro {
+  font-size: 16px;
+  color: var(--slate);
+  max-width: 680px;
+  margin-bottom: 40px;
+}
+
+/* === CONTENT BLOCKS === */
+h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  font-weight: 400;
+  margin: 40px 0 16px;
+  color: var(--ink);
+}
+
+h3:first-of-type { margin-top: 0; }
+
+h4 {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  margin: 30px 0 10px;
+}
+
+p { margin-bottom: 14px; }
+
+/* === DATA CARDS === */
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.snap-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.snap-card .label {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+
+.snap-card .value {
+  font-family: 'DM Serif Display', serif;
+  font-size: 22px;
+  color: var(--ink);
+}
+
+.snap-card .note {
+  font-size: 12px;
+  color: var(--slate);
+  margin-top: 4px;
+}
+
+/* === TABLES === */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 20px 0;
+  font-size: 14px;
+}
+
+thead th {
+  text-align: left;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--slate);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--warm);
+}
+
+tbody td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--mist);
+  vertical-align: top;
+}
+
+tbody tr:hover { background: rgba(90, 122, 100, 0.04); }
+
+/* === CALLOUT BOXES === */
+.callout {
+  border-left: 3px solid var(--sage);
+  background: var(--sage-light);
+  padding: 18px 22px;
+  border-radius: 0 6px 6px 0;
+  margin: 24px 0;
+  font-size: 14px;
+}
+
+.callout.warning {
+  border-left-color: var(--terracotta);
+  background: var(--terracotta-light);
+}
+
+.callout.gold {
+  border-left-color: var(--gold);
+  background: var(--gold-light);
+}
+
+.callout-title {
+  font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 6px;
+}
+
+/* === SWOT === */
+.swot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin: 24px 0;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.swot-cell {
+  padding: 22px;
+  font-size: 14px;
+}
+
+.swot-cell.strengths { background: #e8efe9; }
+.swot-cell.weaknesses { background: #faf0ec; }
+.swot-cell.opportunities { background: #faf6e8; }
+.swot-cell.threats { background: #f0ecf5; }
+
+.swot-cell h4 {
+  margin-top: 0;
+  margin-bottom: 12px;
+}
+
+.swot-cell ul {
+  list-style: none;
+  padding: 0;
+}
+
+.swot-cell li {
+  padding: 6px 0;
+  padding-left: 16px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.swot-cell li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--slate);
+  font-size: 12px;
+}
+
+/* === POSITIONING MAP === */
+.pos-map-container {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.pos-map {
+  display: inline-block;
+  width: 500px;
+  max-width: 100%;
+  height: 420px;
+  position: relative;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.pos-map .axis-x, .pos-map .axis-y {
+  position: absolute;
+  background: var(--mist);
+}
+
+.pos-map .axis-x {
+  top: 50%; left: 0; right: 0; height: 1px;
+}
+
+.pos-map .axis-y {
+  left: 50%; top: 0; bottom: 0; width: 1px;
+}
+
+.axis-label {
+  position: absolute;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--slate);
+}
+
+.axis-label.top { top: 10px; left: 50%; transform: translateX(-50%); }
+.axis-label.bottom { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.axis-label.left { left: 10px; top: 50%; transform: translateY(-50%) rotate(-90deg); }
+.axis-label.right { right: 10px; top: 50%; transform: translateY(-50%) rotate(90deg); }
+
+.map-dot {
+  position: absolute;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.map-dot .dot-label {
+  position: absolute;
+  top: 14px; left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--ink);
+}
+
+.map-dot.mendful {
+  width: 14px; height: 14px;
+  background: var(--sage);
+  box-shadow: 0 0 0 4px rgba(90,122,100,0.25);
+}
+
+.map-dot.competitor { background: var(--slate); opacity: 0.5; }
+
+.white-space-zone {
+  position: absolute;
+  border: 2px dashed var(--gold);
+  border-radius: 12px;
+  opacity: 0.5;
+}
+
+/* === MESSAGING PILLAR CARDS === */
+.pillar-cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+  margin: 24px 0;
+}
+
+.pillar-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 24px;
+  border-left: 4px solid var(--sage);
+}
+
+.pillar-card.p2 { border-left-color: var(--terracotta); }
+.pillar-card.p3 { border-left-color: var(--gold); }
+
+.pillar-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--slate);
+  margin-bottom: 6px;
+}
+
+.pillar-card h4 {
+  margin-top: 0;
+  font-size: 16px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+}
+
+.pillar-proof {
+  font-size: 13px;
+  color: var(--slate);
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--mist);
+}
+
+/* === TIMELINE === */
+.timeline {
+  margin: 30px 0;
+}
+
+.timeline-month {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.month-label {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: var(--sage-dark);
+  padding-top: 4px;
+}
+
+.month-items {
+  border-left: 2px solid var(--sage-light);
+  padding-left: 20px;
+}
+
+.month-item {
+  margin-bottom: 16px;
+  font-size: 14px;
+}
+
+.month-item .item-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.month-item .item-detail {
+  color: var(--slate);
+  font-size: 13px;
+}
+
+/* === ICP PROFILE === */
+.icp-profile {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 30px;
+  margin: 20px 0;
+}
+
+.icp-profile h4 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 20px;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ink);
+  margin-top: 0;
+}
+
+.icp-grid {
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 8px 16px;
+  font-size: 14px;
+  margin-top: 16px;
+}
+
+.icp-label {
+  font-weight: 600;
+  color: var(--sage-dark);
+  padding: 4px 0;
+}
+
+.icp-value {
+  color: var(--ink);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--mist);
+}
+
+/* === CHANNEL SCORECARD === */
+.score-bar {
+  display: inline-block;
+  height: 8px;
+  border-radius: 4px;
+  background: var(--sage);
+}
+
+.score-bar.medium { background: var(--gold); }
+.score-bar.low { background: var(--terracotta); }
+
+/* === ASSUMPTIONS === */
+.assumption-list {
+  margin: 20px 0;
+}
+
+.assumption-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--mist);
+  font-size: 14px;
+}
+
+.assumption-tag {
+  flex-shrink: 0;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  font-weight: 500;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background: var(--gold-light);
+  color: var(--gold);
+  height: fit-content;
+  margin-top: 2px;
+}
+
+/* === PRINT === */
+@media print {
+  .phase-nav { display: none; }
+  .cover { min-height: auto; padding: 40px; break-after: page; }
+  .phase-section { break-inside: avoid; padding: 40px 0; }
+}
+
+@media (max-width: 640px) {
+  .swot-grid { grid-template-columns: 1fr; }
+  .snapshot-grid { grid-template-columns: 1fr; }
+  .timeline-month { grid-template-columns: 1fr; }
+  .icp-grid { grid-template-columns: 1fr; }
+  .pos-map { height: 320px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- COVER -->
+<!-- ============================================================ -->
+<section class="cover">
+  <div class="cover-badge">ClientBridge LLC × Mendful</div>
+  <h1>Marketing Strategy &<br><em>Go-to-Market Plan</em></h1>
+  <p class="cover-sub">A comprehensive marketing strategy for the on-demand relational repair category — from positioning through 90-day execution.</p>
+  <p class="cover-meta">Prepared February 2026 &nbsp;·&nbsp; Pre-Seed / Soft Launch Stage &nbsp;·&nbsp; B2C-First, B2B-Ready</p>
+</section>
+
+<!-- ============================================================ -->
+<!-- NAVIGATION -->
+<!-- ============================================================ -->
+<nav class="phase-nav">
+  <div class="phase-nav-inner">
+    <a href="#exec">Summary</a>
+    <a href="#phase1">1 · Discovery</a>
+    <a href="#phase2">2 · Audience</a>
+    <a href="#phase3">3 · Competitive</a>
+    <a href="#phase4">4 · Positioning</a>
+    <a href="#phase5">5 · Channels</a>
+    <a href="#phase6">6 · 90-Day Plan</a>
+    <a href="#assumptions">Risks</a>
+  </div>
+</nav>
+
+<!-- ============================================================ -->
+<!-- EXECUTIVE SUMMARY -->
+<!-- ============================================================ -->
+<section id="exec" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Executive Summary</span>
+    <h2 class="phase-title">The Strategy in One Page</h2>
+
+    <p>Mendful is creating a new category — <strong>on-demand relational repair</strong> — positioned in the white space between therapy (high efficacy, low immediacy) and AI chatbots (high immediacy, low efficacy). The opportunity is real: a $47B adjacent market, 48-day average therapy wait times, $359B in annual workplace conflict costs, and zero credible "urgent care" options for relationships.</p>
+
+    <p>The marketing strategy rests on five pillars:</p>
+
+    <div class="callout gold">
+      <p><strong>1. Category Frame:</strong> "Urgent Care for Relationships" (B2C) and "Relational Infrastructure" (B2B) — framing repair as maintenance, not failure.</p>
+      <p><strong>2. ICP-First:</strong> Two primary personas — "The Mender" (growth-oriented adult in acute conflict) and "The Explorer" (younger user seeking communication coaching). Both reached through pain-language content, not category education.</p>
+      <p><strong>3. Video-Led Content:</strong> "Celebrity Do-overs" and "Repair Room" content as the primary awareness engine — demonstrating the methodology rather than explaining it.</p>
+      <p><strong>4. Proof-Before-Scale:</strong> 50-100 sessions in 90 days, targeting NPS > 60 and 60%+ repeat/referral rate before investing in paid acquisition.</p>
+      <p><strong>5. B2B Bridge:</strong> "Cofounder Repair" pilot with 3-5 VC portfolio companies to build elite credibility and establish the $200-300 price point as a business expense.</p>
+    </div>
+
+    <p>The critical challenge is educating a market that doesn't yet search for this category — while operating on near-zero budget. The strategy prioritizes organic content that <em>shows</em> the product (video-first), community-driven distribution (NVC/conscious leadership networks), and founder-led storytelling until funding unlocks paid channels.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 1: DISCOVERY -->
+<!-- ============================================================ -->
+<section id="phase1" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 1</span>
+    <h2 class="phase-title">Situation Assessment</h2>
+    <p class="phase-intro">Understanding the business reality — what exists, what's working, and what constraints shape the strategy.</p>
+
+    <h3>Business Snapshot</h3>
+    <div class="snapshot-grid">
+      <div class="snap-card">
+        <div class="label">Business Model</div>
+        <div class="value">Marketplace</div>
+        <div class="note">Two-sided: users + certified coaches. Platform takes percentage per session.</div>
+      </div>
+      <div class="snap-card">
+        <div class="label">Revenue Stage</div>
+        <div class="value">Pre-Revenue</div>
+        <div class="note">Soft launch targeting June 2025. Training cohort revenue only.</div>
+      </div>
+      <div class="snap-card">
+        <div class="label">Price Point</div>
+        <div class="value">$200–300</div>
+        <div class="note">Per 60-min facilitated session. Split between coach + platform.</div>
+      </div>
+      <div class="snap-card">
+        <div class="label">Supply Side</div>
+        <div class="value">8–12 Coaches</div>
+        <div class="note">Mendful-certified (MCRC). Paid training. First cohort complete.</div>
+      </div>
+      <div class="snap-card">
+        <div class="label">Marketing Lead</div>
+        <div class="value">Founder-Led</div>
+        <div class="note">~15-20 hrs/week. Seeking marketing cofounder.</div>
+      </div>
+      <div class="snap-card">
+        <div class="label">Marketing Budget</div>
+        <div class="value">~$0</div>
+        <div class="note">Pre-funding. Expanding if pre-seed closes (3-6 months).</div>
+      </div>
+    </div>
+
+    <h3>Current Marketing Assessment</h3>
+    <table>
+      <thead>
+        <tr><th>Activity</th><th>Status</th><th>Effectiveness</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Live intro workshops</td><td>Active</td><td style="color: var(--sage); font-weight: 600;">Working well — filled first cohort</td></tr>
+        <tr><td>Founder-led personal outreach</td><td>Active</td><td style="color: var(--sage); font-weight: 600;">Working well — primary interest driver</td></tr>
+        <tr><td>LinkedIn prospecting</td><td>Active</td><td style="color: var(--slate);">Moderate — driving awareness</td></tr>
+        <tr><td>Substack articles</td><td>Active</td><td style="color: var(--slate);">Not measured</td></tr>
+        <tr><td>Organic social (LinkedIn, FB groups)</td><td>Active</td><td style="color: var(--slate);">Not measured</td></tr>
+        <tr><td>Email list (200+)</td><td>Passive</td><td style="color: var(--slate);">Not activated beyond collection</td></tr>
+        <tr><td>Paid advertising</td><td>None</td><td>—</td></tr>
+        <tr><td>SEO / content engine</td><td>None</td><td>—</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Goal Alignment Check</h3>
+    <p>The soft launch target of <strong>50-100 completed sessions</strong> in the first 90 days requires the following demand math:</p>
+
+    <div class="callout">
+      <p><strong>Target:</strong> 75 sessions (midpoint) in 90 days ≈ ~6 sessions/week by month 3</p>
+      <p><strong>At $250 avg session:</strong> ~$18,750 in gross revenue over 90 days</p>
+      <p><strong>Conversion assumption:</strong> 15% of AI intake → booked session (optimistic for new category)</p>
+      <p><strong>Required intakes:</strong> ~500 AI intakes over 90 days → ~38/week by month 3</p>
+      <p><strong>At 3% landing page conversion:</strong> ~17,000 unique visitors over 90 days</p>
+    </div>
+
+    <p>This traffic volume is unrealistic with $0 budget and no existing SEO presence. The strategy must therefore rely on <strong>high-intent, low-volume channels</strong> (events, communities, referrals, direct outreach) where conversion rates are dramatically higher — likely 15-30% rather than 3%.</p>
+
+    <h3>Key Findings</h3>
+
+    <p><strong>1. The product-market education gap is the #1 strategic challenge.</strong> People don't search for "on-demand conflict resolution." They search for "how to fix a fight" or "couples communication help." Every marketing asset must lead with pain language, not category language.</p>
+
+    <p><strong>2. Live events are the proven channel.</strong> Workshops filled the first coach cohort. This is also the best format to demonstrate the methodology — which is Mendful's most compelling asset. The strategy should double down here before diversifying.</p>
+
+    <p><strong>3. The two-sided marketplace creates a cold-start problem.</strong> With 8-12 coaches and no users, coach utilization will be near zero initially. This is normal but means the first 90 days are about proving demand exists, not optimizing unit economics.</p>
+
+    <p><strong>4. The founder is currently the brand.</strong> This is both a strength (credibility, passion, story) and a constraint (15-20 hrs/week, non-scalable). The marketing cofounder hire is correctly identified as priority #1.</p>
+
+    <p><strong>5. No measurement infrastructure exists.</strong> Before marketing can scale, basic tracking must be in place: website analytics, conversion tracking, session attribution, and NPS collection.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 2: AUDIENCE & ICP -->
+<!-- ============================================================ -->
+<section id="phase2" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 2</span>
+    <h2 class="phase-title">Target Audience & ICP Profiles</h2>
+    <p class="phase-intro">Who to target, how they buy, and what language they use — the foundation for all messaging and channel decisions.</p>
+
+    <!-- ICP 1 -->
+    <div class="icp-profile">
+      <h4>Primary ICP: "The Mender"</h4>
+      <p style="color: var(--slate); font-size: 14px; margin-bottom: 16px;">Emotionally aware adult in acute relational distress — wants to repair, not win.</p>
+      <div class="icp-grid">
+        <div class="icp-label">Demographics</div>
+        <div class="icp-value">30–55, slightly female-skewing, college-educated, household income $75K+, U.S.-based, urban/suburban</div>
+
+        <div class="icp-label">Situation</div>
+        <div class="icp-value">In a committed relationship (romantic, family, or close friendship) where a recent argument, betrayal, or pattern of miscommunication has created an urgent sense of "something has to change." Likely has therapy experience or is therapy-adjacent. Values personal growth.</div>
+
+        <div class="icp-label">Trigger Event</div>
+        <div class="icp-value">A specific fight or rupture within the last 24-72 hours. They said something they regret, or their partner/family member did. The tension is unresolved and getting worse. It's 9 PM and they can't sleep.</div>
+
+        <div class="icp-label">Pain Points</div>
+        <div class="icp-value">1) Can't get therapy fast enough for this moment. 2) Talking to friends doesn't help — they take sides. 3) Every attempt to "talk it out" escalates. 4) Afraid this fight is the one that breaks the relationship.</div>
+
+        <div class="icp-label">Desired Outcome</div>
+        <div class="icp-value">To feel heard and to hear the other person — genuinely. To move from stuck/reactive to understanding/repaired. To leave the session feeling like the relationship is stronger, not just patched.</div>
+
+        <div class="icp-label">Objections</div>
+        <div class="icp-value">1) "Is this just a glorified chatbot?" 2) "$300 is a lot for one conversation." 3) "I can't get my partner to agree to this." 4) "How is this different from therapy?"</div>
+
+        <div class="icp-label">Watering Holes</div>
+        <div class="icp-value">Instagram (relationship content), TikTok (therapy/communication accounts), Reddit (r/relationship_advice, r/AITA), therapy-adjacent podcasts (e.g., Esther Perel, Brené Brown), NVC communities, conscious leadership circles</div>
+
+        <div class="icp-label">Current Alternative</div>
+        <div class="icp-value">Texting friends, Googling advice, spiraling, escalating, shutting down, waiting weeks for a therapy appointment</div>
+
+        <div class="icp-label">Value Metric</div>
+        <div class="icp-value">"Did we actually resolve it?" — measured by: partner re-engagement, reduction in rumination, ability to have follow-up conversations without re-escalating</div>
+      </div>
+    </div>
+
+    <!-- ICP 2 -->
+    <div class="icp-profile">
+      <h4>Secondary ICP: "The Explorer"</h4>
+      <p style="color: var(--slate); font-size: 14px; margin-bottom: 16px;">Younger user seeking communication coaching for improved relational skill.</p>
+      <div class="icp-grid">
+        <div class="icp-label">Demographics</div>
+        <div class="icp-value">18–28, female-skewing, digitally native, may be in college or early career, not yet married</div>
+
+        <div class="icp-label">Situation</div>
+        <div class="icp-value">Navigating conflicts with friends, roommates, family, or early romantic partners. Aware that their communication patterns aren't working but hasn't found a framework. May consume "self-help TikTok" or follow therapy accounts.</div>
+
+        <div class="icp-label">Trigger Event</div>
+        <div class="icp-value">A friendship fallout, family tension during holidays, or recurring fight with a partner. Often framed as "I don't know how to have this conversation."</div>
+
+        <div class="icp-label">Pain Points</div>
+        <div class="icp-value">1) Avoids conflict entirely and relationships degrade. 2) Doesn't know what "healthy communication" actually looks like in practice. 3) Therapy feels too heavy for "just a fight with my friend."</div>
+
+        <div class="icp-label">Watering Holes</div>
+        <div class="icp-value">TikTok, Instagram Reels, Reddit (AITA), YouTube relationship content, group chats, podcast clips</div>
+
+        <div class="icp-label">Current Alternative</div>
+        <div class="icp-value">Posting on Reddit AITA, venting to group chat, ghosting, watching therapy TikToks</div>
+
+        <div class="icp-label">Value Metric</div>
+        <div class="icp-value">"I finally said what I needed to say — and they heard me."</div>
+      </div>
+    </div>
+
+    <!-- Anti-Persona -->
+    <h3>Anti-Personas (Actively Exclude)</h3>
+    <table>
+      <thead><tr><th>Profile</th><th>Why Exclude</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Crisis/Safety Cases</strong></td><td>Active suicidality, domestic violence, abuse situations. Mendful is not a crisis service — must redirect immediately. Liability risk is extreme.</td></tr>
+        <tr><td><strong>Litigation-Seeking Users</strong></td><td>People looking for ammunition in a custody battle or divorce proceeding. Mendful facilitates repair, not legal strategy.</td></tr>
+        <tr><td><strong>Chronic Therapy Replacement</strong></td><td>Users with diagnosed mental health conditions expecting ongoing clinical treatment. Mendful is episodic repair, not treatment.</td></tr>
+        <tr><td><strong>"Win the Argument" Users</strong></td><td>People who want a referee to declare them right. The methodology requires mutual willingness to repair.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Buying Journey -->
+    <h3>Buying Journey Map (Primary ICP: "The Mender")</h3>
+    <table>
+      <thead><tr><th>Stage</th><th>Emotional State</th><th>Questions They Ask</th><th>Information Need</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Awareness</strong><br><em>"Something is wrong"</em></td>
+          <td>Distressed, anxious, maybe angry. High physiological arousal. Searching at 11 PM.</td>
+          <td>"How do I fix this?" "Is this fight normal?" "Am I the asshole?"</td>
+          <td>Validation that their pain is real + a clear next step (not more advice articles).</td>
+        </tr>
+        <tr>
+          <td><strong>Consideration</strong><br><em>"Is this for me?"</em></td>
+          <td>Cautiously hopeful. Comparing options. Worried about cost, privacy, and whether partner will participate.</td>
+          <td>"How is this different from therapy?" "What happens in a session?" "Will my partner go for this?"</td>
+          <td>Video demonstration of the method. Testimonials. Clear pricing. "What to expect" walkthrough.</td>
+        </tr>
+        <tr>
+          <td><strong>Decision</strong><br><em>"Let's try it"</em></td>
+          <td>Resolved but nervous. Needs friction to be zero — any obstacle kills momentum.</td>
+          <td>"Can I start now?" "How do I get my partner to join?" "Is this private?"</td>
+          <td>Instant booking. AI intake that feels calm and structured. Privacy assurance.</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <!-- Language Bank -->
+    <h3>Language Bank</h3>
+    <p>Actual phrases the ICP uses when describing their problem — these feed directly into messaging:</p>
+    <div class="callout">
+      <p>"We keep having the same fight over and over."</p>
+      <p>"I don't know how to talk to them without it blowing up."</p>
+      <p>"I said something I didn't mean and now they won't talk to me."</p>
+      <p>"My therapist is booked for three weeks — I need help <em>now</em>."</p>
+      <p>"I'm not trying to win. I just want us to be okay."</p>
+      <p>"Every time I try to bring it up, it gets worse."</p>
+      <p>"I can't keep pretending everything is fine."</p>
+      <p>"Am I the problem?"</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 3: COMPETITIVE LANDSCAPE -->
+<!-- ============================================================ -->
+<section id="phase3" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 3</span>
+    <h2 class="phase-title">Competitive Analysis & SWOT</h2>
+    <p class="phase-intro">Mapping the competitive environment to find defensible positioning white space.</p>
+
+    <h3>Competitive Landscape Overview</h3>
+    <p>Mendful operates at the intersection of five established categories — digital therapy, relationship apps, AI emotional support, professional coaching, and formal mediation — but doesn't fit neatly into any of them. The market is fragmented rather than consolidated, with no incumbent owning "on-demand relational repair." This is both the opportunity (white space is real) and the challenge (the category doesn't exist yet in the buyer's mind).</p>
+
+    <p>The most important competitive insight: <strong>"do nothing" is the primary competitor.</strong> Most people in acute conflict don't hire anyone — they text friends, spiral, or wait it out. Mendful's real battle is against inertia, not against BetterHelp.</p>
+
+    <h3>Key Competitors by Tier</h3>
+    <table>
+      <thead><tr><th>Competitor</th><th>Category</th><th>Price</th><th>Mendful's Differentiation</th></tr></thead>
+      <tbody>
+        <tr><td><strong>BetterHelp / Talkspace</strong></td><td>Digital therapy</td><td>$70-100/wk subscription</td><td>Episodic repair vs. ongoing treatment. No diagnosis required. Available now, not in 48 days.</td></tr>
+        <tr><td><strong>Paired / Lasting / Ours</strong></td><td>Relationship apps</td><td>$10-20/mo</td><td>Real-time facilitation during active conflict vs. daily exercises. Works when you're flooding, not when you're calm.</td></tr>
+        <tr><td><strong>Woebot / Wysa / Pi</strong></td><td>AI emotional support</td><td>Free-$15/mo</td><td>Human-in-the-loop. Two-party mediation. NVC-trained. Safe for high-acuity disputes.</td></tr>
+        <tr><td><strong>BetterUp / CoachHub</strong></td><td>Professional coaching</td><td>$499+/mo</td><td>Relationship-specialized vs. leadership-generalist. Single session vs. monthly commitment.</td></tr>
+        <tr><td><strong>Formal Mediation</strong></td><td>ADR/Legal</td><td>$200-500/hr</td><td>Informal, fast, accessible. For repair, not dissolution. No legal process.</td></tr>
+      </tbody>
+    </table>
+
+    <!-- Positioning Map -->
+    <h3>Positioning Map</h3>
+    <div class="pos-map-container">
+      <div class="pos-map">
+        <div class="axis-x"></div>
+        <div class="axis-y"></div>
+        <span class="axis-label top">High Immediacy</span>
+        <span class="axis-label bottom">Low Immediacy</span>
+        <span class="axis-label left">Low Efficacy</span>
+        <span class="axis-label right">High Efficacy</span>
+
+        <!-- Competitors -->
+        <div class="map-dot competitor" style="top: 20%; left: 20%;"><span class="dot-label">AI Chatbots</span></div>
+        <div class="map-dot competitor" style="top: 75%; left: 78%;"><span class="dot-label">Therapy</span></div>
+        <div class="map-dot competitor" style="top: 82%; left: 70%;"><span class="dot-label">Couples Counseling</span></div>
+        <div class="map-dot competitor" style="top: 40%; left: 30%;"><span class="dot-label">Relationship Apps</span></div>
+        <div class="map-dot competitor" style="top: 65%; left: 85%;"><span class="dot-label">Formal Mediation</span></div>
+        <div class="map-dot competitor" style="top: 55%; left: 60%;"><span class="dot-label">BetterUp</span></div>
+
+        <!-- White space -->
+        <div class="white-space-zone" style="top: 12%; right: 8%; width: 35%; height: 35%;"></div>
+
+        <!-- Mendful -->
+        <div class="map-dot mendful" style="top: 22%; left: 75%;"><span class="dot-label" style="color: var(--sage-dark); font-weight: 700;">MENDFUL</span></div>
+      </div>
+    </div>
+    <p style="text-align: center; font-size: 13px; color: var(--slate);">Dashed border indicates the "Immediacy-Efficacy" white space — high-quality intervention available now.</p>
+
+    <!-- SWOT -->
+    <h3>SWOT Analysis</h3>
+    <div class="swot-grid">
+      <div class="swot-cell strengths">
+        <h4>Strengths</h4>
+        <ul>
+          <li><strong>Unique methodology blend</strong> (NVC + somatic + structured facilitation) — no competitor combines all three</li>
+          <li><strong>Proprietary training pipeline</strong> — the MCRC certification creates a quality-controlled supply moat</li>
+          <li><strong>"Fast-slow" model</strong> — productized approach to getting to root cause quickly</li>
+          <li><strong>Founder credibility</strong> — decades of conflict resolution practice and a compelling origin story</li>
+          <li><strong>AI + Human hybrid</strong> — AI handles intake/context-setting, humans lead repair (addresses the LLM safety gap)</li>
+        </ul>
+      </div>
+      <div class="swot-cell weaknesses">
+        <h4>Weaknesses</h4>
+        <ul>
+          <li><strong>Zero brand awareness</strong> — the category doesn't exist yet in the consumer mind</li>
+          <li><strong>No marketing infrastructure</strong> — no analytics, no CRM automation, no content engine, no SEO presence</li>
+          <li><strong>Founder-dependent</strong> — marketing, sales, community, and strategy all rest on one person</li>
+          <li><strong>Two-party cold-start</strong> — harder than single-user apps because one person must recruit the other</li>
+          <li><strong>Unproven unit economics</strong> — $200-300 price point not yet validated with actual paying consumers</li>
+        </ul>
+      </div>
+      <div class="swot-cell opportunities">
+        <h4>Opportunities</h4>
+        <ul>
+          <li><strong>Therapy access crisis</strong> — 48-day wait times create a "desperate consumer" segment willing to pay premium for immediate help</li>
+          <li><strong>HSA/FSA eligibility (2026)</strong> — LMN pathway reduces effective cost to consumer by 30-40%</li>
+          <li><strong>Counseling Compact (2025)</strong> — 39+ states allowing cross-state telehealth expands addressable coach supply</li>
+          <li><strong>B2B conflict cost awareness</strong> — $359B/yr in lost productivity. CHROs actively seeking solutions.</li>
+          <li><strong>Cultural moment</strong> — AITA, therapy TikTok, and "repair culture" trending. Market is primed for this message.</li>
+        </ul>
+      </div>
+      <div class="swot-cell" style="background: #f0ecf5;">
+        <h4>Threats</h4>
+        <ul>
+          <li><strong>BetterHelp/Talkspace could add "urgent sessions"</strong> — incumbents have the user base and funding to clone the model</li>
+          <li><strong>AI improvement</strong> — if LLMs get materially better at conflict mediation, the human-in-the-loop advantage narrows</li>
+          <li><strong>Regulatory ambiguity</strong> — state-level challenges if coaching is perceived as unlicensed therapy</li>
+          <li><strong>Coach supply scarcity</strong> — scaling "quality empathy" during a global counselor shortage</li>
+          <li><strong>Privacy/trust risk</strong> — handling two-party emotional data is a high-stakes security target</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Differentiation Opportunities</h3>
+    <p><strong>Territory 1: "Urgent Care for Relationships"</strong> — the strongest consumer frame. Justifies premium pricing for immediacy, just as Teladoc did for healthcare. This is the primary B2C positioning.</p>
+    <p><strong>Territory 2: "Relational Infrastructure"</strong> — the strongest B2B frame. Positions conflict resolution as preventive maintenance, not failure response. Aligns with CHRO priorities around manager development and team health.</p>
+    <p><strong>Territory 3: "The Anti-Ghosting Movement"</strong> — cultural/aspirational positioning. Taps into the zeitgeist around isolation, estrangement, and the human cost of avoidance. Best for content/brand building, not direct response.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 4: POSITIONING & MESSAGING -->
+<!-- ============================================================ -->
+<section id="phase4" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 4</span>
+    <h2 class="phase-title">Positioning & Messaging Framework</h2>
+    <p class="phase-intro">How Mendful should be positioned in the market and the language that converts conflict pain into booked sessions.</p>
+
+    <h3>Positioning Statement</h3>
+    <div class="callout gold">
+      <p><strong>For</strong> emotionally aware adults experiencing a relational rupture that feels urgent but repairable,<br>
+      <strong>who</strong> need skilled help now — not in six weeks —<br>
+      <strong>Mendful</strong> is the on-demand relational repair platform<br>
+      <strong>that</strong> connects you with a trained conflict resolution coach within minutes for live, facilitated conversation.<br>
+      <strong>Unlike</strong> therapy (too slow), AI chatbots (too shallow), or texting your friends (too biased),<br>
+      <strong>we</strong> blend NVC-based facilitation, somatic awareness, and structured repair into 60-minute sessions that get to the root of the problem — fast.</p>
+    </div>
+
+    <h3>Core Narrative</h3>
+    <p style="font-size: 17px; line-height: 1.8; color: var(--ink); max-width: 700px;">Relationships break down in moments — but repair takes weeks to access. Mendful changes that. We provide on-demand, human-led conflict resolution so you can repair what matters most, right when it matters most. Not therapy. Not a chatbot. Guided relational repair at the speed of life.</p>
+
+    <h3>Messaging Pillars</h3>
+    <div class="pillar-cards">
+      <div class="pillar-card">
+        <div class="pillar-num">Pillar 01</div>
+        <h4>Immediate Access — "Help when you need it, not weeks from now"</h4>
+        <p>When conflict is acute, timing is everything. Mendful provides access to a trained coach within minutes — because the conversation you need can't wait for a six-week waitlist.</p>
+        <div class="pillar-proof"><strong>Proof:</strong> AI intake → coach matching → live session within minutes. No insurance paperwork. No intake forms. No waiting.<br><strong>Addresses:</strong> "My therapist is booked for three weeks — I need help <em>now</em>."</div>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">Pillar 02</div>
+        <h4>Human Depth — "Real facilitation, not a chatbot"</h4>
+        <p>AI handles intake. A trained human leads the repair. Mendful coaches are certified in NVC, somatic awareness, and structured facilitation — skills that AI can't replicate for multi-party conflict.</p>
+        <div class="pillar-proof"><strong>Proof:</strong> MCRC certification program. LLMs score 27% on conflict resolution benchmarks. 73% of AI conflict advice is professionally rated as dangerous.<br><strong>Addresses:</strong> "Is this just a glorified chatbot?"</div>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">Pillar 03</div>
+        <h4>Repair, Not Therapy — "Fix the fight, not your childhood"</h4>
+        <p>Mendful isn't ongoing treatment. It's a focused, 60-minute intervention designed to resolve a specific rupture. Come in broken, leave repaired. No diagnosis. No weekly appointments. Just resolution.</p>
+        <div class="pillar-proof"><strong>Proof:</strong> Session structure gets to "root cause" in one session using the "fast-slow" method. Designed for episodic use, not chronic care.<br><strong>Addresses:</strong> "How is this different from therapy?" and "$300 is a lot for one conversation."</div>
+      </div>
+    </div>
+
+    <h3>Headline Options</h3>
+    <table>
+      <thead><tr><th>#</th><th>Headline</th><th>Context</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td><strong>Had a fight? Get help now.</strong></td><td>Landing page hero — direct, pain-first, zero jargon.</td></tr>
+        <tr><td>2</td><td><strong>Relational repair at the speed of life.</strong></td><td>Brand tagline — aspirational, category-defining.</td></tr>
+        <tr><td>3</td><td><strong>Your relationship can't wait 6 weeks.</strong></td><td>Ad copy — urgency + competitive contrast with therapy wait times.</td></tr>
+        <tr><td>4</td><td><strong>Not therapy. Not a chatbot. Real repair.</strong></td><td>Differentiation — addresses the two most common mental models.</td></tr>
+        <tr><td>5</td><td><strong>The conversation you need — with someone who knows how to lead it.</strong></td><td>Consideration-stage — builds trust in the human facilitation model.</td></tr>
+        <tr><td>6</td><td><strong>Stop spiraling. Start repairing.</strong></td><td>Social/short-form — action-oriented, speaks to the 11 PM user.</td></tr>
+        <tr><td>7</td><td><strong>Urgent care for your most important relationships.</strong></td><td>Category-defining — leverages the Teladoc frame.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Voice & Tone Guidelines</h3>
+    <table>
+      <thead><tr><th>Attribute</th><th>Do</th><th>Don't</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Warm but direct</strong></td><td>"We're here. Let's work through this."</td><td>"We understand this must be so hard for you..." (condescending)</td></tr>
+        <tr><td><strong>Empowering, not clinical</strong></td><td>"You already know something needs to change."</td><td>"Studies show that 43% of adults experience..." (academic)</td></tr>
+        <tr><td><strong>Urgent but calm</strong></td><td>"Don't wait for the next fight."</td><td>"ACT NOW! LIMITED SPOTS!" (desperate)</td></tr>
+        <tr><td><strong>Inclusive, not preachy</strong></td><td>"Conflict is human. Repair is a skill."</td><td>"Most people are terrible at communication." (judgmental)</td></tr>
+        <tr><td><strong>Simple, not jargon-heavy</strong></td><td>"We help you hear each other."</td><td>"Our NVC-informed somatic facilitation protocol..." (insider language)</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Objection Handling</h3>
+    <table>
+      <thead><tr><th>Objection</th><th>Reframe</th></tr></thead>
+      <tbody>
+        <tr><td>"$300 is a lot for one conversation."</td><td>"What's the cost of letting this fight fester for six more weeks? $300 is less than one couples therapy session — and you can start in minutes, not months."</td></tr>
+        <tr><td>"My partner won't agree to this."</td><td>"You can start alone. Our AI guide helps you prepare — and when you're ready, we help you invite your partner in a way that doesn't feel like an ambush."</td></tr>
+        <tr><td>"How is this different from therapy?"</td><td>"Therapy treats patterns over months. We resolve a specific rupture in one session. Think urgent care vs. your primary doctor — both matter, different purpose."</td></tr>
+        <tr><td>"Is this just a chatbot?"</td><td>"The AI handles intake. A real, trained human facilitates the conversation. We believe repair requires a human presence — AI just gets you there faster."</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Message Testing Recommendations</h3>
+    <p><strong>Test 1:</strong> "Urgent care" framing vs. "Repair" framing — run as A/B on the landing page hero. Does the medical analogy or the emotional language convert better?</p>
+    <p><strong>Test 2:</strong> Pain-first ("Had a fight?") vs. Solution-first ("On-demand relationship repair") — test in social ad copy to determine which hook drives more click-throughs.</p>
+    <p><strong>Test 3:</strong> Price anchoring — test "$300/session" vs. "Less than one therapy session — and available now" to determine whether reframing the price point changes conversion.</p>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 5: CHANNEL STRATEGY -->
+<!-- ============================================================ -->
+<section id="phase5" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 5</span>
+    <h2 class="phase-title">Channel Strategy</h2>
+    <p class="phase-intro">Where to invest for maximum impact — matched to ICP behavior, current resources, and the reality of a near-zero budget.</p>
+
+    <h3>Channel Scorecard</h3>
+    <table>
+      <thead>
+        <tr><th>Channel</th><th>ICP Presence</th><th>Intent</th><th>Feasibility</th><th>Time to Impact</th><th>Verdict</th></tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Live Events & Workshops</strong></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td style="color: var(--sage); font-weight: 700;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td><strong>Short-Form Video (TikTok/Reels)</strong></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td><span class="score-bar medium" style="width: 50px;"></span></td>
+          <td><span class="score-bar medium" style="width: 60px;"></span></td>
+          <td><span class="score-bar medium" style="width: 60px;"></span></td>
+          <td style="color: var(--sage); font-weight: 700;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td><strong>Community Partnerships (NVC, conscious leadership)</strong></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td><span class="score-bar" style="width: 70px;"></span></td>
+          <td><span class="score-bar" style="width: 85px;"></span></td>
+          <td><span class="score-bar" style="width: 70px;"></span></td>
+          <td style="color: var(--sage); font-weight: 700;">PRIMARY</td>
+        </tr>
+        <tr>
+          <td><strong>Email Nurture (200+ list)</strong></td>
+          <td><span class="score-bar" style="width: 70px;"></span></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td style="color: var(--gold); font-weight: 700;">SECONDARY</td>
+        </tr>
+        <tr>
+          <td><strong>LinkedIn (Organic + Founder-led)</strong></td>
+          <td><span class="score-bar medium" style="width: 50px;"></span></td>
+          <td><span class="score-bar medium" style="width: 50px;"></span></td>
+          <td><span class="score-bar" style="width: 85px;"></span></td>
+          <td><span class="score-bar medium" style="width: 60px;"></span></td>
+          <td style="color: var(--gold); font-weight: 700;">SECONDARY</td>
+        </tr>
+        <tr>
+          <td><strong>Reddit / AITA Community</strong></td>
+          <td><span class="score-bar" style="width: 85px;"></span></td>
+          <td><span class="score-bar" style="width: 75px;"></span></td>
+          <td><span class="score-bar medium" style="width: 50px;"></span></td>
+          <td><span class="score-bar medium" style="width: 55px;"></span></td>
+          <td style="color: var(--gold); font-weight: 700;">SECONDARY</td>
+        </tr>
+        <tr>
+          <td><strong>SEO / Content Marketing</strong></td>
+          <td><span class="score-bar" style="width: 70px;"></span></td>
+          <td><span class="score-bar" style="width: 90px;"></span></td>
+          <td><span class="score-bar low" style="width: 30px;"></span></td>
+          <td><span class="score-bar low" style="width: 25px;"></span></td>
+          <td style="color: var(--slate);">DEFERRED</td>
+        </tr>
+        <tr>
+          <td><strong>Paid Ads (Google/Meta)</strong></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td><span class="score-bar low" style="width: 20px;"></span></td>
+          <td><span class="score-bar" style="width: 80px;"></span></td>
+          <td style="color: var(--slate);">DEFERRED (Post-funding)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Recommended Channel Mix</h3>
+
+    <h4>Primary Channels (Invest Heavily)</h4>
+
+    <p><strong>1. Live Events & Workshops</strong> — This is the proven channel. Workshops filled the first coach cohort and remain the best format to demonstrate the methodology. Plan: 2-3 free intro workshops per month (virtual), with a CTA to book a session. Use Eventbrite + community cross-promotion. The "Repair at the Speed of Life" workshop becomes a repeatable top-of-funnel asset.</p>
+
+    <p><strong>2. Short-Form Video Content</strong> — "Celebrity Do-overs," "AITA Mendful-style" redos, and "Repair Room" clips. This is the category-education engine disguised as entertainment. The ICP is on TikTok and Instagram consuming relationship content. Mendful's advantage is that the methodology is inherently watchable — show, don't tell. Target: 3-4 videos/week across TikTok and Reels.</p>
+
+    <p><strong>3. Community Partnerships</strong> — The NVC community, conscious leadership circles, and therapy-adjacent networks are the "early majority" for this product. These are warm, trust-based audiences who already believe in the premise. Plan: guest facilitator spots, co-hosted events, presence in NVC/communication-focused Facebook groups and Slack communities.</p>
+
+    <h4>Secondary Channels (Maintain & Grow)</h4>
+
+    <p><strong>4. Email Nurture</strong> — Activate the 200+ list immediately. Weekly "Repair Note" — short, high-value content with a session CTA. This is the lowest-cost, highest-intent channel available. Build automated post-workshop nurture sequences.</p>
+
+    <p><strong>5. LinkedIn (Founder-Led)</strong> — Continue founder posting with a shift toward storytelling content (specific conflict scenarios, methodology insights, cultural commentary). LinkedIn is more relevant for B2B seeding than B2C conversion, but it builds credibility and attracts the marketing cofounder and potential B2B partners.</p>
+
+    <p><strong>6. Reddit / AITA</strong> — Organic engagement in r/relationship_advice, r/AITA, and r/NVC. Not as a brand account, but as a genuine participant who occasionally references Mendful's approach. This must be done carefully (Reddit hates self-promotion) but the audience alignment is exceptional.</p>
+
+    <h4>Deferred Channels (Post-Funding)</h4>
+    <p><strong>SEO/Content Engine:</strong> High long-term value but requires investment in content creation and takes 4-6 months to generate results. Priority after funding closes. Target keywords: "how to fix a relationship after a fight," "communication help for couples," "on-demand relationship help."</p>
+    <p><strong>Paid Acquisition:</strong> Meta and Google Ads become viable once the landing page is converting organically and unit economics are understood. Start with retargeting workshop attendees and email list.</p>
+
+    <h3>Measurement Framework</h3>
+    <table>
+      <thead><tr><th>Channel</th><th>Leading Indicator</th><th>Lagging Indicator</th><th>Track How</th></tr></thead>
+      <tbody>
+        <tr><td>Workshops</td><td>Registrations per event</td><td>Sessions booked within 7 days of attending</td><td>Eventbrite + manual tracking</td></tr>
+        <tr><td>Video</td><td>Views, shares, saves</td><td>Website visits from social, DMs asking about sessions</td><td>Platform analytics + UTM links</td></tr>
+        <tr><td>Community</td><td>Partnership invitations, cross-posts</td><td>Referral-attributed sessions</td><td>Source tracking on intake</td></tr>
+        <tr><td>Email</td><td>Open rate, click rate</td><td>Sessions booked from email CTA</td><td>Email platform + UTM</td></tr>
+        <tr><td>LinkedIn</td><td>Impressions, engagement rate</td><td>Inbound B2B inquiries, cofounder candidates</td><td>LinkedIn analytics</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- PHASE 6: 90-DAY ACTION PLAN -->
+<!-- ============================================================ -->
+<section id="phase6" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Phase 6</span>
+    <h2 class="phase-title">90-Day Action Plan</h2>
+    <p class="phase-intro">Converting strategy into a prioritized, executable plan — what to do first, what to measure, and what "success" looks like.</p>
+
+    <h3>Strategic Priorities</h3>
+    <div class="snapshot-grid">
+      <div class="snap-card" style="border-left: 4px solid var(--sage);">
+        <div class="label">Priority #1</div>
+        <div class="value" style="font-size: 18px;">Prove Demand</div>
+        <div class="note">50-100 completed sessions. Evidence that people will pay $200-300 for on-demand relational repair.</div>
+      </div>
+      <div class="snap-card" style="border-left: 4px solid var(--terracotta);">
+        <div class="label">Priority #2</div>
+        <div class="value" style="font-size: 18px;">Build the Content Engine</div>
+        <div class="note">Establish video-first content pipeline that educates the market by showing the methodology in action.</div>
+      </div>
+      <div class="snap-card" style="border-left: 4px solid var(--gold);">
+        <div class="label">Priority #3</div>
+        <div class="value" style="font-size: 18px;">Hire Marketing Cofounder</div>
+        <div class="note">Find the person who will own and scale demand generation — founder can't do this alone.</div>
+      </div>
+    </div>
+
+    <h3>90-Day Timeline</h3>
+
+    <div class="timeline">
+      <!-- MONTH 1 -->
+      <div class="timeline-month">
+        <div class="month-label">Month 1<br><span style="font-size: 10px; font-weight: 400; color: var(--slate);">Foundation</span></div>
+        <div class="month-items">
+          <div class="month-item">
+            <div class="item-title">Week 1-2: Landing Page & Tracking</div>
+            <div class="item-detail">Build or rebuild the landing page with Phase 4 messaging. Hero: "Had a fight? Get help now." Install Google Analytics, set up conversion tracking for AI intake starts and session bookings. Add "How did you hear about us?" to intake flow.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Week 1-2: Activate Email List</div>
+            <div class="item-detail">Send launch announcement to 200+ list. Start weekly "Repair Note" email. Include soft launch CTA: "Be one of our first 50 sessions — founding rate available."</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Week 2-3: Film First Video Batch</div>
+            <div class="item-detail">Record 8-10 short-form videos: 3 "Celebrity Do-over" concepts, 3 "AITA Mendful-style" redos, 2-3 methodology explainers. Edit and schedule for 3-4x/week posting on TikTok + Instagram Reels.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Week 3-4: First Workshop (Soft Launch)</div>
+            <div class="item-detail">Host "Repair at the Speed of Life" virtual workshop via Zoom. Cross-promote through NVC communities, email list, and social. CTA: book a session at founding rate. Target: 30+ registrants, 3-5 session bookings.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Week 3-4: B2B Outreach Begins</div>
+            <div class="item-detail">Identify 10 VC firms and startup accelerators. Draft outreach: "Cofounder conflict is the #1 startup killer — here's a new way to address it." Target: 3-5 exploratory conversations by month-end.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Ongoing: Marketing Cofounder Search</div>
+            <div class="item-detail">Post role on LinkedIn, share in growth marketing communities. Network at startup events. This is the most important hire of the quarter.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MONTH 2 -->
+      <div class="timeline-month">
+        <div class="month-label">Month 2<br><span style="font-size: 10px; font-weight: 400; color: var(--slate);">Acceleration</span></div>
+        <div class="month-items">
+          <div class="month-item">
+            <div class="item-title">Scale Workshop Cadence</div>
+            <div class="item-detail">Host 2-3 workshops this month. Experiment with formats: couples-focused, family-focused, "communication skills for managers" (B2B adjacent). Track conversion: registrant → session booked.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Double Video Output</div>
+            <div class="item-detail">Analyze Month 1 video performance. Double down on formats that get saves/shares (not just views). Begin repurposing top-performing clips as Instagram Stories and LinkedIn posts. Target: identify one "hero" format.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Community Partnership Activation</div>
+            <div class="item-detail">Secure 2-3 guest spots in NVC/conscious leadership communities. Co-host at least one event with an aligned organization. Offer "Community Rate" sessions as an incentive.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Collect & Publish Testimonials</div>
+            <div class="item-detail">After first 15-20 sessions: collect NPS, written testimonials, and (if permitted) short video testimonials. Add to landing page and social proof assets. Target NPS > 60.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">First B2B Pilot</div>
+            <div class="item-detail">If VC conversations have progressed: propose a 3-month pilot with one portfolio company. Offer 5-10 sessions at reduced rate in exchange for case study rights.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Email Automation Build</div>
+            <div class="item-detail">Set up post-workshop nurture sequence (3 emails over 7 days). Set up post-session follow-up sequence (NPS + referral ask + rebooking CTA).</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MONTH 3 -->
+      <div class="timeline-month">
+        <div class="month-label">Month 3<br><span style="font-size: 10px; font-weight: 400; color: var(--slate);">Optimization</span></div>
+        <div class="month-items">
+          <div class="month-item">
+            <div class="item-title">Performance Review & Pivot</div>
+            <div class="item-detail">Full analysis: sessions completed vs. target, acquisition source breakdown, NPS, repeat rate, average session value. Identify what's working and reallocate effort.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Landing Page A/B Tests</div>
+            <div class="item-detail">Run messaging tests from Phase 4: "urgent care" framing vs. "repair" framing. Test price presentation. Optimize conversion path based on 60 days of data.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Referral Program Soft Launch</div>
+            <div class="item-detail">Offer existing clients: "Refer a friend → both get $50 off next session." Track referral as acquisition channel. If 60%+ repeat/referral target is met, this becomes the primary growth engine.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Document & Systematize</div>
+            <div class="item-detail">Document the repeatable playbooks: workshop format, video production process, email sequences, community engagement approach. These become the onboarding kit for the marketing cofounder/hire.</div>
+          </div>
+          <div class="month-item">
+            <div class="item-title">Q2 Planning</div>
+            <div class="item-detail">Based on results: decide whether to invest in SEO, paid ads, and/or HSA/FSA integration. Build Q2 plan with or without funding assumption. Present investor update with demand proof.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>KPI Dashboard</h3>
+    <table>
+      <thead><tr><th>Metric</th><th>Frequency</th><th>90-Day Target</th></tr></thead>
+      <tbody>
+        <tr><td>Sessions completed</td><td>Weekly</td><td>50-100 total</td></tr>
+        <tr><td>AI intakes started</td><td>Weekly</td><td>300+ total</td></tr>
+        <tr><td>Intake → Session conversion</td><td>Weekly</td><td>15-25%</td></tr>
+        <tr><td>NPS (post-session)</td><td>Per session</td><td>> 60</td></tr>
+        <tr><td>Repeat/referral rate</td><td>Monthly</td><td>60%+</td></tr>
+        <tr><td>Workshop registrants</td><td>Per event</td><td>30+ per event</td></tr>
+        <tr><td>Workshop → Session conversion</td><td>Per event</td><td>10-15%</td></tr>
+        <tr><td>Video views (cumulative)</td><td>Weekly</td><td>50K+ across platforms</td></tr>
+        <tr><td>Email list growth</td><td>Monthly</td><td>200 → 500+</td></tr>
+        <tr><td>Coach utilization rate</td><td>Weekly</td><td>Track baseline (optimization comes later)</td></tr>
+        <tr><td>B2B pilot conversations</td><td>Monthly</td><td>5+ conversations, 1 signed pilot</td></tr>
+      </tbody>
+    </table>
+
+    <h3>Risk Register</h3>
+    <table>
+      <thead><tr><th>Risk</th><th>Likelihood</th><th>Impact</th><th>Mitigation</th></tr></thead>
+      <tbody>
+        <tr><td>Can't get second party to join sessions</td><td>High</td><td>High</td><td>Develop strong "individual coaching" track as entry point. Build partner invitation flow that feels non-threatening.</td></tr>
+        <tr><td>$200-300 price point creates conversion friction</td><td>Medium</td><td>High</td><td>Test founding rate ($150). Pursue HSA/FSA eligibility. Offer "Resolution Guarantee" (discount on next session if unresolved).</td></tr>
+        <tr><td>Video content doesn't gain traction</td><td>Medium</td><td>Medium</td><td>Allocate 60 days before judging. Test multiple formats. If videos stall, shift resources to workshops and community.</td></tr>
+        <tr><td>Founder bandwidth limits execution</td><td>High</td><td>High</td><td>Prioritize marketing cofounder hire. Outsource video editing. Use AI tools for email content. Accept that Month 1 will be rough.</td></tr>
+        <tr><td>Privacy/trust concern blocks adoption</td><td>Low</td><td>High</td><td>Implement HIPAA-compliant data handling from day one (even if not legally required). Make privacy policy prominent and plain-language.</td></tr>
+      </tbody>
+    </table>
+
+    <h3>90-Day Success Criteria</h3>
+    <div class="callout gold">
+      <p><strong>"We nailed it" looks like:</strong></p>
+      <p>✓ 50-100 completed sessions with paying clients</p>
+      <p>✓ NPS above 60 with compelling testimonials</p>
+      <p>✓ 60%+ of clients either rebook or refer someone</p>
+      <p>✓ At least one repeatable acquisition channel identified (likely workshops)</p>
+      <p>✓ At least one B2B pilot signed or in advanced negotiation</p>
+      <p>✓ Marketing cofounder identified or hired</p>
+      <p>✓ Clear unit economics: what it costs to acquire a session, what Mendful keeps</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- ASSUMPTIONS & RISKS -->
+<!-- ============================================================ -->
+<section id="assumptions" class="phase-section">
+  <div class="container">
+    <span class="phase-label">Appendix</span>
+    <h2 class="phase-title">Assumptions, Gaps & Open Questions</h2>
+    <p class="phase-intro">Everything flagged during the strategy build that needs validation or further research.</p>
+
+    <div class="assumption-list">
+      <div class="assumption-item">
+        <span class="assumption-tag">ASSUMED</span>
+        <div><strong>Revenue targets:</strong> 50-100 sessions in 90 days and 500+ in 6 months are the working targets from the discovery questionnaire. No formal revenue model with investor-facing projections was provided.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">ASSUMED</span>
+        <div><strong>Marketing budget:</strong> Strategy assumes ~$0 for first 90 days. Channel recommendations shift significantly if funding closes and $3-10K/month becomes available.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">ASSUMED</span>
+        <div><strong>Intake → Session conversion of 15-25%:</strong> Based on telehealth intake benchmarks. Actual rate for a novel category is unknown and could be much lower.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">ASSUMED</span>
+        <div><strong>Video content capacity:</strong> Strategy assumes founder or contractor can produce 3-4 short-form videos/week. If capacity is lower, reduce to 2/week and prioritize quality.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">GAP</span>
+        <div><strong>No website analytics baseline:</strong> Current website traffic, bounce rate, and conversion data are unknown. Landing page rebuild must include analytics setup from day one.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">GAP</span>
+        <div><strong>No competitive keyword data:</strong> SEO competitive gap analysis was deferred. When SEO becomes a priority channel (post-funding), the keyword-research skill should be run to build the full keyword universe.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">GAP</span>
+        <div><strong>B2B pricing not validated:</strong> The "$200-300/session" B2C price is stated but the B2B whitelabel/licensing pricing is undefined. B2B pilots will need custom pricing.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">GAP</span>
+        <div><strong>Coach capacity model:</strong> With 8-12 coaches, maximum monthly session capacity depends on availability, time zones, and scheduling logistics. This needs modeling to set realistic growth ceilings.</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">VALIDATE</span>
+        <div><strong>Second-party recruitment:</strong> The biggest unknown. How often will one partner successfully recruit the other? What percentage of sessions will be individual coaching vs. two-party facilitation?</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">VALIDATE</span>
+        <div><strong>Price sensitivity at $200-300:</strong> No real market data exists for this price point in this category. Soft launch should test multiple price points (founding rate vs. standard).</div>
+      </div>
+      <div class="assumption-item">
+        <span class="assumption-tag">VALIDATE</span>
+        <div><strong>"Celebrity Do-over" video concept:</strong> High creative potential but IP/publicity concerns need legal review. Ensure content can be produced safely without defamation risk.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer style="text-align: center; padding: 60px 30px; color: var(--slate); font-size: 13px; border-top: 1px solid var(--mist);">
+  <p style="margin-bottom: 8px;"><strong>Mendful Marketing Strategy</strong> — Prepared by ClientBridge LLC</p>
+  <p>February 2026 &nbsp;·&nbsp; Confidential &nbsp;·&nbsp; All 6 Phases Complete</p>
+</footer>
+
+</body>
+</html>
