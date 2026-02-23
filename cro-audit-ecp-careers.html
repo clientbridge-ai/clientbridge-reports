@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit — ecp-careers.com | ClientBridge LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #181b24;
+  --surface-2: #1f2330;
+  --border: #2a2e3b;
+  --text: #e2e4ea;
+  --text-muted: #8b8fa4;
+  --accent: #6c8cff;
+  --accent-glow: rgba(108,140,255,.15);
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,.12);
+  --amber: #fbbf24;
+  --amber-bg: rgba(251,191,36,.12);
+  --red: #f87171;
+  --red-bg: rgba(248,113,113,.12);
+  --sidebar-w: 280px;
+  --font-display: 'Fraunces', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.65;
+  display: flex;
+  min-height: 100vh;
+}
+/* Sidebar */
+.sidebar {
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  overflow-y: auto;
+  z-index: 100;
+  padding: 28px 0;
+  display: flex;
+  flex-direction: column;
+}
+.sidebar-brand { padding: 0 24px 24px; border-bottom: 1px solid var(--border); }
+.sidebar-brand h2 { font-family: var(--font-display); font-size: 1.15rem; color: var(--accent); }
+.sidebar-brand p { font-size: .75rem; color: var(--text-muted); margin-top: 4px; }
+.sidebar nav { flex: 1; padding: 16px 0; }
+.sidebar nav a {
+  display: block;
+  padding: 10px 24px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: .85rem;
+  font-weight: 500;
+  transition: all .2s;
+  border-left: 3px solid transparent;
+}
+.sidebar nav a:hover, .sidebar nav a.active {
+  color: var(--text);
+  background: var(--accent-glow);
+  border-left-color: var(--accent);
+}
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  font-size: .7rem;
+  color: var(--text-muted);
+}
+/* Main */
+.main {
+  margin-left: var(--sidebar-w);
+  flex: 1;
+  min-width: 0;
+}
+.main-inner { max-width: 900px; margin: 0 auto; padding: 40px 48px 80px; }
+/* Hero */
+.hero {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 48px;
+  margin-bottom: 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60px; right: -60px;
+  width: 240px; height: 240px;
+  background: radial-gradient(circle, rgba(108,140,255,.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.hero-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .12em; color: var(--accent); font-weight: 600; margin-bottom: 12px; }
+.hero h1 { font-family: var(--font-display); font-size: 2.1rem; font-weight: 800; line-height: 1.2; margin-bottom: 8px; }
+.hero .subtitle { color: var(--text-muted); font-size: .95rem; margin-bottom: 28px; }
+.overall-score {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 28px;
+}
+.overall-score .big-num { font-family: var(--font-display); font-size: 3rem; font-weight: 800; }
+.overall-score .big-label { font-size: .8rem; color: var(--text-muted); }
+.score-amber .big-num { color: var(--amber); }
+.score-green .big-num { color: var(--green); }
+.score-red .big-num { color: var(--red); }
+/* Cards */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  cursor: pointer;
+  user-select: none;
+  transition: background .2s;
+}
+.card-header:hover { background: var(--surface-2); }
+.card-header h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 700; }
+.card-body { padding: 0 28px 28px; display: none; }
+.card.open .card-body { display: block; }
+.card-header .chevron { transition: transform .25s; color: var(--text-muted); font-size: 1.2rem; }
+.card.open .card-header .chevron { transform: rotate(180deg); }
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: .8rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+}
+.badge-green { background: var(--green-bg); color: var(--green); }
+.badge-amber { background: var(--amber-bg); color: var(--amber); }
+.badge-red { background: var(--red-bg); color: var(--red); }
+/* Section markers */
+h2.section-title {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin: 48px 0 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+/* Scorecard grid */
+.scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 32px;
+}
+.score-tile {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.score-tile .tile-label { font-size: .8rem; color: var(--text-muted); font-weight: 500; }
+.score-tile .tile-score { font-family: var(--font-display); font-size: 2rem; font-weight: 800; }
+.score-tile .tile-weight { font-size: .7rem; color: var(--text-muted); }
+/* Findings blocks */
+.finding-block { margin-bottom: 20px; }
+.finding-block h4 { font-size: .85rem; text-transform: uppercase; letter-spacing: .08em; color: var(--accent); margin-bottom: 8px; font-weight: 600; }
+.finding-block ul { padding-left: 20px; }
+.finding-block li { margin-bottom: 6px; font-size: .92rem; }
+.hypothesis {
+  background: var(--bg);
+  border-left: 3px solid var(--accent);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  margin: 16px 0;
+  font-size: .88rem;
+  line-height: 1.6;
+}
+.hypothesis strong { color: var(--accent); }
+/* ICE Table */
+.ice-table-wrap { overflow-x: auto; margin-bottom: 32px; }
+table.ice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: .85rem;
+}
+table.ice-table th {
+  text-align: left;
+  padding: 12px 14px;
+  background: var(--surface-2);
+  border-bottom: 2px solid var(--border);
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+}
+table.ice-table th:hover { color: var(--accent); }
+table.ice-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+table.ice-table tr:hover td { background: var(--surface-2); }
+/* Quick wins */
+.qw-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+}
+.qw-item:last-child { border-bottom: none; }
+.qw-num {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--accent);
+  min-width: 36px;
+}
+.qw-item h4 { font-size: .95rem; font-weight: 600; margin-bottom: 4px; }
+.qw-item p { font-size: .85rem; color: var(--text-muted); }
+/* Action plan */
+.action-step {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--border);
+}
+.action-step:last-child { border-bottom: none; }
+.step-icon {
+  width: 32px; height: 32px;
+  background: var(--accent-glow);
+  border: 1px solid var(--accent);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: .8rem; color: var(--accent);
+  flex-shrink: 0;
+}
+/* Top 3 wins in exec summary */
+.top3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 20px 0 28px; }
+.top3-item {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+}
+.top3-item .t3-label { font-size: .7rem; text-transform: uppercase; letter-spacing: .08em; color: var(--green); font-weight: 600; margin-bottom: 6px; }
+.top3-item p { font-size: .85rem; }
+/* Responsive */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .main-inner { padding: 24px 20px 60px; }
+  .hero { padding: 28px; }
+  .hero h1 { font-size: 1.5rem; }
+  .top3 { grid-template-columns: 1fr; }
+  .scorecard-grid { grid-template-columns: 1fr 1fr; }
+}
+@media print {
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .card-body { display: block !important; }
+  .hero { break-inside: avoid; }
+  body { background: #fff; color: #111; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-brand">
+    <h2>CRO Audit</h2>
+    <p>ecp-careers.com</p>
+  </div>
+  <nav>
+    <a href="#executive-summary" class="active">Executive Summary</a>
+    <a href="#scoring-overview">Scoring Overview</a>
+    <a href="#message-match">1. Message Match & Clarity</a>
+    <a href="#value-prop">2. Value Proposition</a>
+    <a href="#trust">3. Trust & Credibility</a>
+    <a href="#cta">4. CTA & Conversion Path</a>
+    <a href="#form-ux">5. Form / Checkout UX</a>
+    <a href="#content-persuasion">6. Content & Persuasion</a>
+    <a href="#mobile">7. Mobile Experience</a>
+    <a href="#experiment-backlog">Experiment Backlog</a>
+    <a href="#quick-wins">Quick Wins</a>
+    <a href="#action-plan">48-Hour Action Plan</a>
+    <a href="#methodology">Methodology</a>
+  </nav>
+  <div class="sidebar-footer">
+    Prepared by ClientBridge LLC<br>
+    February 23, 2026
+  </div>
+</aside>
+
+<!-- MAIN -->
+<div class="main">
+<div class="main-inner">
+
+<!-- HERO / EXECUTIVE SUMMARY -->
+<section id="executive-summary">
+  <div class="hero">
+    <div class="hero-label">CRO Audit Report</div>
+    <h1>Executive Career Partners</h1>
+    <p class="subtitle">ecp-careers.com — Homepage, Services Page, Contact Page & Success Stories</p>
+    <div class="overall-score score-amber">
+      <div>
+        <div class="big-num">5.2</div>
+        <div class="big-label">/ 10 Weighted Score</div>
+      </div>
+    </div>
+    <div style="margin-top:28px;">
+      <p style="color:var(--text-muted);font-size:.88rem;margin-bottom:12px;">
+        <strong style="color:var(--amber);">Business type:</strong> High-ticket Lead Gen (career coaching / executive services)
+        &nbsp;|&nbsp; <strong style="color:var(--amber);">Primary goal:</strong> Consultation request (form fill / call)
+        &nbsp;|&nbsp; <strong style="color:var(--amber);">Analytics:</strong> Not available — heuristic audit (confidence scores capped at 6)
+      </p>
+    </div>
+
+    <div class="top3">
+      <div class="top3-item">
+        <div class="t3-label">✓ Strength 1</div>
+        <p>Rich success stories with named clients, titles, cities and LinkedIn — strong social proof assets</p>
+      </div>
+      <div class="top3-item">
+        <div class="t3-label">✓ Strength 2</div>
+        <p>Clear four-stage process (Position → Build → Visibility → Conversion) reduces buyer uncertainty</p>
+      </div>
+      <div class="top3-item">
+        <div class="t3-label">✓ Strength 3</div>
+        <p>Comprehensive service page with FAQ section proactively addresses common objections</p>
+      </div>
+    </div>
+
+    <p style="font-size:.92rem;">ECP has solid foundational content but suffers from a fragmented conversion path, unclear pricing signals, and a homepage that doesn't immediately communicate who it's for or what's at stake. The biggest revenue opportunity is tightening the homepage-to-contact funnel and surfacing trust signals much earlier. Below are 16 prioritized, testable recommendations.</p>
+  </div>
+</section>
+
+<!-- SCORING OVERVIEW -->
+<section id="scoring-overview">
+  <h2 class="section-title">Scoring Overview</h2>
+  <p style="color:var(--text-muted);margin-bottom:20px;font-size:.88rem;">Each section scored 1–10. Weights based on high-ticket lead gen business type.</p>
+  <div class="scorecard-grid">
+    <div class="score-tile">
+      <span class="tile-label">Message Match & Clarity</span>
+      <span class="tile-score" style="color:var(--amber);">5</span>
+      <span class="tile-weight">Weight: 20%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">Value Proposition</span>
+      <span class="tile-score" style="color:var(--amber);">5</span>
+      <span class="tile-weight">Weight: 15%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">Trust & Credibility</span>
+      <span class="tile-score" style="color:var(--amber);">6</span>
+      <span class="tile-weight">Weight: 20%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">CTA & Conversion Path</span>
+      <span class="tile-score" style="color:var(--red);">4</span>
+      <span class="tile-weight">Weight: 15%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">Form / Checkout UX</span>
+      <span class="tile-score" style="color:var(--red);">4</span>
+      <span class="tile-weight">Weight: 15%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">Content & Persuasion</span>
+      <span class="tile-score" style="color:var(--amber);">6</span>
+      <span class="tile-weight">Weight: 10%</span>
+    </div>
+    <div class="score-tile">
+      <span class="tile-label">Mobile Experience</span>
+      <span class="tile-score" style="color:var(--amber);">6</span>
+      <span class="tile-weight">Weight: 5%</span>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED FINDINGS -->
+
+<!-- 1. Message Match -->
+<section id="message-match">
+  <h2 class="section-title">Detailed Findings</h2>
+  <div class="card open">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>1. Message Match & Clarity</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-amber">5 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>The hero headline "Get Hired Faster." is concise and outcome-oriented</li>
+          <li>Sub-navigation clearly segments audiences: Job Seekers, Fractional, Boards, Businesses</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>Hero headline is too generic.</strong> "Get Hired Faster" could apply to a $15/hr job board or a $15K executive coaching program. It doesn't signal executive-level positioning, price point, or differentiation.</li>
+          <li><strong>No audience qualifier above the fold.</strong> A VP-level executive landing on this page must scroll to "Is Your Job Search Stuck?" to confirm this is for them. By then, many have bounced.</li>
+          <li><strong>Multiple competing CTAs in the hero.</strong> "What We Offer," "Success Stories," and "Client Reviews" all compete for attention. There's no single clear next step.</li>
+          <li><strong>"Is Your Job Search Stuck?" section uses a pain-point checklist</strong> (too old, too specialized, no degree) that risks making high-status executives feel talked down to. The framing is "liabilities" rather than "strategic advantages waiting to be unlocked."</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Replace hero headline with audience-specific, outcome-quantified copy. Example: "Executive-Level Career Strategy for Leaders Targeting $250K+ Roles" — immediately signals who, what, and tier.</li>
+          <li>Add a qualifying subhead: "For VPs, SVPs, and C-Suite leaders in career transition" directly beneath the headline.</li>
+          <li>Reduce hero to a single primary CTA: "Schedule Your Executive Consult."</li>
+          <li>Reframe the "stuck" section with empowering language: "Where You Are Now → Where We Take You."</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we replace "Get Hired Faster" with an audience-qualified, outcome-specific headline and reduce to one primary CTA<br>
+        <strong>THEN</strong> homepage-to-contact conversion rate will increase for executive-level visitors<br>
+        <strong>BECAUSE</strong> specificity answers "Am I in the right place?" within 3 seconds (Message Match principle) and reduces decision paralysis from competing CTAs
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Value Proposition -->
+  <div class="card" id="value-prop">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>2. Value Proposition</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-amber">5 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>The services page has a strong four-stage process framework (Positioning → Build → Visibility → Conversion)</li>
+          <li>"40 years" of experience is cited — longevity is a powerful trust differentiator</li>
+          <li>JobRAMP proprietary tool creates tangible differentiation vs. generic career coaches</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>Homepage "How We Can Help" is feature-focused, not outcome-focused.</strong> "Strategic Support," "Personal Website," "Resumes & More" describe deliverables, not results. Executives buy outcomes (faster hires, higher comp), not features.</li>
+          <li><strong>No quantified results on the homepage.</strong> "Decades of Expertise" and "Proven Results" are claims without numbers. How many placements? Average time-to-hire? Salary increase?</li>
+          <li><strong>"Why us vs. alternatives?" is never answered.</strong> There's no competitor differentiation. An executive comparing ECP to Korn Ferry outplacement, The Muse, or a solo coach has no framework for deciding.</li>
+          <li><strong>Pricing signals are absent.</strong> For a high-ticket service, the complete absence of pricing (no ranges, no "starting at," no "packages from") creates anxiety and filters out serious buyers who want to self-qualify.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Add a "By the Numbers" banner to the homepage: placements made, average time-to-placement, average salary increase, client satisfaction rate.</li>
+          <li>Rewrite the 6 service cards as outcome statements: "Strategic Support" → "Land 3–5x More Interviews in 60 Days."</li>
+          <li>Add a comparison section or FAQ entry: "How ECP compares to outplacement firms, recruiters, and solo coaches."</li>
+          <li>Add pricing signals: "Our programs typically range from $X–$Y depending on scope" or "Investment starts at $X."</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we add quantified client outcomes and pricing signals to the homepage<br>
+        <strong>THEN</strong> contact form submissions will increase and lead quality will improve<br>
+        <strong>BECAUSE</strong> specificity increases motivation (Conversion Equation) and pricing transparency reduces anxiety while pre-qualifying buyers
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Trust & Credibility -->
+  <div class="card" id="trust">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>3. Trust & Credibility</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-amber">6 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Client success stories page is excellent — named clients with photos, titles, companies, locations, and LinkedIn links. This is high-quality social proof.</li>
+          <li>Testimonial carousel on homepage provides at-a-glance credibility</li>
+          <li>Physical address and phone number in footer and contact page</li>
+          <li>Video testimonials are referenced (Vimeo embeds)</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>Testimonials on homepage are generic.</strong> "Outstanding and beneficial experience" and "can best be described as exceptional" don't convey specific outcomes. Compare to: "Landed a COO role in 47 days with a $40K salary increase."</li>
+          <li><strong>No Google Reviews or third-party validation visible.</strong> For a high-ticket service, linking to Google, Trustpilot, or BBB reviews adds independent credibility that self-hosted testimonials can't.</li>
+          <li><strong>Success stories are buried 2+ clicks deep.</strong> The most powerful conversion asset on the site requires navigation to find. None of the detailed stories appear on the homepage.</li>
+          <li><strong>No team credentials above the fold.</strong> Visitors don't know who will be working with them. Adding a strategist's photo and bio near the CTA would humanize the service.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Replace homepage testimonial quotes with outcome-specific versions: include job title landed, timeline, and one quantified result.</li>
+          <li>Add a Google Reviews widget or badge linking to verified third-party reviews.</li>
+          <li>Surface 2–3 mini case studies on the homepage (name, title, industry pivot, days-to-hire).</li>
+          <li>Add a "Your Strategist" preview section near the primary CTA with photo, name, and credentials.</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we replace generic testimonials with outcome-specific proof and surface case studies on the homepage<br>
+        <strong>THEN</strong> time-on-page will increase and contact rate will improve<br>
+        <strong>BECAUSE</strong> specific social proof reduces anxiety at the decision point (Cialdini's social proof principle) and keeps visitors from needing to hunt for validation
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CTA & Conversion Path -->
+  <div class="card" id="cta">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>4. CTA & Conversion Path</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-red">4 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>"Start Now" button in the nav provides persistent access to contact</li>
+          <li>Services page ends with clear "Contact Us" CTA</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>Homepage has 7+ competing CTAs in the hero section.</strong> "What We Offer," "Success Stories," "Client Reviews," plus social media links and a video — all above the fold. This violates the one-primary-CTA-per-viewport rule.</li>
+          <li><strong>"Start Now" is vague.</strong> Start what? The CTA copy doesn't communicate what happens next. "Schedule a Free Consult" or "Get Your Career Strategy" is more specific and less risky-sounding.</li>
+          <li><strong>No CTA after the testimonial section.</strong> The homepage testimonial carousel — a high-motivation moment — is followed by blog posts instead of a conversion opportunity.</li>
+          <li><strong>The "Get Help Now" button links to a liabilities page, not a contact form.</strong> This is a conversion path detour that adds an unnecessary step.</li>
+          <li><strong>No secondary CTA for lower-intent visitors.</strong> Someone not ready to "Start Now" has no option to download a guide, take an assessment, or watch a webinar.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Reduce homepage hero to one primary CTA: "Schedule Your Free Executive Consult."</li>
+          <li>Rename "Start Now" to "Free Strategy Call" or "Book a Consult" throughout the site.</li>
+          <li>Add a CTA block immediately after the testimonial carousel: "Ready to start your career transition? [Book Your Consult]."</li>
+          <li>Add a secondary lead magnet CTA: "Download: The Executive Job Search Playbook" — captures leads who aren't ready for a call.</li>
+          <li>Fix the "Get Help Now" link to go directly to contact, or inline the assessment on the contact page.</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we reduce to one primary CTA per viewport and add a post-testimonial conversion block<br>
+        <strong>THEN</strong> click-through rate to the contact page will increase significantly<br>
+        <strong>BECAUSE</strong> decision paralysis from competing CTAs is the #1 conversion killer (Hick's Law), and placing CTAs at peak-motivation moments captures intent
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Form / Checkout UX -->
+  <div class="card" id="form-ux">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>5. Form / Checkout UX</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-red">4 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Contact page includes a video to set expectations before the form</li>
+          <li>Resume upload is marked optional, reducing friction</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>Contact form requires JavaScript to render.</strong> The page shows "JavaScript is required for this content" — the form itself isn't visible in a standard fetch. If JS fails to load or loads slowly, the visitor sees no form at all.</li>
+          <li><strong>No indication of what happens after form submission.</strong> Will they get a call? An email? Within what timeframe? Uncertainty at the final conversion step causes abandonment.</li>
+          <li><strong>Contact page headline "Contact Us" is generic.</strong> This is the final conversion page — it should reinforce the value proposition: "Let's Build Your Executive Career Strategy — Schedule a Free 30-Minute Consult."</li>
+          <li><strong>No trust reinforcements on the contact page.</strong> No testimonial snippets, no "500+ executives served," no privacy assurance near the form.</li>
+          <li><strong>Phone number is present but not positioned as an alternative conversion path.</strong> Some executives prefer to call. A "Prefer to talk? Call (303) 529-4470" placed prominently near the form would capture this segment.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Add a fallback static form or noscript message so the conversion path never breaks.</li>
+          <li>Add "What Happens Next" copy below the form: "Within 24 hours, you'll receive a personal email from a Career Strategist to schedule your complimentary consult."</li>
+          <li>Rewrite the contact page headline to reinforce value and set expectations.</li>
+          <li>Add 1–2 micro-testimonials beside the form: short quotes with client photos.</li>
+          <li>Prominently feature the phone number as an alternative CTA beside the form.</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we add "What Happens Next" copy and trust signals adjacent to the contact form<br>
+        <strong>THEN</strong> form completion rate will increase<br>
+        <strong>BECAUSE</strong> reducing uncertainty at the final conversion step directly addresses the "What will it cost or risk?" visitor question and lowers anxiety
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. Content & Persuasion -->
+  <div class="card" id="content-persuasion">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>6. Content & Persuasion</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-amber">6 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Services page uses a comprehensive FAQ section that addresses real objections (confidential searches, industry pivots, layoff stigma)</li>
+          <li>Blog content is current (Feb 2026) and topically relevant — layoff context creates urgency</li>
+          <li>Success stories provide narrative proof with real career pivots (retail → COO, airline → AWS, sales → HR)</li>
+          <li>The four-stage process reduces perceived complexity of the engagement</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>No urgency or loss framing anywhere on the site.</strong> For unemployed executives, time is money — every week without a role costs real income. The site doesn't frame inaction as costly.</li>
+          <li><strong>The mission statement is used as a content block.</strong> "Our mission is to bring strength and dignity to professionals..." appears on both the homepage and services page. Missions are internal documents, not conversion copy.</li>
+          <li><strong>Success stories lack outcome metrics.</strong> We learn that clients got hired, but not: how fast, at what salary level, or with what comp increase. "Landed in 47 days" is more persuasive than "found a job."</li>
+          <li><strong>Homepage blog section adds length without conversion value.</strong> Three blog previews push the footer CTA further down the page with content that serves SEO, not conversion.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Add a cost-of-inaction calculation: "Every month without your next executive role costs you $X in lost compensation. Most ECP clients are in their new role within 60–90 days."</li>
+          <li>Replace the mission statement with a client-facing value headline.</li>
+          <li>Add outcome metrics to at least 3 success stories: days to placement, salary level, and industry.</li>
+          <li>Move or remove blog previews from the homepage; replace with a CTA block or additional social proof.</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we add loss framing and quantified timelines to the homepage<br>
+        <strong>THEN</strong> urgency and motivation will increase, driving more consult bookings<br>
+        <strong>BECAUSE</strong> loss aversion is 2x more motivating than equivalent gains (Kahneman), and time-specificity makes the outcome feel achievable
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Mobile Experience -->
+  <div class="card" id="mobile">
+    <div class="card-header" onclick="toggleCard(this)">
+      <h3>7. Mobile Experience</h3>
+      <div style="display:flex;align-items:center;gap:12px;">
+        <span class="badge badge-amber">6 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="finding-block">
+        <h4>What's Working</h4>
+        <ul>
+          <li>Site uses responsive WordPress theme — layouts adapt to smaller screens</li>
+          <li>Click-to-call phone link is present in the footer</li>
+          <li>Navigation appears to collapse into a mobile hamburger menu</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Issues Found</h4>
+        <ul>
+          <li><strong>No sticky mobile CTA.</strong> On a long-scrolling homepage, the "Start Now" button disappears once a user scrolls past the header. A persistent bottom-bar CTA would maintain the conversion path.</li>
+          <li><strong>Hero section with multiple CTA buttons likely stacks poorly on mobile.</strong> Three side-by-side buttons create a confusing tap-target cluster on small screens.</li>
+          <li><strong>Video autoplay/embed on contact page may slow mobile load.</strong> The Vimeo embed adds weight to the most critical conversion page.</li>
+          <li><strong>Contact form JS dependency is a mobile risk.</strong> Slower connections and ad blockers on mobile increase the chance of the form failing to render.</li>
+        </ul>
+      </div>
+      <div class="finding-block">
+        <h4>Recommendations</h4>
+        <ul>
+          <li>Add a sticky mobile CTA bar at the bottom of the screen: "Book Your Consult" + phone icon.</li>
+          <li>Simplify mobile hero to a single CTA button with adequate tap-target size (min 44px).</li>
+          <li>Lazy-load the Vimeo embed on the contact page; show a thumbnail with play button.</li>
+          <li>Add a static HTML fallback form for cases where JS doesn't load.</li>
+        </ul>
+      </div>
+      <div class="hypothesis">
+        <strong>IF</strong> we add a sticky mobile CTA bar<br>
+        <strong>THEN</strong> mobile contact page visits will increase<br>
+        <strong>BECAUSE</strong> persistent access to the conversion path reduces friction on long mobile pages where navigation disappears on scroll
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIMENT BACKLOG -->
+<section id="experiment-backlog">
+  <h2 class="section-title">Experiment Backlog (ICE Scored)</h2>
+  <p style="color:var(--text-muted);font-size:.85rem;margin-bottom:16px;">Click column headers to sort. All confidence scores capped at 6 (heuristic-only audit).</p>
+  <div class="ice-table-wrap">
+    <table class="ice-table" id="iceTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Recommendation</th>
+          <th onclick="sortTable(1,'num')">Impact</th>
+          <th onclick="sortTable(2,'num')">Confidence</th>
+          <th onclick="sortTable(3,'num')">Ease</th>
+          <th onclick="sortTable(4,'num')">ICE</th>
+          <th>Section</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Reduce hero to 1 primary CTA</td><td>9</td><td>6</td><td>9</td><td>8.0</td><td>CTA</td></tr>
+        <tr><td>Rename "Start Now" → "Book a Free Consult"</td><td>7</td><td>6</td><td>10</td><td>7.7</td><td>CTA</td></tr>
+        <tr><td>Add "What Happens Next" copy to contact page</td><td>8</td><td>6</td><td>9</td><td>7.7</td><td>Form UX</td></tr>
+        <tr><td>Add sticky mobile CTA bar</td><td>7</td><td>6</td><td>8</td><td>7.0</td><td>Mobile</td></tr>
+        <tr><td>Add post-testimonial CTA block on homepage</td><td>8</td><td>6</td><td>8</td><td>7.3</td><td>CTA</td></tr>
+        <tr><td>Replace hero headline with audience-qualified copy</td><td>9</td><td>5</td><td>8</td><td>7.3</td><td>Message Match</td></tr>
+        <tr><td>Add quantified outcomes to homepage ("By the Numbers")</td><td>8</td><td>6</td><td>7</td><td>7.0</td><td>Value Prop</td></tr>
+        <tr><td>Surface 2–3 mini case studies on homepage</td><td>8</td><td>6</td><td>6</td><td>6.7</td><td>Trust</td></tr>
+        <tr><td>Replace generic testimonials with outcome-specific quotes</td><td>7</td><td>5</td><td>7</td><td>6.3</td><td>Trust</td></tr>
+        <tr><td>Add micro-testimonials beside contact form</td><td>7</td><td>6</td><td>8</td><td>7.0</td><td>Form UX</td></tr>
+        <tr><td>Add pricing signals (range or "starting at")</td><td>8</td><td>5</td><td>7</td><td>6.7</td><td>Value Prop</td></tr>
+        <tr><td>Add cost-of-inaction / urgency framing</td><td>7</td><td>5</td><td>8</td><td>6.7</td><td>Content</td></tr>
+        <tr><td>Add secondary lead magnet CTA (downloadable guide)</td><td>7</td><td>5</td><td>5</td><td>5.7</td><td>CTA</td></tr>
+        <tr><td>Add Google Reviews widget / third-party badge</td><td>6</td><td>5</td><td>7</td><td>6.0</td><td>Trust</td></tr>
+        <tr><td>Add comparison section (ECP vs. outplacement vs. solo coach)</td><td>7</td><td>4</td><td>5</td><td>5.3</td><td>Value Prop</td></tr>
+        <tr><td>Lazy-load Vimeo embed on contact page</td><td>5</td><td>5</td><td>8</td><td>6.0</td><td>Mobile</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUICK WINS -->
+<section id="quick-wins">
+  <h2 class="section-title">Quick Wins (ICE ≥ 7.0)</h2>
+  <div class="qw-item">
+    <div class="qw-num">01</div>
+    <div>
+      <h4>Reduce hero to 1 primary CTA — ICE 8.0</h4>
+      <p>Remove "What We Offer," "Success Stories," and "Client Reviews" buttons from the hero. Keep only "Schedule Your Free Executive Consult." 30-minute implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">02</div>
+    <div>
+      <h4>Rename "Start Now" → "Book a Free Consult" — ICE 7.7</h4>
+      <p>Global find-and-replace across the site. Adds specificity and reduces risk perception. 15-minute implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">03</div>
+    <div>
+      <h4>Add "What Happens Next" to contact page — ICE 7.7</h4>
+      <p>Add 2–3 sentences below the form explaining the post-submission process. Include expected response time and who will reach out. 20-minute implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">04</div>
+    <div>
+      <h4>Add post-testimonial CTA block — ICE 7.3</h4>
+      <p>Insert a conversion block immediately after the homepage testimonial carousel. "Ready? Book your free executive consult." 30-minute implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">05</div>
+    <div>
+      <h4>Replace hero headline — ICE 7.3</h4>
+      <p>Swap "Get Hired Faster" for audience-specific, outcome-quantified headline that signals executive tier. 15-minute implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">06</div>
+    <div>
+      <h4>Add quantified outcomes banner — ICE 7.0</h4>
+      <p>Create a "By the Numbers" strip with 3–4 key metrics (placements, average days-to-hire, satisfaction %). 1-hour implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">07</div>
+    <div>
+      <h4>Add sticky mobile CTA bar — ICE 7.0</h4>
+      <p>Fixed bottom bar on mobile with "Book Consult" button and phone icon. 1-hour implementation.</p>
+    </div>
+  </div>
+  <div class="qw-item">
+    <div class="qw-num">08</div>
+    <div>
+      <h4>Add micro-testimonials beside contact form — ICE 7.0</h4>
+      <p>Place 1–2 short outcome quotes with client photos adjacent to the form on the contact page. 30-minute implementation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 48-HOUR ACTION PLAN -->
+<section id="action-plan">
+  <h2 class="section-title">48-Hour Action Plan</h2>
+  <div class="action-step">
+    <div class="step-icon">1</div>
+    <div>
+      <h4 style="font-size:.95rem;font-weight:600;margin-bottom:4px;">Connect GA4 to BigQuery</h4>
+      <p style="font-size:.85rem;color:var(--text-muted);">This is the #1 priority. Without behavioral data, all recommendations are heuristic. Set up the GA4 BigQuery export to unlock data-informed CRO going forward. This converts the audit from opinion-based to evidence-based.</p>
+    </div>
+  </div>
+  <div class="action-step">
+    <div class="step-icon">2</div>
+    <div>
+      <h4 style="font-size:.95rem;font-weight:600;margin-bottom:4px;">Fix the homepage hero (headline + single CTA)</h4>
+      <p style="font-size:.85rem;color:var(--text-muted);">Replace "Get Hired Faster" with audience-qualified headline. Remove competing CTA buttons. Add qualifying subhead. This is the highest-traffic, highest-impact change.</p>
+    </div>
+  </div>
+  <div class="action-step">
+    <div class="step-icon">3</div>
+    <div>
+      <h4 style="font-size:.95rem;font-weight:600;margin-bottom:4px;">Upgrade the contact page</h4>
+      <p style="font-size:.85rem;color:var(--text-muted);">Rewrite headline, add "What Happens Next" copy, place 1–2 micro-testimonials beside the form, and prominently feature the phone number as an alternative CTA.</p>
+    </div>
+  </div>
+  <div class="action-step">
+    <div class="step-icon">4</div>
+    <div>
+      <h4 style="font-size:.95rem;font-weight:600;margin-bottom:4px;">Rename "Start Now" globally</h4>
+      <p style="font-size:.85rem;color:var(--text-muted);">Change to "Book a Free Consult" or "Schedule Your Strategy Call" across the entire site — nav button, in-page CTAs, and footer.</p>
+    </div>
+  </div>
+  <div class="action-step">
+    <div class="step-icon">5</div>
+    <div>
+      <h4 style="font-size:.95rem;font-weight:600;margin-bottom:4px;">Add post-testimonial CTA block + sticky mobile bar</h4>
+      <p style="font-size:.85rem;color:var(--text-muted);">Insert a conversion block after the homepage testimonials. Add a fixed bottom CTA bar on mobile. These capture intent at peak motivation moments and on the primary device.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <h2 class="section-title">Methodology</h2>
+  <p style="margin-bottom:16px;">This audit was conducted using heuristic CRO analysis against established conversion optimization frameworks. No analytics data was available; all confidence scores are capped at 6.</p>
+  <div class="finding-block">
+    <h4>Frameworks Applied</h4>
+    <ul>
+      <li><strong>Conversion Equation:</strong> Motivation − Friction − Anxiety + Incentive = Conversion Likelihood</li>
+      <li><strong>Visitor 5 Questions:</strong> Am I in the right place? Is this for me? Can I trust you? What will it cost? What do I do next?</li>
+      <li><strong>Decision Design:</strong> System 1 (fast/intuitive) before System 2 (analytical)</li>
+      <li><strong>ICE Prioritization:</strong> Impact × Confidence × Ease scoring for experiment sequencing</li>
+      <li><strong>Hick's Law:</strong> Reducing choices reduces decision time and increases conversion</li>
+      <li><strong>Cialdini Principles:</strong> Social proof, authority, scarcity, loss aversion</li>
+    </ul>
+  </div>
+  <div class="finding-block">
+    <h4>Pages Analyzed</h4>
+    <ul>
+      <li>Homepage — ecp-careers.com</li>
+      <li>Executive Job Search Services — ecp-careers.com/executive-job-search-services/</li>
+      <li>Contact — ecp-careers.com/contact/</li>
+      <li>Client Success Stories — ecp-careers.com/client-success-stories/</li>
+    </ul>
+  </div>
+  <div class="finding-block">
+    <h4>Data Sources</h4>
+    <ul>
+      <li>Heuristic page analysis (content, structure, UX patterns)</li>
+      <li>No GA4 / BigQuery data available — connect analytics for Phase 2 data-informed audit</li>
+    </ul>
+  </div>
+  <p style="color:var(--text-muted);font-size:.85rem;margin-top:24px;">
+    Prepared by <strong style="color:var(--text);">ClientBridge LLC</strong> — AI-Powered Marketing Systems for Growing Companies<br>
+    Report date: February 23, 2026
+  </p>
+</section>
+
+</div><!-- /main-inner -->
+</div><!-- /main -->
+
+<script>
+function toggleCard(header) {
+  header.closest('.card').classList.toggle('open');
+}
+// ICE table sorting
+function sortTable(colIndex, type) {
+  const table = document.getElementById('iceTable');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  const currentDir = table.dataset['sortDir' + colIndex] === 'asc' ? 'desc' : 'asc';
+  table.dataset['sortDir' + colIndex] = currentDir;
+  rows.sort((a, b) => {
+    let aVal = a.cells[colIndex].textContent.trim();
+    let bVal = b.cells[colIndex].textContent.trim();
+    if (type === 'num') { aVal = parseFloat(aVal); bVal = parseFloat(bVal); }
+    if (aVal < bVal) return currentDir === 'asc' ? -1 : 1;
+    if (aVal > bVal) return currentDir === 'asc' ? 1 : -1;
+    return 0;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+// Sidebar active state on scroll
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.sidebar nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+  });
+});
+</script>
+</body>
+</html>
