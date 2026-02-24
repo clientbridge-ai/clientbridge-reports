@@ -1,0 +1,1448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit — jrenee.com | ClientBridge LLC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #181b23;
+  --surface-2: #1f222d;
+  --border: #2a2e3a;
+  --text: #e4e6ed;
+  --text-muted: #8b90a0;
+  --accent: #6c8aff;
+  --accent-glow: rgba(108,138,255,0.15);
+  --red: #ff5c6a;
+  --red-bg: rgba(255,92,106,0.12);
+  --amber: #f5a623;
+  --amber-bg: rgba(245,166,35,0.12);
+  --green: #34d399;
+  --green-bg: rgba(52,211,153,0.12);
+  --sidebar-w: 260px;
+  --font-display: 'DM Serif Display', serif;
+  --font-body: 'DM Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 15px;
+}
+
+/* SIDEBAR */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  z-index: 100;
+  overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+
+.sidebar-logo {
+  padding: 0 24px 24px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.sidebar-logo h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--accent);
+  font-weight: 400;
+}
+
+.sidebar-logo p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.sidebar nav { flex: 1; }
+
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 24px;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  transition: all 0.2s;
+  border-left: 3px solid transparent;
+}
+
+.sidebar nav a:hover, .sidebar nav a.active {
+  color: var(--text);
+  background: var(--accent-glow);
+  border-left-color: var(--accent);
+}
+
+.sidebar nav a .nav-num {
+  font-size: 10px;
+  font-weight: 700;
+  background: var(--surface-2);
+  border-radius: 4px;
+  padding: 2px 6px;
+  min-width: 22px;
+  text-align: center;
+}
+
+.sidebar-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-muted);
+}
+
+/* MAIN */
+.main {
+  margin-left: var(--sidebar-w);
+  padding: 40px 48px 80px;
+  max-width: 960px;
+}
+
+/* HEADER */
+.report-header {
+  margin-bottom: 48px;
+}
+
+.report-header h1 {
+  font-family: var(--font-display);
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.report-header .subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.report-header .date {
+  color: var(--text-muted);
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+/* SCORE HERO */
+.score-hero {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 48px;
+}
+
+.overall-score {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.overall-score::before {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 4px solid var(--border);
+}
+
+.overall-score::after {
+  content: '';
+  position: absolute; inset: 0;
+  border-radius: 50%;
+  border: 4px solid var(--amber);
+  border-top-color: transparent;
+  border-right-color: transparent;
+  transform: rotate(-45deg);
+}
+
+.overall-score .num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--amber);
+  line-height: 1;
+}
+
+.overall-score .label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+.score-hero .summary {
+  flex: 1;
+}
+
+.score-hero .summary h3 {
+  font-family: var(--font-display);
+  font-size: 20px;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+
+.score-hero .summary p {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.top-wins {
+  display: flex;
+  gap: 12px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+.top-win {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 12px;
+  flex: 1;
+  min-width: 180px;
+}
+
+.top-win .win-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* SECTION */
+section {
+  margin-bottom: 48px;
+}
+
+section > h2 {
+  font-family: var(--font-display);
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* SCORECARD */
+.scorecard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.sc-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.sc-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+
+.sc-card .sc-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sc-card .sc-score {
+  font-family: var(--font-display);
+  font-size: 32px;
+  line-height: 1;
+}
+
+.sc-card .sc-weight {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--surface-2);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.sc-card .sc-name {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.sc-card .sc-bar {
+  height: 4px;
+  background: var(--surface-2);
+  border-radius: 2px;
+  margin-top: 12px;
+  overflow: hidden;
+}
+
+.sc-card .sc-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.6s ease;
+}
+
+.score-red { color: var(--red); }
+.score-amber { color: var(--amber); }
+.score-green { color: var(--green); }
+.bar-red { background: var(--red); }
+.bar-amber { background: var(--amber); }
+.bar-green { background: var(--green); }
+
+/* DETAIL SECTIONS */
+.detail-section {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  margin-bottom: 16px;
+  overflow: hidden;
+}
+
+.detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+}
+
+.detail-header:hover { background: var(--surface-2); }
+
+.detail-header .dh-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.detail-header .dh-score {
+  font-family: var(--font-display);
+  font-size: 28px;
+  width: 44px;
+  text-align: center;
+}
+
+.detail-header .dh-title {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.detail-header .dh-subtitle {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.detail-header .chevron {
+  font-size: 18px;
+  color: var(--text-muted);
+  transition: transform 0.3s;
+}
+
+.detail-section.open .chevron { transform: rotate(180deg); }
+
+.detail-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.detail-section.open .detail-body {
+  max-height: 5000px;
+}
+
+.detail-content {
+  padding: 0 24px 24px;
+  border-top: 1px solid var(--border);
+}
+
+.finding-group {
+  margin-top: 20px;
+}
+
+.finding-group h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.finding-group h4 .dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-green { background: var(--green); }
+.dot-red { background: var(--red); }
+.dot-amber { background: var(--amber); }
+.dot-blue { background: var(--accent); }
+
+.finding-group ul {
+  list-style: none;
+  padding: 0;
+}
+
+.finding-group li {
+  font-size: 13px;
+  color: var(--text-muted);
+  padding: 6px 0 6px 20px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.finding-group li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--text-muted);
+}
+
+.hypothesis-box {
+  background: var(--accent-glow);
+  border: 1px solid rgba(108,138,255,0.25);
+  border-radius: 8px;
+  padding: 16px;
+  margin-top: 16px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.hypothesis-box .hyp-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--accent);
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+/* ICE TABLE */
+.ice-table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+table.ice-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+table.ice-table th {
+  background: var(--surface);
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--text-muted);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  border-bottom: 1px solid var(--border);
+}
+
+table.ice-table th:hover { color: var(--text); }
+table.ice-table th .sort-arrow { margin-left: 4px; }
+
+table.ice-table td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+
+table.ice-table tr:last-child td { border-bottom: none; }
+
+table.ice-table tr:hover td { background: var(--surface-2); }
+
+.ice-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.ice-high { background: var(--green-bg); color: var(--green); }
+.ice-med { background: var(--amber-bg); color: var(--amber); }
+.ice-low { background: var(--red-bg); color: var(--red); }
+
+/* QUICK WINS */
+.quick-win {
+  background: var(--green-bg);
+  border: 1px solid rgba(52,211,153,0.2);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 12px;
+}
+
+.quick-win .qw-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.quick-win .qw-title {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--green);
+}
+
+.quick-win .qw-score {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--green);
+}
+
+.quick-win p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* ACTION PLAN */
+.action-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.action-num {
+  width: 36px;
+  height: 36px;
+  background: var(--accent);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 14px;
+  flex-shrink: 0;
+}
+
+.action-body h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.action-body p {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+/* METHODOLOGY */
+.method-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.method-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 20px;
+}
+
+.method-card h4 {
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.method-card p {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* PRINT */
+@media print {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 20px; }
+  .detail-body { max-height: none !important; }
+  body { background: #fff; color: #1a1a1a; font-size: 12px; }
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .sidebar { display: none; }
+  .main { margin-left: 0; padding: 24px 16px 60px; }
+  .score-hero { flex-direction: column; text-align: center; }
+  .method-grid { grid-template-columns: 1fr; }
+}
+
+.data-note {
+  background: var(--amber-bg);
+  border: 1px solid rgba(245,166,35,0.25);
+  border-radius: 8px;
+  padding: 14px 18px;
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 24px;
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sidebar-logo">
+    <h2>ClientBridge</h2>
+    <p>CRO Audit Report</p>
+  </div>
+  <nav>
+    <a href="#executive-summary"><span class="nav-num">01</span> Executive Summary</a>
+    <a href="#scorecard"><span class="nav-num">02</span> Scoring Overview</a>
+    <a href="#detailed-findings"><span class="nav-num">03</span> Detailed Findings</a>
+    <a href="#experiment-backlog"><span class="nav-num">04</span> Experiment Backlog</a>
+    <a href="#quick-wins"><span class="nav-num">05</span> Quick Wins</a>
+    <a href="#action-plan"><span class="nav-num">06</span> 48-Hour Action Plan</a>
+    <a href="#methodology"><span class="nav-num">07</span> Methodology</a>
+  </nav>
+  <div class="sidebar-footer">
+    Prepared by ClientBridge LLC<br>
+    February 2026
+  </div>
+</aside>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="report-header">
+  <h1>CRO Audit: jrenee.com</h1>
+  <div class="subtitle">Conversion Rate Optimization Analysis — J. Renée Shoes</div>
+  <div class="date">Prepared February 24, 2026 · Heuristic Analysis (No Analytics Data)</div>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<section id="executive-summary">
+  <h2>Executive Summary</h2>
+
+  <div class="data-note">
+    ⚠ Analytics data not available. All findings are based on heuristic analysis. ICE confidence scores are capped at 6. Connecting GA4 to BigQuery is the #1 recommended action.
+  </div>
+
+  <div class="score-hero">
+    <div class="overall-score">
+      <span class="num">4.5</span>
+      <span class="label">of 10</span>
+    </div>
+    <div class="summary">
+      <h3>Significant conversion opportunities exist across the entire purchase funnel</h3>
+      <p>J. Renée has strong brand heritage (est. 1978), a differentiated product line with bold styling and comfort features, and a loyal customer base. However, the website underperforms its potential due to weak value proposition communication, limited social proof, a checkout path with unnecessary friction, and trust gaps that increase purchase anxiety — especially for a mid-range fashion brand competing against Nordstrom and Zappos for the same customer.</p>
+      <div class="top-wins">
+        <div class="top-win">
+          <div class="win-label">#1 Opportunity</div>
+          Surface trust signals (reviews, guarantees) near purchase points
+        </div>
+        <div class="top-win">
+          <div class="win-label">#2 Opportunity</div>
+          Strengthen value proposition above the fold on every page
+        </div>
+        <div class="top-win">
+          <div class="win-label">#3 Opportunity</div>
+          Reduce checkout friction — guest checkout, express pay, fewer steps
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORECARD -->
+<section id="scorecard">
+  <h2>Scoring Overview</h2>
+  <div class="scorecard-grid">
+    <div class="sc-card" onclick="scrollToDetail('d-message')">
+      <div class="sc-top">
+        <span class="sc-score score-red">4</span>
+        <span class="sc-weight">15% weight</span>
+      </div>
+      <div class="sc-name">Message Match & Clarity</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-red" style="width:40%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-value')">
+      <div class="sc-top">
+        <span class="sc-score score-red">4</span>
+        <span class="sc-weight">15% weight</span>
+      </div>
+      <div class="sc-name">Value Proposition</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-red" style="width:40%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-trust')">
+      <div class="sc-top">
+        <span class="sc-score score-red">3</span>
+        <span class="sc-weight">15% weight</span>
+      </div>
+      <div class="sc-name">Trust & Credibility</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-red" style="width:30%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-cta')">
+      <div class="sc-top">
+        <span class="sc-score score-amber">5</span>
+        <span class="sc-weight">20% weight</span>
+      </div>
+      <div class="sc-name">CTA & Conversion Path</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-amber" style="width:50%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-form')">
+      <div class="sc-top">
+        <span class="sc-score score-amber">5</span>
+        <span class="sc-weight">20% weight</span>
+      </div>
+      <div class="sc-name">Checkout / Cart UX</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-amber" style="width:50%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-content')">
+      <div class="sc-top">
+        <span class="sc-score score-amber">5</span>
+        <span class="sc-weight">10% weight</span>
+      </div>
+      <div class="sc-name">Content & Persuasion</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-amber" style="width:50%"></div></div>
+    </div>
+    <div class="sc-card" onclick="scrollToDetail('d-mobile')">
+      <div class="sc-top">
+        <span class="sc-score score-amber">5</span>
+        <span class="sc-weight">5% weight</span>
+      </div>
+      <div class="sc-name">Mobile Experience</div>
+      <div class="sc-bar"><div class="sc-bar-fill bar-amber" style="width:50%"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED FINDINGS -->
+<section id="detailed-findings">
+  <h2>Detailed Findings</h2>
+
+  <!-- 1. MESSAGE MATCH -->
+  <div class="detail-section" id="d-message">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-red">4</span>
+        <div>
+          <div class="dh-title">Message Match & Clarity</div>
+          <div class="dh-subtitle">Does the page answer "Am I in the right place?" in 3 seconds?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Brand name "J. Renée" is established and recognizable to the target demo</li>
+            <li>Tagline "Bold shoes. Every Occasion" communicates brand personality</li>
+            <li>Navigation categories are logically organized (by type + by collection)</li>
+            <li>Free shipping threshold ($99+) is visible in header banner</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>Homepage is heavily JS-rendered — content may not load for slow connections or bots, creating blank/minimal first impressions</li>
+            <li>Meta description ("stylish, comfortable women shoes and handbags that will make you feel fabulous at a price you can afford") is generic and doesn't differentiate from any other shoe brand</li>
+            <li>No above-the-fold headline that communicates WHO this is for (age-appropriate, special occasion, wide widths, etc.)</li>
+            <li>The actual differentiators — memory foam insoles, wide width availability, sizes 5-13, bold/novelty designs — are buried deep in product pages rather than surfaced on landing pages</li>
+            <li>No clear message match for paid traffic or organic search — someone searching "comfortable special occasion shoes wide width" would not immediately see confirmation they're in the right place</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li>Add a clear headline above the fold: position around the ICP (e.g., "Statement shoes in sizes 5–13, narrow to wide-wide, with memory foam comfort")</li>
+            <li>Create dedicated landing pages for key segments: bridal shoppers, wide-width seekers, special occasion buyers</li>
+            <li>Ensure critical content is server-rendered for SEO and fast first paint</li>
+            <li>Surface key differentiators (size range, width options, memory foam) as persistent badges throughout the shopping experience</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we add a hero headline that explicitly states the size range (5–13), width options, and memory foam comfort,<br>
+          <strong>THEN</strong> bounce rate will decrease for organic visitors landing on the homepage,<br>
+          <strong>BECAUSE</strong> visitors will immediately get confirmation that this brand serves their needs (answering "Am I in the right place?" per the 5 Visitor Questions framework).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. VALUE PROPOSITION -->
+  <div class="detail-section" id="d-value">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-red">4</span>
+        <div>
+          <div class="dh-title">Value Proposition</div>
+          <div class="dh-subtitle">Does the site answer "Why you vs. Nordstrom/Zappos?"</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Products have genuine differentiators: memory foam + latex insoles, bold/novelty designs, wide width availability, extended size range</li>
+            <li>Price point ($89–$130 range) offers value vs. luxury competitors</li>
+            <li>Heritage brand (est. 1978) has credibility</li>
+            <li>JRewards loyalty program adds retention incentive</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>No value proposition statement anywhere on the site — the closest is the meta description which reads like every other shoe brand</li>
+            <li>Key differentiators are fragmented: memory foam mentioned on PDPs, width options only shown at size selection, novelty/bold design positioning is implicit not explicit</li>
+            <li>"Bold shoes. Every Occasion" is a tagline, not a value prop — it doesn't answer "why should I buy HERE instead of Zappos?"</li>
+            <li>The competitive advantage of sizes 5–13 in narrow through wide-wide is massively underplayed — this alone solves a major pain point</li>
+            <li>No comparison content, no "why J. Renée" page, no brand story page visible in navigation</li>
+            <li>Consumer reviews on third-party sites (PissedConsumer, Sitejabber) show frustration with customer service and quality — the site does nothing to proactively counter these concerns</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li>Create an explicit value proposition: "Bold, comfortable shoes in sizes 5–13, narrow to wide-wide, with memory foam insoles — since 1978"</li>
+            <li>Add a persistent value prop bar below the header: "Memory Foam Comfort | Sizes 5–13 | Free Shipping $99+ | 30-Day Returns"</li>
+            <li>Build a "Why J. Renée" or "Our Story" page that addresses the brand's 45+ year heritage and design philosophy</li>
+            <li>On PDPs, add a "Why You'll Love This" section that bundles comfort features, size range, and brand heritage</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we add a persistent value prop bar ("Memory Foam Comfort | Sizes 5–13 | Free Shipping $99+ | 30-Day Returns") below the header on all pages,<br>
+          <strong>THEN</strong> add-to-cart rate will increase across all product pages,<br>
+          <strong>BECAUSE</strong> continuously reinforcing key benefits reduces purchase anxiety and answers "Is this for me?" passively throughout the shopping journey (Conversion Equation: reducing anxiety, increasing motivation).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. TRUST -->
+  <div class="detail-section" id="d-trust">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-red">3</span>
+        <div>
+          <div class="dh-title">Trust & Credibility</div>
+          <div class="dh-subtitle">Can I trust you? Is this safe?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>HTTPS encryption in place</li>
+            <li>Physical address and phone number (855-598-3810) exist on support pages</li>
+            <li>30-day return guarantee is offered</li>
+            <li>Brand has Nordstrom, Zappos, and Amazon retail presence which lends legitimacy</li>
+            <li>Featured in Brides magazine (mentioned in third-party reviews)</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li><strong>No product reviews visible on PDPs</strong> — "Be the first to write a review!" appears on product pages. For an ecommerce site, this is a critical trust gap. Shoppers rely heavily on peer reviews before purchase.</li>
+            <li>No star ratings displayed on category pages or search results</li>
+            <li>Third-party review scores are mixed (3.0 on PissedConsumer, 1.0 on Sitejabber, 3.9 on Knoji) and the site does nothing to counteract this</li>
+            <li>No "As Seen In" or press mentions section despite media coverage</li>
+            <li>No real customer photos, UGC, or Instagram integration</li>
+            <li>Return policy details ($9.95 deduction, no exchanges, customer pays return shipping) create anxiety and are hidden in FAQ — not surfaced reassuringly</li>
+            <li>No trust badges (payment security icons, satisfaction guarantee badge) visible near add-to-cart or checkout</li>
+            <li>60-day manufacturer defect guarantee is buried in zendesk help articles — should be a selling point</li>
+            <li>Phone number and customer service access are not visible in main site header/footer</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li><strong>Priority 1:</strong> Implement a review collection system (Yotpo, Judge.me, Stamped) and display star ratings on both PDPs and category listing cards</li>
+            <li>Add trust badges near the add-to-cart button: secure checkout icon, 30-day guarantee badge, "Since 1978" heritage badge</li>
+            <li>Create an "As Seen In" section on the homepage featuring Nordstrom, Brides magazine, and other retail partners</li>
+            <li>Add customer service phone number to the site header/footer</li>
+            <li>Reframe the return policy positively: "Try them at home — 30 days to decide, free return label included" (even if a small fee is deducted, the framing matters)</li>
+            <li>Integrate Instagram UGC / customer photos on homepage and PDPs</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we implement product reviews with star ratings on PDPs and category pages,<br>
+          <strong>THEN</strong> conversion rate will increase by an estimated 10-20% across all PDPs,<br>
+          <strong>BECAUSE</strong> social proof is the #1 trust-builder for ecommerce and "empty reviews" signals an unproven product (Cialdini's social proof principle). 88% of consumers use reviews to evaluate products before purchase.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. CTA -->
+  <div class="detail-section" id="d-cta">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-amber">5</span>
+        <div>
+          <div class="dh-title">CTA & Conversion Path</div>
+          <div class="dh-subtitle">Is the next step obvious and compelling?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Navigation has clear category structure — easy to browse by shoe type or collection</li>
+            <li>Wishlist functionality exists (heart icon in header)</li>
+            <li>Cart icon is persistent in header</li>
+            <li>Waitlist feature for out-of-stock sizes shows product investment</li>
+            <li>"Final Sale" designation is clearly marked to set expectations</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>Homepage has no clear primary CTA above the fold — it relies entirely on navigation browsing</li>
+            <li>No "Shop Now" or "New Arrivals" hero CTA that creates momentum</li>
+            <li>Product pages require size + width selection before add-to-cart — but no "size guide" is easily accessible to reduce decision friction</li>
+            <li>No sticky add-to-cart on mobile (requires scrolling back up to add)</li>
+            <li>No urgency or scarcity indicators (e.g., "Only 3 left in this size") despite having "Running Low" and "Final Few" collections</li>
+            <li>Rewards/loyalty signup CTA competes with shopping CTAs for attention</li>
+            <li>The 20% off popup cookie notice at bottom creates distraction without clear conversion value</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li>Add a hero CTA on the homepage: "Shop New Arrivals" with strong visual of best-selling style</li>
+            <li>Implement sticky add-to-cart on mobile PDPs</li>
+            <li>Add a prominent "Size Guide" link next to size selectors on PDPs</li>
+            <li>Show inventory scarcity on PDPs when stock is low: "Only 2 left in size 8W"</li>
+            <li>Consolidate the cookie/discount popup — if offering 20% off, make it the clear hero offer, not a dismissible footer bar</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we add a sticky add-to-cart bar on mobile PDPs that remains visible during scroll,<br>
+          <strong>THEN</strong> mobile add-to-cart rate will increase,<br>
+          <strong>BECAUSE</strong> reducing the physical effort to complete the desired action removes friction at the critical decision moment (Conversion Equation: reducing friction).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. CHECKOUT -->
+  <div class="detail-section" id="d-form">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-amber">5</span>
+        <div>
+          <div class="dh-title">Checkout / Cart UX</div>
+          <div class="dh-subtitle">Is checkout fast, easy, and anxiety-free?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Cart abandonment recovery via SMS (mentioned in privacy policy) — proactive approach</li>
+            <li>International checkout supported through iGlobal with local currency display</li>
+            <li>Same-day shipping for orders before 1:30 PM CST sets positive expectations</li>
+            <li>Free shipping threshold ($99+) is clearly communicated</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>No evidence of express payment options (Apple Pay, Google Pay, PayPal, Shop Pay) — these dramatically reduce checkout friction, especially on mobile</li>
+            <li>Only US credit cards with US billing addresses accepted for domestic orders — excludes valid customers</li>
+            <li>No clear guest checkout option — rewards program signup pressure may force account creation</li>
+            <li>Promo code field in checkout without guidance creates "coupon hunting" abandonment — shoppers leave to search for codes</li>
+            <li>$9.95 return label fee deducted from refund — not mentioned until post-purchase, creating surprise costs that damage trust</li>
+            <li>No order progress indicator visible in checkout flow</li>
+            <li>No estimated delivery date shown before checkout completion</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li><strong>Priority 1:</strong> Add Apple Pay, Google Pay, and PayPal express checkout — biggest single checkout friction reducer</li>
+            <li>Offer guest checkout prominently — don't gate behind account creation</li>
+            <li>Show estimated delivery date on PDP and in cart (e.g., "Order by 1:30 PM CST, arrives by [date]")</li>
+            <li>Either hide the promo code field behind a text link or auto-apply the best available promotion</li>
+            <li>Disclose the $9.95 return label fee upfront on PDPs — surprise costs kill trust</li>
+            <li>Add a checkout progress indicator (Cart → Shipping → Payment → Confirmation)</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we add Apple Pay / Google Pay express checkout options,<br>
+          <strong>THEN</strong> checkout completion rate will increase, especially on mobile,<br>
+          <strong>BECAUSE</strong> express payment eliminates the highest-friction step in ecommerce checkout (manually entering payment details on a small screen), directly reducing friction and time-to-completion.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. CONTENT & PERSUASION -->
+  <div class="detail-section" id="d-content">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-amber">5</span>
+        <div>
+          <div class="dh-title">Content & Persuasion</div>
+          <div class="dh-subtitle">Does content address objections and build desire?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Blog content exists (Day to Night Essentials, Top 10 Slingbacks, Party Guest quiz) — shows content marketing investment</li>
+            <li>Product descriptions mention specific features (memory foam + latex insole, heel height, closure type)</li>
+            <li>"How to care for your new shoes" and "Find your perfect fit" links on PDPs address post-purchase concerns</li>
+            <li>Collection-based merchandising (Bridal, Novelty, Animal Prints) creates curated shopping experiences</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>Product descriptions are feature-focused, not benefit-focused — "This patent pointy toe pump has a memory foam+latex insole" doesn't tell the customer how that makes HER life better</li>
+            <li>No objection-handling content on PDPs — common concerns (comfort for all-day wear, durability based on reviews, sizing accuracy) are unaddressed</li>
+            <li>Blog content is disconnected from the shopping experience — no "shop this look" CTAs within blog posts</li>
+            <li>No styling guides, outfit pairing suggestions, or "complete the look" recommendations</li>
+            <li>No video content on PDPs (walking demos, 360° views, styling videos)</li>
+            <li>The "Running Low" and "Final Few" collections use implicit scarcity but don't quantify it — "running low" is vague</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li>Rewrite PDP descriptions to lead with benefits: "Walk comfortably all day at your next event — memory foam insoles cushion every step"</li>
+            <li>Add a "Why Customers Love This" section on PDPs that addresses common objections</li>
+            <li>Add "Complete Your Look" cross-sell recommendations (handbag + shoe pairings)</li>
+            <li>Add short video content on top-selling PDPs (even 15-second walking clips)</li>
+            <li>Integrate blog posts with product links — make content shoppable</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we rewrite the top 10 PDP descriptions to lead with benefits and add an FAQ-style objection-handling section,<br>
+          <strong>THEN</strong> add-to-cart rate will increase on those pages,<br>
+          <strong>BECAUSE</strong> addressing objections proactively prevents them from becoming conversion blockers (Conversion Equation: reducing anxiety through preemptive objection handling).
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. MOBILE -->
+  <div class="detail-section" id="d-mobile">
+    <div class="detail-header" onclick="toggleSection(this)">
+      <div class="dh-left">
+        <span class="dh-score score-amber">5</span>
+        <div>
+          <div class="dh-title">Mobile Experience</div>
+          <div class="dh-subtitle">Is the mobile shopping experience frictionless?</div>
+        </div>
+      </div>
+      <span class="chevron">▼</span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-content">
+        <div class="finding-group">
+          <h4><span class="dot dot-green"></span> What's Working</h4>
+          <ul>
+            <li>Mobile-specific navigation header with hamburger menu, wishlist, and cart icons</li>
+            <li>Site was redesigned for mobile marketplace experience (per case study from vendor Mertech)</li>
+            <li>JRewards logo has mobile-specific asset, showing mobile awareness</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-red"></span> Issues Found</h4>
+          <ul>
+            <li>Heavy JavaScript rendering means mobile users on slower connections may see blank/partial content</li>
+            <li>No sticky add-to-cart button on mobile PDPs — must scroll back up after reading product details</li>
+            <li>Size selection on mobile may have small tap targets for narrow/medium/wide width options</li>
+            <li>Cookie consent / 20% off banner takes up valuable mobile viewport real estate</li>
+            <li>No tap-to-call phone number for customer service (critical for the 55+ demographic)</li>
+            <li>No mobile search prominently visible — users who know what they want need fast access</li>
+            <li>Without analytics data, the mobile vs. desktop conversion gap is unknown — but for the likely 55+ female demographic, mobile usability is essential</li>
+          </ul>
+        </div>
+        <div class="finding-group">
+          <h4><span class="dot dot-blue"></span> Recommendations</h4>
+          <ul>
+            <li>Implement a sticky add-to-cart bar on mobile PDPs</li>
+            <li>Add a prominent search icon to the mobile header</li>
+            <li>Add a tap-to-call button in the mobile header or a persistent "Need Help?" floating button</li>
+            <li>Optimize JavaScript loading — consider SSR or progressive hydration for critical content</li>
+            <li>Test that all width/size selectors meet 44px minimum tap target on mobile</li>
+            <li>Minimize or auto-dismiss the promotional banner after a few seconds on mobile</li>
+          </ul>
+        </div>
+        <div class="hypothesis-box">
+          <div class="hyp-label">Testable Hypothesis</div>
+          <strong>IF</strong> we add a tap-to-call customer service button in the mobile header,<br>
+          <strong>THEN</strong> phone-assisted purchases will increase and cart abandonment will decrease,<br>
+          <strong>BECAUSE</strong> the target demographic (55+ women) has a higher propensity to complete purchases with human assistance, and easy phone access reduces the barrier to getting help (reducing friction and anxiety simultaneously).
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIMENT BACKLOG -->
+<section id="experiment-backlog">
+  <h2>Experiment Backlog</h2>
+  <p style="font-size:13px;color:var(--text-muted);margin-bottom:16px;">Click column headers to sort. ICE Score = (Impact + Confidence + Ease) / 3</p>
+  <div class="ice-table-wrap">
+    <table class="ice-table" id="iceTable">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Recommendation <span class="sort-arrow">↕</span></th>
+          <th onclick="sortTable(1)" style="text-align:center">I <span class="sort-arrow">↕</span></th>
+          <th onclick="sortTable(2)" style="text-align:center">C <span class="sort-arrow">↕</span></th>
+          <th onclick="sortTable(3)" style="text-align:center">E <span class="sort-arrow">↕</span></th>
+          <th onclick="sortTable(4)" style="text-align:center">ICE <span class="sort-arrow">↕</span></th>
+          <th>Section</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Implement product reviews with star ratings on PDPs & category pages</td>
+          <td style="text-align:center">9</td><td style="text-align:center">6</td><td style="text-align:center">7</td>
+          <td style="text-align:center"><span class="ice-badge ice-high">7.3</span></td>
+          <td>Trust</td>
+        </tr>
+        <tr>
+          <td>Add persistent value prop bar below header (comfort, sizes, shipping, returns)</td>
+          <td style="text-align:center">7</td><td style="text-align:center">6</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-high">7.3</span></td>
+          <td>Value Prop</td>
+        </tr>
+        <tr>
+          <td>Add Apple Pay / Google Pay / PayPal express checkout</td>
+          <td style="text-align:center">8</td><td style="text-align:center">6</td><td style="text-align:center">6</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.7</span></td>
+          <td>Checkout</td>
+        </tr>
+        <tr>
+          <td>Add trust badges near add-to-cart button (security, guarantee, heritage)</td>
+          <td style="text-align:center">6</td><td style="text-align:center">6</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-high">7.0</span></td>
+          <td>Trust</td>
+        </tr>
+        <tr>
+          <td>Sticky add-to-cart bar on mobile PDPs</td>
+          <td style="text-align:center">7</td><td style="text-align:center">5</td><td style="text-align:center">8</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.7</span></td>
+          <td>Mobile</td>
+        </tr>
+        <tr>
+          <td>Add hero CTA on homepage ("Shop New Arrivals") with best-seller visual</td>
+          <td style="text-align:center">6</td><td style="text-align:center">5</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.7</span></td>
+          <td>CTA</td>
+        </tr>
+        <tr>
+          <td>Rewrite top 10 PDP descriptions — benefits-first with objection handling</td>
+          <td style="text-align:center">6</td><td style="text-align:center">5</td><td style="text-align:center">7</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.0</span></td>
+          <td>Content</td>
+        </tr>
+        <tr>
+          <td>Add tap-to-call button in mobile header</td>
+          <td style="text-align:center">5</td><td style="text-align:center">5</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.3</span></td>
+          <td>Mobile</td>
+        </tr>
+        <tr>
+          <td>Prominent size guide link next to size selectors on PDPs</td>
+          <td style="text-align:center">5</td><td style="text-align:center">5</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.3</span></td>
+          <td>CTA</td>
+        </tr>
+        <tr>
+          <td>Show real-time inventory scarcity on PDPs ("Only 2 left in 8W")</td>
+          <td style="text-align:center">6</td><td style="text-align:center">4</td><td style="text-align:center">7</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">5.7</span></td>
+          <td>CTA</td>
+        </tr>
+        <tr>
+          <td>Disclose return label fee upfront on PDPs</td>
+          <td style="text-align:center">5</td><td style="text-align:center">5</td><td style="text-align:center">9</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.3</span></td>
+          <td>Checkout</td>
+        </tr>
+        <tr>
+          <td>Offer guest checkout prominently — no forced account creation</td>
+          <td style="text-align:center">7</td><td style="text-align:center">5</td><td style="text-align:center">6</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.0</span></td>
+          <td>Checkout</td>
+        </tr>
+        <tr>
+          <td>Create dedicated landing pages for bridal, wide-width, special occasion segments</td>
+          <td style="text-align:center">7</td><td style="text-align:center">4</td><td style="text-align:center">4</td>
+          <td style="text-align:center"><span class="ice-badge ice-low">5.0</span></td>
+          <td>Message Match</td>
+        </tr>
+        <tr>
+          <td>Build "Why J. Renée" brand story page</td>
+          <td style="text-align:center">5</td><td style="text-align:center">4</td><td style="text-align:center">6</td>
+          <td style="text-align:center"><span class="ice-badge ice-low">5.0</span></td>
+          <td>Value Prop</td>
+        </tr>
+        <tr>
+          <td>Add "Complete Your Look" cross-sell on PDPs (handbag + shoe pairings)</td>
+          <td style="text-align:center">5</td><td style="text-align:center">4</td><td style="text-align:center">5</td>
+          <td style="text-align:center"><span class="ice-badge ice-low">4.7</span></td>
+          <td>Content</td>
+        </tr>
+        <tr>
+          <td>Add short video content to top-selling PDPs</td>
+          <td style="text-align:center">6</td><td style="text-align:center">4</td><td style="text-align:center">3</td>
+          <td style="text-align:center"><span class="ice-badge ice-low">4.3</span></td>
+          <td>Content</td>
+        </tr>
+        <tr>
+          <td>Connect GA4 → BigQuery for data-driven optimization</td>
+          <td style="text-align:center">8</td><td style="text-align:center">6</td><td style="text-align:center">5</td>
+          <td style="text-align:center"><span class="ice-badge ice-med">6.3</span></td>
+          <td>Analytics</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUICK WINS -->
+<section id="quick-wins">
+  <h2>Quick Wins (ICE ≥ 6.5)</h2>
+
+  <div class="quick-win">
+    <div class="qw-header">
+      <span class="qw-title">1. Implement Product Reviews</span>
+      <span class="qw-score">7.3</span>
+    </div>
+    <p>Install a review platform (Judge.me or Stamped — both integrate with most ecommerce platforms). Import any existing reviews from Nordstrom/Zappos product pages. Enable post-purchase review request emails. Display star ratings on category cards and PDPs. This is the single highest-impact trust change available.</p>
+  </div>
+
+  <div class="quick-win">
+    <div class="qw-header">
+      <span class="qw-title">2. Persistent Value Prop Bar</span>
+      <span class="qw-score">7.3</span>
+    </div>
+    <p>Add a thin bar below the main header on all pages: "Memory Foam Comfort | Sizes 5–13 | Free Shipping $99+ | 30-Day Returns". This is a ~1 hour CSS/HTML addition that constantly reinforces key differentiators throughout the browsing session.</p>
+  </div>
+
+  <div class="quick-win">
+    <div class="qw-header">
+      <span class="qw-title">3. Trust Badges Near Add-to-Cart</span>
+      <span class="qw-score">7.0</span>
+    </div>
+    <p>Add 3-4 small trust badges directly below or beside the add-to-cart button on every PDP: secure checkout padlock, 30-day guarantee shield, "Est. 1978" heritage mark, and a "Free Shipping $99+" icon. Simple graphic additions with outsized trust impact.</p>
+  </div>
+
+  <div class="quick-win">
+    <div class="qw-header">
+      <span class="qw-title">4. Sticky Mobile Add-to-Cart</span>
+      <span class="qw-score">6.7</span>
+    </div>
+    <p>On mobile PDPs, implement a sticky bottom bar showing the product name, price, and "Add to Bag" button that remains visible while scrolling. This ensures the purchase action is always one tap away regardless of scroll position.</p>
+  </div>
+
+  <div class="quick-win">
+    <div class="qw-header">
+      <span class="qw-title">5. Express Payment Options</span>
+      <span class="qw-score">6.7</span>
+    </div>
+    <p>Add Apple Pay, Google Pay, and PayPal as express checkout options. Most ecommerce platforms support these natively. This eliminates the biggest checkout friction point — manually entering payment info on mobile — and can increase mobile checkout completion by 20-30%.</p>
+  </div>
+</section>
+
+<!-- 48 HOUR ACTION PLAN -->
+<section id="action-plan">
+  <h2>48-Hour Action Plan</h2>
+
+  <div class="action-step">
+    <div class="action-num">1</div>
+    <div class="action-body">
+      <h4>Add Value Prop Bar + Trust Badges (4 hours)</h4>
+      <p>Add the persistent value prop bar below the header and trust badges near add-to-cart on PDPs. These are CSS/HTML changes that require no platform integrations and immediately improve perceived trust and value clarity.</p>
+    </div>
+  </div>
+
+  <div class="action-step">
+    <div class="action-num">2</div>
+    <div class="action-body">
+      <h4>Install Review Platform (2 hours setup + 1 week collection)</h4>
+      <p>Sign up for Judge.me or Stamped.io. Install on the site. Set up post-purchase review request email automation. Import any reviews you can source from Nordstrom/Zappos listings. This starts the flywheel of social proof collection.</p>
+    </div>
+  </div>
+
+  <div class="action-step">
+    <div class="action-num">3</div>
+    <div class="action-body">
+      <h4>Enable Express Checkout (2-4 hours)</h4>
+      <p>Enable Apple Pay, Google Pay, and PayPal in your payment gateway settings. Most platforms (Shopify, BigCommerce, etc.) have native toggles for these. Priority if mobile traffic exceeds 50% of total.</p>
+    </div>
+  </div>
+
+  <div class="action-step">
+    <div class="action-num">4</div>
+    <div class="action-body">
+      <h4>Connect GA4 → BigQuery (2 hours)</h4>
+      <p>Set up the GA4 BigQuery export. This enables data-driven CRO decisions going forward and moves all future recommendations from heuristic (max confidence 6) to data-backed (confidence 7-9). Essential for measuring the impact of changes 1-3.</p>
+    </div>
+  </div>
+
+  <div class="action-step">
+    <div class="action-num">5</div>
+    <div class="action-body">
+      <h4>Rewrite Top 5 PDP Descriptions (3 hours)</h4>
+      <p>Take the 5 highest-traffic product pages and rewrite descriptions to lead with benefits, include an FAQ/objection section, and add a "Why You'll Love This" callout. Test these against original copy.</p>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <h2>Methodology</h2>
+  <div class="method-grid">
+    <div class="method-card">
+      <h4>Conversion Equation</h4>
+      <p>Motivation − Friction − Anxiety + Incentive = Conversion Likelihood. Each recommendation targets one or more of these variables.</p>
+    </div>
+    <div class="method-card">
+      <h4>5 Visitor Questions</h4>
+      <p>Every page must answer: Am I in the right place? Is this for me? Can I trust you? What will it cost? What do I do next?</p>
+    </div>
+    <div class="method-card">
+      <h4>ICE Prioritization</h4>
+      <p>Impact × Confidence × Ease, each scored 1-10. Heuristic-only analysis caps Confidence at 6. Data-backed findings warrant 7-9.</p>
+    </div>
+    <div class="method-card">
+      <h4>Data Sources</h4>
+      <p>This audit used: direct site analysis (HTML/content review), third-party review aggregation, public FAQ/policy analysis, and competitor benchmarking. No GA4 data was available.</p>
+    </div>
+  </div>
+</section>
+
+</div><!-- /.main -->
+
+<script>
+function toggleSection(header) {
+  const section = header.parentElement;
+  section.classList.toggle('open');
+}
+
+function scrollToDetail(id) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.classList.add('open');
+    el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+}
+
+// ICE table sorting
+let sortDir = {};
+function sortTable(colIndex) {
+  const table = document.getElementById('iceTable');
+  const tbody = table.querySelector('tbody');
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  
+  sortDir[colIndex] = !sortDir[colIndex];
+  const dir = sortDir[colIndex] ? 1 : -1;
+
+  rows.sort((a, b) => {
+    let aVal = a.cells[colIndex].textContent.trim();
+    let bVal = b.cells[colIndex].textContent.trim();
+    
+    const aNum = parseFloat(aVal);
+    const bNum = parseFloat(bVal);
+    
+    if (!isNaN(aNum) && !isNaN(bNum)) {
+      return (aNum - bNum) * dir;
+    }
+    return aVal.localeCompare(bVal) * dir;
+  });
+
+  rows.forEach(row => tbody.appendChild(row));
+}
+
+// Active nav highlighting
+const navLinks = document.querySelectorAll('.sidebar nav a');
+const sections = document.querySelectorAll('section');
+
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 100;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
+  });
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href') === '#' + current) {
+      link.classList.add('active');
+    }
+  });
+});
+</script>
+
+</body>
+</html>
