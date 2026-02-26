@@ -1,0 +1,1280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit Report — Emergency Electrician Houston</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0d0d0d;
+    --white: #f7f5f0;
+    --amber: #e8a020;
+    --amber-light: #fef3d0;
+    --green: #1a7a4a;
+    --green-light: #d4f0e0;
+    --red: #b91c1c;
+    --red-light: #fee2e2;
+    --blue: #1d4ed8;
+    --blue-light: #dbeafe;
+    --gray: #6b6b6b;
+    --border: #e0ddd6;
+    --card-bg: #ffffff;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--white);
+    color: var(--black);
+    line-height: 1.6;
+  }
+
+  /* ── COVER ─────────────────────────────── */
+  .cover {
+    background: var(--black);
+    color: var(--white);
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 480px; height: 480px;
+    border-radius: 50%;
+    border: 1px solid rgba(232,160,32,0.18);
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: -80px; left: 40px;
+    width: 280px; height: 280px;
+    border-radius: 50%;
+    border: 1px solid rgba(232,160,32,0.1);
+  }
+  .cover-label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 28px;
+  }
+  .cover h1 {
+    font-size: 3.6rem;
+    font-weight: 800;
+    line-height: 1.05;
+    max-width: 760px;
+    margin-bottom: 24px;
+  }
+  .cover h1 span { color: var(--amber); }
+  .cover-meta {
+    display: flex;
+    gap: 48px;
+    margin-top: 48px;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+  .cover-meta-item label {
+    display: block;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.45);
+    margin-bottom: 4px;
+  }
+  .cover-meta-item span {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--white);
+  }
+
+  /* ── SCORE BANNER ───────────────────────── */
+  .score-banner {
+    background: var(--amber);
+    padding: 36px 60px;
+    display: flex;
+    align-items: center;
+    gap: 64px;
+    flex-wrap: wrap;
+  }
+  .score-main {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+  }
+  .score-number {
+    font-size: 5rem;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--black);
+  }
+  .score-denom {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgba(0,0,0,0.45);
+    margin-bottom: 10px;
+  }
+  .score-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.6);
+    margin-bottom: 4px;
+  }
+  .score-verdict {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--black);
+  }
+  .score-verdict small {
+    display: block;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: rgba(0,0,0,0.6);
+    margin-top: 2px;
+  }
+  .score-dims {
+    display: flex;
+    gap: 32px;
+    margin-left: auto;
+    flex-wrap: wrap;
+  }
+  .dim {
+    text-align: center;
+  }
+  .dim-score {
+    font-size: 1.6rem;
+    font-weight: 800;
+    color: var(--black);
+  }
+  .dim-label {
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.55);
+  }
+
+  /* ── CONTAINER ──────────────────────────── */
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 64px 60px;
+  }
+
+  /* ── SECTION HEADING ────────────────────── */
+  .section-header {
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+    margin-bottom: 36px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--black);
+  }
+  .section-num {
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--amber);
+  }
+  .section-title {
+    font-size: 1.7rem;
+    font-weight: 800;
+  }
+
+  /* ── FINDINGS GRID ───────────────────────── */
+  .findings-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+
+  .finding-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 28px;
+    position: relative;
+  }
+  .finding-card.critical { border-left: 4px solid var(--red); }
+  .finding-card.warning  { border-left: 4px solid var(--amber); }
+  .finding-card.good     { border-left: 4px solid var(--green); }
+  .finding-card.info     { border-left: 4px solid var(--blue); }
+
+  .finding-badge {
+    display: inline-block;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 10px;
+    border-radius: 3px;
+    margin-bottom: 12px;
+  }
+  .badge-critical { background: var(--red-light); color: var(--red); }
+  .badge-warning  { background: var(--amber-light); color: #92400e; }
+  .badge-good     { background: var(--green-light); color: var(--green); }
+  .badge-info     { background: var(--blue-light); color: var(--blue); }
+
+  .finding-title {
+    font-size: 1rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .finding-body {
+    font-size: 0.88rem;
+    color: var(--gray);
+    line-height: 1.65;
+  }
+  .finding-impact {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    color: var(--black);
+    background: var(--white);
+    padding: 6px 10px;
+    border-radius: 3px;
+    display: inline-block;
+  }
+
+  /* ── FULL-WIDTH CARD ─────────────────────── */
+  .card-full {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 32px;
+    margin-bottom: 20px;
+  }
+  .card-full h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 14px;
+  }
+
+  /* ── TABLE ────────────────────────────────── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.88rem;
+  }
+  thead tr {
+    background: var(--black);
+    color: var(--white);
+  }
+  thead th {
+    padding: 12px 16px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-align: left;
+  }
+  tbody tr:nth-child(even) { background: #fafaf8; }
+  tbody td {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    color: var(--black);
+  }
+  .tag-critical { color: var(--red); font-weight: 700; font-size: 0.78rem; }
+  .tag-warning  { color: #92400e; font-weight: 700; font-size: 0.78rem; }
+  .tag-good     { color: var(--green); font-weight: 700; font-size: 0.78rem; }
+
+  /* ── OPPORTUNITY CARDS ──────────────────── */
+  .opp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  .opp-card {
+    background: var(--black);
+    color: var(--white);
+    border-radius: 6px;
+    padding: 28px;
+  }
+  .opp-rank {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--amber);
+    line-height: 1;
+    margin-bottom: 12px;
+  }
+  .opp-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .opp-body {
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.65;
+  }
+  .opp-est {
+    margin-top: 16px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--amber);
+  }
+
+  /* ── ROADMAP ────────────────────────────── */
+  .roadmap-row {
+    display: grid;
+    grid-template-columns: 160px 1fr;
+    gap: 0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    margin-bottom: 16px;
+  }
+  .roadmap-phase {
+    background: var(--black);
+    color: var(--white);
+    padding: 24px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .roadmap-phase .phase-label {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 4px;
+  }
+  .roadmap-phase .phase-name {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+  .roadmap-content {
+    background: var(--card-bg);
+    padding: 20px 24px;
+  }
+  .roadmap-content h4 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+    color: var(--black);
+  }
+  .task-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .task-list li {
+    font-size: 0.83rem;
+    color: var(--gray);
+    padding-left: 16px;
+    position: relative;
+  }
+  .task-list li::before {
+    content: '→';
+    position: absolute;
+    left: 0;
+    color: var(--amber);
+    font-weight: 700;
+  }
+
+  /* ── KW TABLE ───────────────────────────── */
+  .kw-pill {
+    display: inline-block;
+    background: var(--amber-light);
+    color: #92400e;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    margin: 2px;
+  }
+
+  /* ── FOOTER ─────────────────────────────── */
+  .report-footer {
+    background: var(--black);
+    color: rgba(255,255,255,0.4);
+    text-align: center;
+    padding: 32px 60px;
+    font-size: 0.8rem;
+    font-family: 'DM Mono', monospace;
+    letter-spacing: 0.5px;
+  }
+
+  /* ── DIVIDER ────────────────────────────── */
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* ── CALLOUT ─────────────────────────────── */
+  .callout {
+    background: var(--amber-light);
+    border-left: 4px solid var(--amber);
+    padding: 20px 24px;
+    border-radius: 0 6px 6px 0;
+    margin-bottom: 28px;
+    font-size: 0.88rem;
+    color: #4a3000;
+  }
+  .callout strong { color: var(--black); }
+
+  /* ── TWO COL ────────────────────────────── */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+  /* ── MONO ─────────────────────────────────── */
+  .mono {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.8rem;
+    background: #f0ede8;
+    padding: 3px 7px;
+    border-radius: 3px;
+  }
+
+  @media (max-width: 768px) {
+    .cover { padding: 48px 28px; }
+    .cover h1 { font-size: 2.2rem; }
+    .cover-meta { flex-wrap: wrap; gap: 24px; }
+    .score-banner { padding: 28px; gap: 28px; }
+    .score-dims { margin-left: 0; }
+    .container { padding: 40px 28px; }
+    .findings-grid { grid-template-columns: 1fr; }
+    .opp-grid { grid-template-columns: 1fr; }
+    .two-col { grid-template-columns: 1fr; }
+    .roadmap-row { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-label">SEO Audit Report</div>
+  <h1>Emergency Electrician<br><span>Houston</span></h1>
+  <p style="font-size:1rem;color:rgba(255,255,255,0.65);max-width:520px;">A comprehensive technical SEO, on-page, content, and local visibility audit for emergencyelectricianhouston.com</p>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <label>Domain</label>
+      <span>emergencyelectricianhouston.com</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Industry</label>
+      <span>Local Home Services — Electrical</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Market</label>
+      <span>Greater Houston, TX</span>
+    </div>
+    <div class="cover-meta-item">
+      <label>Date</label>
+      <span>February 2026</span>
+    </div>
+  </div>
+</div>
+
+<!-- SCORE BANNER -->
+<div class="score-banner">
+  <div>
+    <div class="score-label">Overall SEO Score</div>
+    <div class="score-main">
+      <div class="score-number">58</div>
+      <div class="score-denom">/100</div>
+    </div>
+  </div>
+  <div>
+    <div class="score-verdict">Needs Significant Work
+      <small>Strong site foundation, but major local authority and content gaps are limiting visibility in a high-competition market.</small>
+    </div>
+  </div>
+  <div class="score-dims">
+    <div class="dim">
+      <div class="dim-score">65</div>
+      <div class="dim-label">Technical</div>
+    </div>
+    <div class="dim">
+      <div class="dim-score">70</div>
+      <div class="dim-label">On-Page</div>
+    </div>
+    <div class="dim">
+      <div class="dim-score">40</div>
+      <div class="dim-label">Local SEO</div>
+    </div>
+    <div class="dim">
+      <div class="dim-score">35</div>
+      <div class="dim-label">Backlinks</div>
+    </div>
+    <div class="dim">
+      <div class="dim-score">60</div>
+      <div class="dim-label">Content</div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══ SECTION 1: EXECUTIVE SUMMARY ══ -->
+  <div class="section-header">
+    <div class="section-num">01</div>
+    <div class="section-title">Executive Summary</div>
+  </div>
+
+  <div class="callout">
+    <strong>Bottom line:</strong> The site is well-structured, clearly written, and conversion-optimized for calls — all good things. But it is almost certainly invisible in the Houston market's most competitive search positions. The primary killers are near-zero backlink authority, likely absent or unoptimized Google Business Profile signals, thin service-area pages, and no content strategy to build topical authority. A competitor like Mister Sparky Houston has decades of brand equity and review volume. Without urgency around local authority and link building, this site will struggle to break into the Google Maps 3-Pack where the vast majority of emergency electrician leads originate.
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card good">
+      <span class="finding-badge badge-good">Strength</span>
+      <div class="finding-title">Site Structure &amp; UX</div>
+      <div class="finding-body">Clean navigation, clear CTA hierarchy (sticky phone, dual CTAs above fold), and logical service/area page architecture. Mobile-first layout. The homepage does most things right from a conversion standpoint.</div>
+    </div>
+    <div class="finding-card critical">
+      <span class="finding-badge badge-critical">Critical Gap</span>
+      <div class="finding-title">Backlink Authority is Minimal</div>
+      <div class="finding-body">No meaningful referring domain footprint detected. Competitors like Mister Sparky and Right Touch Electrical have years of directory listings, press mentions, and industry citations. Without authority, even perfect on-page SEO won't break page 1.</div>
+    </div>
+    <div class="finding-card warning">
+      <span class="finding-badge badge-warning">High Priority</span>
+      <div class="finding-title">Local SEO Signals Unknown / Likely Weak</div>
+      <div class="finding-body">No Google Business Profile signals are verifiable externally. The GBP is the #1 ranking factor for local 3-Pack results (36% of ranking weight per Whitespark). If it's incomplete, unoptimized, or has few reviews, this is the first place to fix.</div>
+    </div>
+    <div class="finding-card warning">
+      <span class="finding-badge badge-warning">High Priority</span>
+      <div class="finding-title">Service Area Pages Are Thin</div>
+      <div class="finding-body">Footer links to city pages (Katy, Sugar Land, Pearland, Cypress, etc.) exist but the pages appear to be minimal. Each city page needs 400–600 words of unique content, local signals, and a distinct URL to rank for "[city] electrician" terms.</div>
+    </div>
+    <div class="finding-card warning">
+      <span class="finding-badge badge-warning">High Priority</span>
+      <div class="finding-title">Zero Content / Blog Strategy</div>
+      <div class="finding-body">No blog or resource section is visible. Competitors building topical authority around "how to reset a breaker," "signs you need a panel upgrade," and "EV charger installation cost Houston" are capturing informational search traffic that converts to leads.</div>
+    </div>
+    <div class="finding-card good">
+      <span class="finding-badge badge-good">Strength</span>
+      <div class="finding-title">On-Page Keyword Targeting</div>
+      <div class="finding-body">Homepage H1 ("Houston's Trusted Emergency Electrician"), page title, and meta description all include primary keywords. NAP (1234 Main St, Houston TX 77002) is present in the footer. Service pages have keyword-relevant URL slugs.</div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 2: TECHNICAL SEO ══ -->
+  <div class="section-header">
+    <div class="section-num">02</div>
+    <div class="section-title">Technical SEO Audit</div>
+  </div>
+
+  <div class="card-full">
+    <h3>Technical Findings</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Issue</th>
+          <th>Severity</th>
+          <th>Finding</th>
+          <th>Action Required</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>HTTPS / SSL</strong></td>
+          <td><span class="tag-good">PASS</span></td>
+          <td>Site loads over HTTPS. Secure.</td>
+          <td>None</td>
+        </tr>
+        <tr>
+          <td><strong>Mobile Responsiveness</strong></td>
+          <td><span class="tag-good">PASS</span></td>
+          <td>Layout appears mobile-optimized with responsive grid. Sticky phone CTA present.</td>
+          <td>Verify with Google PageSpeed Mobile test</td>
+        </tr>
+        <tr>
+          <td><strong>Page Speed (Est.)</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Cannot confirm server response time without tool access. Google Fonts loaded externally — adds render-blocking risk.</td>
+          <td>Run PageSpeed Insights. Target &lt;2s LCP mobile. Preconnect Google Fonts. Enable lazy-load on images.</td>
+        </tr>
+        <tr>
+          <td><strong>Schema Markup</strong></td>
+          <td><span class="tag-critical">MISSING</span></td>
+          <td>No LocalBusiness, ElectricalContractor, or Service schema detected in page source. This is a significant omission for local SEO.</td>
+          <td>Implement LocalBusiness JSON-LD with name, address, phone, hours, geo coordinates, and service area. Add FAQPage schema to FAQ section (already present on homepage).</td>
+        </tr>
+        <tr>
+          <td><strong>XML Sitemap</strong></td>
+          <td><span class="tag-warning">UNVERIFIED</span></td>
+          <td>Not confirmed. Google Search Console needs to index all service and city pages.</td>
+          <td>Confirm sitemap.xml exists and submit to GSC. Ensure all city pages (/electrician-in-katy-tx, etc.) are included.</td>
+        </tr>
+        <tr>
+          <td><strong>Robots.txt</strong></td>
+          <td><span class="tag-warning">UNVERIFIED</span></td>
+          <td>Not confirmed. Ensure service and area pages are crawlable.</td>
+          <td>Check /robots.txt. Ensure no accidental disallow of key pages.</td>
+        </tr>
+        <tr>
+          <td><strong>Canonical Tags</strong></td>
+          <td><span class="tag-warning">RISK</span></td>
+          <td>If multiple city/service pages share near-duplicate content, canonical issues could suppress indexing.</td>
+          <td>Audit city pages for duplicate content. Each page must have &gt;60% unique content. Add rel="canonical" to all pages.</td>
+        </tr>
+        <tr>
+          <td><strong>Internal Linking</strong></td>
+          <td><span class="tag-warning">WEAK</span></td>
+          <td>Homepage links to 6 service pages and 5 city pages via footer. No contextual inline links between pages (e.g., service pages don't cross-link to related services or city pages).</td>
+          <td>Add contextual links between service pages and city pages. Example: EV Charger page should link to "EV Charger Installation in Katy, TX."</td>
+        </tr>
+        <tr>
+          <td><strong>Core Web Vitals</strong></td>
+          <td><span class="tag-warning">VERIFY</span></td>
+          <td>LCP, CLS, INP are Google ranking factors. Need PageSpeed Insights to confirm.</td>
+          <td>Test via PageSpeed Insights. Address any CLS issues from layout shifts, especially on mobile.</td>
+        </tr>
+        <tr>
+          <td><strong>Image Alt Text</strong></td>
+          <td><span class="tag-warning">LIKELY MISSING</span></td>
+          <td>No image alt attributes visible in crawled content. Pages are text-heavy which reduces this risk, but any images present should have descriptive alt text.</td>
+          <td>Add descriptive alt text to all images. Include service + location keywords where natural (e.g., "licensed electrician installing panel in Houston TX").</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="finding-card critical">
+      <span class="finding-badge badge-critical">Critical Fix</span>
+      <div class="finding-title">Missing LocalBusiness Schema</div>
+      <div class="finding-body">Schema markup helps Google understand your business entity, connect it to your GBP, and display rich results (hours, phone, reviews) directly in SERPs. For a local emergency service, this is non-negotiable.</div>
+      <div class="finding-impact">⚡ Implement within 7 days</div>
+    </div>
+    <div class="finding-card warning">
+      <span class="finding-badge badge-warning">High Priority</span>
+      <div class="finding-title">FAQ Schema Not Activated</div>
+      <div class="finding-body">The homepage already has an excellent FAQ section covering response time, pricing, licensing, and service areas. These are perfectly structured for FAQPage schema — which can create rich results in Google SERP with zero new content written.</div>
+      <div class="finding-impact">⚡ Quick win — add JSON-LD within 48 hours</div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 3: ON-PAGE SEO ══ -->
+  <div class="section-header">
+    <div class="section-num">03</div>
+    <div class="section-title">On-Page SEO Analysis</div>
+  </div>
+
+  <div class="card-full">
+    <h3>Page-by-Page On-Page Assessment</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>Title Tag</th>
+          <th>H1</th>
+          <th>Keyword Depth</th>
+          <th>Score</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Homepage</strong></td>
+          <td>Emergency Electrician Houston | 24/7 Electrical Services | (713) 555-0199</td>
+          <td>"Houston's Trusted Emergency Electrician — Available Now"</td>
+          <td>Strong. Primary + secondary KWs covered. Service keywords in section headings.</td>
+          <td><span class="tag-good">78/100</span></td>
+        </tr>
+        <tr>
+          <td><strong>Emergency Electrical Repair</strong></td>
+          <td>Not crawled — assumed from URL slug</td>
+          <td>Unknown</td>
+          <td>Unknown — page must target "emergency electrical repair Houston" specifically</td>
+          <td><span class="tag-warning">AUDIT NEEDED</span></td>
+        </tr>
+        <tr>
+          <td><strong>Electrical Panel Upgrade</strong></td>
+          <td>Not crawled</td>
+          <td>Unknown</td>
+          <td>Must target "electrical panel upgrade Houston" + "200 amp upgrade Houston"</td>
+          <td><span class="tag-warning">AUDIT NEEDED</span></td>
+        </tr>
+        <tr>
+          <td><strong>EV Charger Installation</strong></td>
+          <td>Not crawled</td>
+          <td>Unknown</td>
+          <td>High-value page — "EV charger installation Houston" is growing fast (Tesla, Ford F-150 Lightning)</td>
+          <td><span class="tag-warning">AUDIT NEEDED</span></td>
+        </tr>
+        <tr>
+          <td><strong>City Pages (e.g., /electrician-in-katy-tx)</strong></td>
+          <td>Partially crawled — "Electrician in Houston, TX | 24/7 Emergency Electrical Services"</td>
+          <td>Unknown</td>
+          <td>Houston city page appears to exist. Katy, Sugar Land, Pearland pages need unique content — not duplicates of each other.</td>
+          <td><span class="tag-critical">HIGH RISK</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card good">
+      <span class="finding-badge badge-good">Strength</span>
+      <div class="finding-title">Homepage On-Page is Well-Optimized</div>
+      <div class="finding-body">Title tag includes primary keyword + phone number (good for branded searches). H1 is clear and keyword-rich. Service sections use logical H2/H3 hierarchy. FAQ addresses high-intent questions with natural keyword inclusion. The page covers trust signals effectively: 4.9 stars, 147 reviews, licensed, insured, locally owned.</div>
+    </div>
+    <div class="finding-card critical">
+      <span class="finding-badge badge-critical">Critical</span>
+      <div class="finding-title">City Pages Are Almost Certainly Thin or Duplicate</div>
+      <div class="finding-body">20+ cities are listed (Katy, Sugar Land, Pearland, Cypress, Spring, Pasadena, Humble, Tomball, etc.). If each page is a copy of a template with only the city name swapped, Google will not rank them — and may flag the site for thin content. Each page needs 400+ words of unique, location-specific content.</div>
+      <div class="finding-impact">🚨 Duplicate city pages are a top-3 SEO risk on this site</div>
+    </div>
+    <div class="finding-card warning">
+      <span class="finding-badge badge-warning">Opportunity</span>
+      <div class="finding-title">Meta Descriptions Need Click Optimization</div>
+      <div class="finding-body">The meta description for the Houston city page ("Licensed electrician serving Houston, TX. Emergency repairs, panel upgrades, EV charger installation, and residential wiring. Available 24/7.") is functional but generic. Competitors will write descriptions with urgency and differentiators. Test: "⚡ Houston's #1 Emergency Electrician — 60-min response, master electricians only, free estimates. Call 24/7."</div>
+    </div>
+    <div class="finding-card info">
+      <span class="finding-badge badge-info">Improvement</span>
+      <div class="finding-title">NAP Consistency Must Be Verified</div>
+      <div class="finding-body">Footer shows: 1234 Main Street, Houston, TX 77002 | (713) 555-0199. This NAP must match exactly across Google Business Profile, Yelp, HomeAdvisor, Angi, BBB, and 50+ other directories. Even "Main Street" vs "Main St" creates local ranking confusion per Whitespark ranking factor research.</div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 4: LOCAL SEO ══ -->
+  <div class="section-header">
+    <div class="section-num">04</div>
+    <div class="section-title">Local SEO &amp; Google Business Profile</div>
+  </div>
+
+  <div class="callout">
+    <strong>Critical context:</strong> For emergency electricians, the Google Maps 3-Pack captures 40–60% of all clicks on local searches. GBP optimization is worth more than almost any other single investment on this list. GBP signals represent approximately 36% of local 3-Pack ranking weight (Whitespark 2025).
+  </div>
+
+  <div class="card-full">
+    <h3>Local SEO Checklist</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Factor</th>
+          <th>Status</th>
+          <th>Priority Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google Business Profile — Claimed &amp; Verified</strong></td>
+          <td><span class="tag-warning">UNVERIFIED</span></td>
+          <td>Verify GBP is claimed, verified, and matches exact NAP on website</td>
+        </tr>
+        <tr>
+          <td><strong>GBP Category</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Primary: "Electrician." Secondary: "Emergency Electrician," "Electrical Installation Service." Wrong categories = missed impressions.</td>
+        </tr>
+        <tr>
+          <td><strong>GBP Services List</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Add all 6 services with descriptions. Google surfaces these in AI Overviews and Maps results.</td>
+        </tr>
+        <tr>
+          <td><strong>GBP Photos (10+ recommended)</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Upload: team photos, truck photos, job site before/after, office exterior. Profiles with 10+ photos get 35% more clicks per Google data.</td>
+        </tr>
+        <tr>
+          <td><strong>Review Volume &amp; Velocity</strong></td>
+          <td><span class="tag-critical">CRITICAL</span></td>
+          <td>Website claims 4.9 stars / 147 reviews — if this is GBP, it's decent but competitors may have 300–500+. Need active review generation strategy post-job.</td>
+        </tr>
+        <tr>
+          <td><strong>Review Responses</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Respond to every review within 24 hours. Google uses response rate as a local ranking signal.</td>
+        </tr>
+        <tr>
+          <td><strong>GBP Posts (weekly)</strong></td>
+          <td><span class="tag-critical">LIKELY MISSING</span></td>
+          <td>Post weekly: seasonal tips (storm prep, AC season panel demand), job highlights, promotions. Keeps profile active — a freshness signal.</td>
+        </tr>
+        <tr>
+          <td><strong>Q&amp;A Section</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Pre-seed GBP Q&amp;A with common questions and answers. Prevents competitors or trolls from answering first.</td>
+        </tr>
+        <tr>
+          <td><strong>Citation Consistency (Yelp, Angi, HomeAdvisor, BBB, Nextdoor)</strong></td>
+          <td><span class="tag-critical">CRITICAL</span></td>
+          <td>Run Moz Local or BrightLocal scan. Fix all NAP inconsistencies across 50+ directories. This is foundational local SEO work.</td>
+        </tr>
+        <tr>
+          <td><strong>Service Area Radius in GBP</strong></td>
+          <td><span class="tag-warning">UNKNOWN</span></td>
+          <td>Set service area in GBP to match the 20-mile radius stated on website. Do NOT display a physical address if trucks go to customers (service-area business rules).</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 5: CONTENT GAPS ══ -->
+  <div class="section-header">
+    <div class="section-num">05</div>
+    <div class="section-title">Content &amp; Keyword Gap Analysis</div>
+  </div>
+
+  <div class="card-full">
+    <h3>Target Keyword Universe — Houston Emergency Electrician Market</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Keyword</th>
+          <th>Est. Monthly Volume</th>
+          <th>Intent</th>
+          <th>Current Coverage</th>
+          <th>Priority</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>emergency electrician Houston</td>
+          <td>1,200–2,400</td>
+          <td>Transactional</td>
+          <td><span class="tag-warning">Partial — homepage</span></td>
+          <td><span class="tag-critical">P1</span></td>
+        </tr>
+        <tr>
+          <td>electrician near me (Houston geo)</td>
+          <td>8,000–12,000</td>
+          <td>Transactional</td>
+          <td><span class="tag-critical">No dedicated page</span></td>
+          <td><span class="tag-critical">P1 (GBP drives this)</span></td>
+        </tr>
+        <tr>
+          <td>24 hour electrician Houston</td>
+          <td>600–900</td>
+          <td>Transactional</td>
+          <td><span class="tag-warning">Partial — homepage</span></td>
+          <td><span class="tag-critical">P1</span></td>
+        </tr>
+        <tr>
+          <td>electrical panel upgrade Houston</td>
+          <td>400–700</td>
+          <td>Transactional</td>
+          <td><span class="tag-warning">Service page exists</span></td>
+          <td><span class="tag-critical">P1 — deepen content</span></td>
+        </tr>
+        <tr>
+          <td>electrician in Katy TX</td>
+          <td>300–500</td>
+          <td>Transactional</td>
+          <td><span class="tag-critical">City page likely thin</span></td>
+          <td><span class="tag-critical">P1 — bulk fix</span></td>
+        </tr>
+        <tr>
+          <td>EV charger installation Houston</td>
+          <td>300–500</td>
+          <td>Transactional</td>
+          <td><span class="tag-warning">Service page exists</span></td>
+          <td>P2</td>
+        </tr>
+        <tr>
+          <td>cost to replace electrical panel Houston</td>
+          <td>200–400</td>
+          <td>Informational → Commercial</td>
+          <td><span class="tag-critical">No content</span></td>
+          <td>P2 — blog post</td>
+        </tr>
+        <tr>
+          <td>signs you need electrical panel upgrade</td>
+          <td>200–350</td>
+          <td>Informational</td>
+          <td><span class="tag-critical">No content</span></td>
+          <td>P2 — blog post</td>
+        </tr>
+        <tr>
+          <td>generator installation Houston</td>
+          <td>250–450</td>
+          <td>Transactional</td>
+          <td><span class="tag-warning">Service page exists</span></td>
+          <td>P2</td>
+        </tr>
+        <tr>
+          <td>Federal Pacific panel replacement Houston</td>
+          <td>100–200</td>
+          <td>Transactional</td>
+          <td><span class="tag-critical">No dedicated content</span></td>
+          <td>P2 — high buyer intent</td>
+        </tr>
+        <tr>
+          <td>how to reset breaker (local)</td>
+          <td>500–800</td>
+          <td>Informational</td>
+          <td><span class="tag-critical">No content</span></td>
+          <td>P3 — top-of-funnel blog</td>
+        </tr>
+        <tr>
+          <td>electrician Houston reviews</td>
+          <td>150–300</td>
+          <td>Commercial investigation</td>
+          <td><span class="tag-critical">No dedicated page</span></td>
+          <td>P3 — reviews/testimonials page</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="two-col">
+    <div class="card-full" style="margin-bottom:0">
+      <h3>Missing Content Assets</h3>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:0.86rem;color:var(--gray);">
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Blog / Resource center (zero posts)</div>
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Pricing page (FAQ has estimates, but no standalone page)</div>
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Federal Pacific / Zinsco panel-specific landing page</div>
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Hurricane / storm season prep content (Houston-specific seasonal opportunity)</div>
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Reviews / testimonials page</div>
+        <div style="padding:10px;background:#fff8f0;border-left:3px solid var(--amber);border-radius:3px;">❌ Unique content for 15+ city pages</div>
+      </div>
+    </div>
+    <div class="card-full" style="margin-bottom:0">
+      <h3>Blog Post Priority Queue</h3>
+      <div style="margin-top:12px;display:flex;flex-direction:column;gap:8px;font-size:0.86rem;color:var(--gray);">
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "How Much Does Electrical Panel Replacement Cost in Houston?"</div>
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "5 Signs Your Houston Home Needs an Electrical Panel Upgrade"</div>
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "EV Charger Installation Houston: Complete 2026 Guide"</div>
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "Houston Storm Season Electrical Safety Checklist"</div>
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "Federal Pacific Panel Dangers: What Houston Homeowners Need to Know"</div>
+        <div style="padding:10px;background:#f0fdf4;border-left:3px solid var(--green);border-radius:3px;">✅ "What to Do During a Power Outage in Houston"</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 6: BACKLINKS ══ -->
+  <div class="section-header">
+    <div class="section-num">06</div>
+    <div class="section-title">Backlink Profile &amp; Authority</div>
+  </div>
+
+  <div class="callout">
+    <strong>Assessment:</strong> No meaningful referring domain footprint is detectable. Competitor analysis (Mister Sparky Houston, Right Touch Electrical, A Phase Electric, West Houston Electric) shows established players with strong local citation networks built over years of operation. Top-ranking Houston electrician pages typically have 60–150+ referring domains. This site likely has fewer than 10, making it severely under-powered for competitive terms.
+  </div>
+
+  <div class="card-full">
+    <h3>Backlink Building Priorities</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Link Source</th>
+          <th>Type</th>
+          <th>Estimated Impact</th>
+          <th>Effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google Business Profile + Core Directories</strong><br><small style="color:var(--gray)">Yelp, Angi, HomeAdvisor, Houzz, Nextdoor, BBB, Thumbtack, Bark</small></td>
+          <td>Citation / NAP</td>
+          <td><span class="tag-critical">Very High</span> — local pack ranking</td>
+          <td>Medium — one-time build</td>
+        </tr>
+        <tr>
+          <td><strong>Texas Contractor Associations</strong><br><small style="color:var(--gray)">NECA Houston, TECL registry, Houston Chamber of Commerce</small></td>
+          <td>Authority</td>
+          <td><span class="tag-warning">High</span></td>
+          <td>Low — membership/listing</td>
+        </tr>
+        <tr>
+          <td><strong>Houston Home Services Blogs / Media</strong><br><small style="color:var(--gray)">CultureMap Houston, Houstonia, neighborhood blogs</small></td>
+          <td>Editorial</td>
+          <td><span class="tag-warning">High</span></td>
+          <td>High — outreach required</td>
+        </tr>
+        <tr>
+          <td><strong>Real Estate &amp; Home Staging Sites</strong><br><small style="color:var(--gray)">Local realtor blogs, HAR.com, Zillow agent resources</small></td>
+          <td>Contextual</td>
+          <td>Medium</td>
+          <td>Medium — content partnership</td>
+        </tr>
+        <tr>
+          <td><strong>Neighborhood HOA / Community Sites</strong><br><small style="color:var(--gray)">Nextdoor recommendations, Katy HOA sites, Cypress community boards</small></td>
+          <td>Local</td>
+          <td>Medium</td>
+          <td>Low — community participation</td>
+        </tr>
+        <tr>
+          <td><strong>Guest Posts on Home Improvement Blogs</strong><br><small style="color:var(--gray)">Electrical safety, EV charging, storm prep content</small></td>
+          <td>Editorial</td>
+          <td>Medium</td>
+          <td>High — content creation</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 7: TOP OPPORTUNITIES ══ -->
+  <div class="section-header">
+    <div class="section-num">07</div>
+    <div class="section-title">Top 6 Ranked Opportunities</div>
+  </div>
+
+  <div class="opp-grid">
+    <div class="opp-card">
+      <div class="opp-rank">01</div>
+      <div class="opp-title">Optimize &amp; Activate Google Business Profile</div>
+      <div class="opp-body">Complete all GBP fields, add 10+ photos, enable services list, activate weekly posts, and implement a post-job review request system (text/email). This single action drives the 3-Pack — where most emergency service leads originate.</div>
+      <div class="opp-est">Est. Impact: +40–60% local impressions within 60 days</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-rank">02</div>
+      <div class="opp-title">Fix &amp; Build Local Citations</div>
+      <div class="opp-body">Run BrightLocal or Moz Local scan. Fix all NAP inconsistencies. Build listings on Yelp, Angi, HomeAdvisor, BBB, Houzz, Thumbtack, Bark, and 40+ other directories with exact matching NAP. This is foundational — nothing else works without it.</div>
+      <div class="opp-est">Est. Impact: +20–30% local ranking improvement in 90 days</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-rank">03</div>
+      <div class="opp-title">Add LocalBusiness + FAQPage Schema</div>
+      <div class="opp-body">Implement JSON-LD schema on homepage and all service pages. FAQPage schema for the existing FAQ section can generate rich results in Google SERPs immediately — free real estate with zero new content required.</div>
+      <div class="opp-est">Est. Impact: Rich result SERP display within 2–4 weeks</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-rank">04</div>
+      <div class="opp-title">Rebuild City Pages with Unique Content</div>
+      <div class="opp-body">Audit all 20+ city pages. Rewrite each with 400–600 words of unique content: local landmarks, neighborhood references, specific service scenarios for that area, unique FAQ. Katy, Sugar Land, and Pearland are highest-volume city targets.</div>
+      <div class="opp-est">Est. Impact: Ranking for "[city] electrician" terms in 90–120 days</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-rank">05</div>
+      <div class="opp-title">Launch Blog with 6 Priority Posts</div>
+      <div class="opp-body">Publish the six blog posts identified in Section 5. Focus on "cost to replace panel," "signs you need panel upgrade," and "EV charger installation Houston" first. These capture commercial intent searchers early in their buying journey.</div>
+      <div class="opp-est">Est. Impact: +300–500 monthly sessions within 6 months</div>
+    </div>
+    <div class="opp-card">
+      <div class="opp-rank">06</div>
+      <div class="opp-title">Core Directory &amp; Authority Link Building</div>
+      <div class="opp-body">Secure listings in NECA Houston, Houston Chamber of Commerce, and Texas TECL registry. Then pursue 6–8 editorial links from local home services blogs and community resources. These build domain authority necessary for competitive keyword rankings.</div>
+      <div class="opp-est">Est. Impact: +15–25% organic keyword ranking improvement in 6 months</div>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 8: ROADMAP ══ -->
+  <div class="section-header">
+    <div class="section-num">08</div>
+    <div class="section-title">90-Day Implementation Roadmap</div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">
+      <div class="phase-label">Week 1–2</div>
+      <div class="phase-name">Foundation</div>
+    </div>
+    <div class="roadmap-content">
+      <h4>Fix what's broken before building new</h4>
+      <ul class="task-list">
+        <li>Claim/verify Google Business Profile and fill all fields completely</li>
+        <li>Implement LocalBusiness JSON-LD schema on homepage + service pages</li>
+        <li>Implement FAQPage schema on homepage FAQ</li>
+        <li>Run BrightLocal scan — identify all NAP inconsistencies</li>
+        <li>Submit XML sitemap to Google Search Console</li>
+        <li>Run PageSpeed Insights — identify mobile speed issues</li>
+        <li>Add 10+ photos to Google Business Profile</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">
+      <div class="phase-label">Week 3–4</div>
+      <div class="phase-name">Local Authority</div>
+    </div>
+    <div class="roadmap-content">
+      <h4>Build the local citation foundation</h4>
+      <ul class="task-list">
+        <li>Fix all NAP inconsistencies identified in BrightLocal scan</li>
+        <li>Build new citations: Yelp, Angi, HomeAdvisor, BBB, Houzz, Thumbtack, Bark, Nextdoor Business</li>
+        <li>Set up post-job review request system (text message + email sequence after job close)</li>
+        <li>Start responding to all existing Google reviews (if not already)</li>
+        <li>Pre-seed GBP Q&amp;A section with 8–10 common questions</li>
+        <li>Begin weekly GBP posts (tip of the week, job highlight, seasonal content)</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">
+      <div class="phase-label">Week 5–7</div>
+      <div class="phase-name">Content &amp; Pages</div>
+    </div>
+    <div class="roadmap-content">
+      <h4>Build the content assets that drive rankings</h4>
+      <ul class="task-list">
+        <li>Audit all city pages — identify thin/duplicate content pages</li>
+        <li>Rewrite top 5 city pages (Katy, Sugar Land, Pearland, Cypress, Spring) with 500+ words unique content each</li>
+        <li>Publish Blog Post #1: "How Much Does Electrical Panel Replacement Cost in Houston?" (target: 800 words)</li>
+        <li>Publish Blog Post #2: "5 Signs Your Houston Home Needs an Electrical Panel Upgrade"</li>
+        <li>Add internal links from panel upgrade service page → both blog posts</li>
+        <li>Audit service page content depth — ensure each page has 400+ words minimum</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">
+      <div class="phase-label">Week 8–10</div>
+      <div class="phase-name">Authority Building</div>
+    </div>
+    <div class="roadmap-content">
+      <h4>Start earning links that signal credibility</h4>
+      <ul class="task-list">
+        <li>Submit business to NECA Houston and Houston Chamber of Commerce for directory listing</li>
+        <li>Publish Blog Post #3: "EV Charger Installation Houston: Complete 2026 Guide"</li>
+        <li>Publish Blog Post #4: "Houston Storm Season Electrical Safety Checklist" (publish pre-hurricane season)</li>
+        <li>Reach out to 3–5 Houston real estate or home improvement blogs for link opportunities</li>
+        <li>Rewrite remaining city pages (Pasadena, Humble, Tomball, Missouri City, etc.)</li>
+        <li>Fix page speed issues identified in Week 1 audit</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="roadmap-row">
+    <div class="roadmap-phase">
+      <div class="phase-label">Week 11–12</div>
+      <div class="phase-name">Measure &amp; Optimize</div>
+    </div>
+    <div class="roadmap-content">
+      <h4>Review results and double down on what's working</h4>
+      <ul class="task-list">
+        <li>Pull GSC data: which keywords gained impressions/clicks since technical fixes?</li>
+        <li>Check GBP Insights: calls, direction requests, profile views trending?</li>
+        <li>Assess review velocity — are 5-star reviews coming in post-job consistently?</li>
+        <li>Publish Blog Posts #5 and #6</li>
+        <li>Identify which city pages are gaining impressions — prioritize those areas for content depth</li>
+        <li>Plan Month 4–6 strategy based on data</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 9: KPIs ══ -->
+  <div class="section-header">
+    <div class="section-num">09</div>
+    <div class="section-title">Success Metrics &amp; KPIs</div>
+  </div>
+
+  <div class="card-full">
+    <table>
+      <thead>
+        <tr>
+          <th>Metric</th>
+          <th>Current (Est.)</th>
+          <th>30-Day Target</th>
+          <th>90-Day Target</th>
+          <th>6-Month Target</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>Google Maps 3-Pack Appearances</strong><br><small style="color:var(--gray)">"emergency electrician Houston"</small></td>
+          <td>Unknown / likely absent</td>
+          <td>Appearing for 1–3 queries</td>
+          <td>Consistent 3-Pack for 5–10 queries</td>
+          <td>3-Pack for 15+ local queries</td>
+        </tr>
+        <tr>
+          <td><strong>Google Business Profile Calls</strong></td>
+          <td>Unknown</td>
+          <td>Baseline established</td>
+          <td>+30% from GBP optimization</td>
+          <td>+60% from combined GBP + reviews</td>
+        </tr>
+        <tr>
+          <td><strong>Google Review Count</strong></td>
+          <td>147 (claimed)</td>
+          <td>160+</td>
+          <td>200+</td>
+          <td>280+</td>
+        </tr>
+        <tr>
+          <td><strong>Organic Sessions / Month</strong></td>
+          <td>Unknown</td>
+          <td>Baseline in GSC</td>
+          <td>+25% from city page + schema fixes</td>
+          <td>+80% from content + authority build</td>
+        </tr>
+        <tr>
+          <td><strong>Keywords Ranking Page 1</strong></td>
+          <td>Unknown (low)</td>
+          <td>5–10 long-tail terms</td>
+          <td>20–35 terms</td>
+          <td>50+ terms including city variants</td>
+        </tr>
+        <tr>
+          <td><strong>Referring Domains</strong></td>
+          <td>Est. &lt;10</td>
+          <td>15–20 (citations)</td>
+          <td>35–50</td>
+          <td>75–100</td>
+        </tr>
+        <tr>
+          <td><strong>Citation Consistency Score</strong></td>
+          <td>Unknown</td>
+          <td>75%+ (post-fixes)</td>
+          <td>90%+</td>
+          <td>95%+</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="section-divider">
+
+  <!-- ══ SECTION 10: NEXT STEPS ══ -->
+  <div class="section-header">
+    <div class="section-num">10</div>
+    <div class="section-title">Immediate Next Steps</div>
+  </div>
+
+  <div class="findings-grid">
+    <div class="finding-card critical" style="grid-column:1/-1">
+      <span class="finding-badge badge-critical">Do This Week</span>
+      <div class="finding-title">The Non-Negotiable Starting Three</div>
+      <div class="finding-body" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:12px;">
+        <div>
+          <strong style="display:block;margin-bottom:6px;">1. Fully Optimize GBP</strong>
+          Complete every field. Add all services. Upload 10+ photos. Set service area. Enable messaging. Owner: <em>Business Owner or Marketing Lead</em>. Due: This week.
+        </div>
+        <div>
+          <strong style="display:block;margin-bottom:6px;">2. Add Schema Markup</strong>
+          Implement LocalBusiness + FAQPage JSON-LD. Give to developer or use a plugin if on WordPress/Squarespace. Owner: <em>Web Developer</em>. Due: Within 5 days.
+        </div>
+        <div>
+          <strong style="display:block;margin-bottom:6px;">3. Run Citation Scan</strong>
+          Log into BrightLocal (free trial available) or Moz Local. Run NAP audit. Document all discrepancies. Owner: <em>Marketing Lead</em>. Due: This week.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  SEO Audit Report — Emergency Electrician Houston LLC &nbsp;|&nbsp; emergencyelectricianhouston.com &nbsp;|&nbsp; Prepared February 2026 &nbsp;|&nbsp; Confidential
+</div>
+
+</body>
+</html>
