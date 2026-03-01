@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Location Growth Plan — La Vie Med Spas</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'DM Sans',sans-serif; background:#f5f4f0; color:#0a0a0a; line-height:1.7; font-size:15px; }
+
+header { background:linear-gradient(135deg,#0a0a0a,#1c1c1c); color:#f5f4f0; padding:60px 50px; }
+header .badge { display:inline-block; background:#d97706; color:#fff; padding:5px 14px; border-radius:4px; font-weight:700; font-size:0.75em; letter-spacing:1px; margin-bottom:16px; }
+header h1 { font-family:'Instrument Serif',serif; font-size:2.5em; font-weight:400; margin-bottom:8px; }
+header p { opacity:0.7; font-size:0.9em; }
+
+.container { max-width:1100px; margin:0 auto; padding:50px 40px; }
+
+/* Location cards */
+.loc-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-bottom:40px; }
+.loc-card { border-radius:8px; padding:28px 30px; color:#fff; }
+.loc-card.rainey { background:linear-gradient(135deg,#1d4ed8,#2563eb); }
+.loc-card.oakland { background:linear-gradient(135deg,#6d28d9,#7c3aed); }
+.loc-card .loc-label { font-size:0.72em; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; opacity:0.75; margin-bottom:8px; }
+.loc-card h2 { font-family:'Instrument Serif',serif; font-size:1.5em; font-weight:400; margin-bottom:6px; }
+.loc-card .addr { font-size:0.85em; opacity:0.8; margin-bottom:14px; }
+.loc-card .profile { font-size:0.88em; opacity:0.92; line-height:1.6; }
+.loc-card .tag-row { margin-top:14px; display:flex; flex-wrap:wrap; gap:6px; }
+.loc-tag { background:rgba(255,255,255,0.18); padding:3px 10px; border-radius:20px; font-size:0.75em; font-weight:600; }
+
+/* Sections */
+.section { background:#fff; border:1px solid #e0ddd6; border-radius:8px; padding:36px 40px; margin-bottom:28px; }
+.section h2 { font-family:'Instrument Serif',serif; font-size:1.6em; font-weight:400; padding-bottom:14px; border-bottom:2px solid #0a0a0a; margin-bottom:24px; }
+.section h3 { font-weight:700; font-size:1em; margin:20px 0 10px; }
+.section p { margin-bottom:12px; color:#1a1a1a; }
+
+/* Two-col strategy */
+.strat-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:8px; }
+.strat-col { border-radius:6px; padding:22px; }
+.strat-col.blue { background:#eff6ff; border-left:4px solid #2563eb; }
+.strat-col.purple { background:#f5f3ff; border-left:4px solid #7c3aed; }
+.strat-col h4 { font-weight:700; font-size:0.88em; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:12px; }
+.strat-col.blue h4 { color:#1d4ed8; }
+.strat-col.purple h4 { color:#6d28d9; }
+.strat-col ul { margin-left:16px; font-size:0.88em; }
+.strat-col ul li { margin-bottom:7px; }
+
+/* Channel blocks */
+.channel { border:1px solid #e0ddd6; border-radius:8px; margin-bottom:16px; overflow:hidden; }
+.channel-header { display:flex; align-items:center; gap:14px; padding:18px 24px; background:#f5f4f0; border-bottom:1px solid #e0ddd6; }
+.channel-icon { width:36px; height:36px; border-radius:6px; display:flex; align-items:center; justify-content:center; font-size:1.1em; flex-shrink:0; }
+.channel-header h3 { font-size:1em; font-weight:700; margin:0; }
+.channel-header .budget { margin-left:auto; font-size:0.8em; font-weight:700; background:#0a0a0a; color:#fff; padding:3px 12px; border-radius:20px; white-space:nowrap; }
+.channel-body { padding:20px 24px; }
+.channel-body p { font-size:0.9em; margin-bottom:10px; color:#2a2a2a; }
+.channel-body ul { margin-left:16px; font-size:0.88em; }
+.channel-body ul li { margin-bottom:6px; }
+.loc-specific { display:flex; gap:12px; margin-top:12px; flex-wrap:wrap; }
+.ls-box { flex:1; min-width:200px; border-radius:6px; padding:12px 14px; font-size:0.83em; }
+.ls-box.b { background:#eff6ff; border-left:3px solid #2563eb; }
+.ls-box.p { background:#f5f3ff; border-left:3px solid #7c3aed; }
+.ls-box strong { display:block; margin-bottom:4px; font-size:0.85em; text-transform:uppercase; letter-spacing:0.5px; }
+.ls-box.b strong { color:#1d4ed8; }
+.ls-box.p strong { color:#6d28d9; }
+
+/* Roadmap timeline */
+.timeline { margin-top:10px; }
+.tl-row { display:grid; grid-template-columns:120px 1fr; gap:20px; margin-bottom:20px; align-items:start; }
+.tl-phase { background:#0a0a0a; color:#fff; border-radius:6px; padding:10px 14px; text-align:center; }
+.tl-phase .ph { font-size:0.68em; font-weight:700; letter-spacing:1px; text-transform:uppercase; opacity:0.6; }
+.tl-phase .pn { font-size:1em; font-weight:700; }
+.tl-items { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.tl-item { background:#f5f4f0; border-radius:6px; padding:12px 14px; font-size:0.85em; }
+.tl-item strong { display:block; margin-bottom:3px; font-weight:600; }
+
+/* Budget table */
+table { width:100%; border-collapse:collapse; margin:16px 0; font-size:0.88em; }
+th { background:#0a0a0a; color:#fff; padding:11px 14px; text-align:left; font-weight:600; font-size:0.8em; text-transform:uppercase; letter-spacing:0.5px; }
+td { padding:11px 14px; border-bottom:1px solid #e5e2dc; vertical-align:top; }
+tr:last-child td { border-bottom:none; font-weight:700; background:#f5f4f0; }
+tr:nth-child(even) td { background:#fafaf8; }
+tr:last-child td { background:#0a0a0a; color:#fff; }
+
+/* KPI */
+.kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:14px; margin-top:16px; }
+.kpi { background:#f5f4f0; border-radius:6px; padding:16px; text-align:center; border-bottom:3px solid #0a0a0a; }
+.kpi .k { font-size:0.72em; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:#5a5a5a; margin-bottom:5px; }
+.kpi .v { font-size:1.25em; font-weight:700; }
+
+/* Tag */
+.tag { display:inline-block; padding:2px 9px; border-radius:20px; font-size:0.75em; font-weight:600; }
+.tag-both { background:#fef3c7; color:#b45309; }
+.tag-rainey { background:#dbeafe; color:#1d4ed8; }
+.tag-oakland { background:#ede9fe; color:#6d28d9; }
+
+/* Priority box */
+.priority-box { background:#0a0a0a; color:#f5f4f0; border-radius:8px; padding:28px 32px; margin-bottom:28px; }
+.priority-box h2 { font-family:'Instrument Serif',serif; font-size:1.4em; font-weight:400; margin-bottom:16px; color:#f5f4f0; }
+.priority-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:14px; }
+.p-item { background:rgba(255,255,255,0.07); border-radius:6px; padding:16px; }
+.p-item .num { font-size:1.6em; font-weight:700; color:#d97706; line-height:1; margin-bottom:6px; }
+.p-item .pl { font-size:0.82em; font-weight:600; }
+.p-item .pd { font-size:0.8em; opacity:0.65; margin-top:4px; }
+
+footer { text-align:center; padding:36px; color:#8a8680; font-size:0.82em; border-top:1px solid #d8d4cc; margin-top:40px; }
+
+@media(max-width:700px) {
+  header { padding:40px 20px; }
+  .container { padding:30px 20px; }
+  .loc-grid, .strat-grid, .tl-items, .priority-grid { grid-template-columns:1fr; }
+  .tl-row { grid-template-columns:1fr; }
+  .section { padding:24px 20px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">GROWTH PLAN</div>
+  <h1>Location Growth Plan — La Vie Med Spas</h1>
+  <p>Booked Appointments Strategy &nbsp;|&nbsp; Both Austin Locations &nbsp;|&nbsp; Paid + Organic &nbsp;|&nbsp; March 2026</p>
+</header>
+
+<div class="container">
+
+  <!-- LOCATION PROFILES -->
+  <div class="loc-grid">
+    <div class="loc-card rainey">
+      <div class="loc-label">Location 1</div>
+      <h2>La Vie En Rainey</h2>
+      <div class="addr">51 Rainey Street, Suite 150 · Austin, TX 78701</div>
+      <div class="profile">Downtown entertainment district. High foot traffic evenings and weekends. Attracts young professionals, out-of-towners, nightlife crowd. Opportunity: impulse bookings, event tie-ins, walk-in conversions from bar/restaurant foot traffic.</div>
+      <div class="tag-row">
+        <span class="loc-tag">Rainey Street District</span>
+        <span class="loc-tag">Downtown</span>
+        <span class="loc-tag">High Foot Traffic</span>
+        <span class="loc-tag">Event-Friendly</span>
+      </div>
+    </div>
+    <div class="loc-card oakland">
+      <div class="loc-label">Location 2</div>
+      <h2>Oakland Location</h2>
+      <div class="addr">509 Oakland Ave · Austin, TX 78703</div>
+      <div class="profile">Clarksville / Old West Austin neighborhood. Established, affluent residential area. Attracts homeowners, older demographics, repeat wellness clients. Opportunity: membership conversions, recurring treatments, referral networks.</div>
+      <div class="tag-row">
+        <span class="loc-tag">Clarksville</span>
+        <span class="loc-tag">Old West Austin</span>
+        <span class="loc-tag">Residential</span>
+        <span class="loc-tag">Affluent Demographic</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOP PRIORITIES -->
+  <div class="priority-box">
+    <h2>The 3 Highest-ROI Moves — Do These First</h2>
+    <div class="priority-grid">
+      <div class="p-item">
+        <div class="num">01</div>
+        <div class="pl">Two Separate Google Business Profiles</div>
+        <div class="pd">Each location needs its own fully optimized GBP. This is the #1 driver of local bookings for med spas — and it's free.</div>
+      </div>
+      <div class="p-item">
+        <div class="num">02</div>
+        <div class="pl">Google Local Services Ads (LSAs)</div>
+        <div class="pd">Pay-per-lead ads that appear above standard Google ads. Med spas are eligible. Fastest path to booked appointments from search.</div>
+      </div>
+      <div class="p-item">
+        <div class="num">03</div>
+        <div class="pl">Meta Retargeting + Lookalike Ads</div>
+        <div class="pd">Instagram/Facebook ads geo-targeted to a 3-mile radius of each location. Highest visual impact for a beauty brand, lowest cost per booked appointment.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHANNEL STRATEGY -->
+  <div class="section">
+    <h2>Channel-by-Channel Strategy</h2>
+
+    <!-- GBP -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#e8f5e9;">📍</div>
+        <h3>Google Business Profile (GBP) — Two Separate Listings</h3>
+        <div class="budget">Free</div>
+      </div>
+      <div class="channel-body">
+        <p>Each location must have its own verified, fully completed GBP. This directly controls your appearance in the Google Maps 3-Pack — where 40–60% of local med spa bookings originate. A complete GBP typically drives a 70% increase in direction requests and calls within 60 days of optimization.</p>
+        <div class="loc-specific">
+          <div class="ls-box b">
+            <strong>Rainey Street GBP</strong>
+            Name: "La Vie Med Spas — Rainey Street"<br>
+            Primary category: Medical Spa<br>
+            Secondary: Day Spa, Beauty Salon<br>
+            Add: Evening hours, event space, walk-in availability<br>
+            Photos: 25+ (bar/street vibe, treatment rooms, before/afters)<br>
+            Posts: Weekly — specials, events, featured services
+          </div>
+          <div class="ls-box p">
+            <strong>Oakland Ave GBP</strong>
+            Name: "La Vie Med Spas — Oakland / Clarksville"<br>
+            Primary category: Medical Spa<br>
+            Secondary: Wellness Center, Day Spa<br>
+            Add: Membership info, parking, quiet neighborhood<br>
+            Photos: 25+ (serene, residential feel, team photos)<br>
+            Posts: Weekly — wellness tips, membership offers, seasonal
+          </div>
+        </div>
+        <ul style="margin-top:14px;">
+          <li>Add every service to both GBP listings individually — this feeds Google's local service search filters</li>
+          <li>Enable the MindBody booking link as the primary "Book" action on both profiles</li>
+          <li>Set up automated post-visit review requests via MindBody or a service like Podium</li>
+          <li>Target 5+ new Google reviews per month per location</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Google LSA -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#fef3c7;">🔍</div>
+        <h3>Google Local Services Ads (LSAs)</h3>
+        <div class="budget">$800–$1,500/mo per location</div>
+      </div>
+      <div class="channel-body">
+        <p>LSAs appear at the very top of Google search results — above regular ads and above organic results. They show your business name, review rating, and a direct call/message button. You pay per lead (phone call or message), not per click. Med spas and wellness businesses are eligible. This is the fastest paid channel for driving booked appointments from search intent.</p>
+        <ul>
+          <li>Set up one LSA campaign per location with separate phone numbers to track lead attribution</li>
+          <li>High-priority service categories to bid on: Botox/injectables, facials, IV therapy, weight loss (Semaglutide), massage</li>
+          <li>Respond to every LSA lead within 5 minutes — response speed directly affects your LSA ranking</li>
+          <li>Dispute any leads that are not genuine appointment inquiries to keep cost-per-lead low</li>
+        </ul>
+        <div class="loc-specific">
+          <div class="ls-box b">
+            <strong>Rainey Street — LSA Focus</strong>
+            Bid higher on evening/weekend times. Prioritize: injectables, facials, event packages, walk-in availability messaging.
+          </div>
+          <div class="ls-box p">
+            <strong>Oakland — LSA Focus</strong>
+            Bid on recurring treatment terms. Prioritize: membership, weight loss, IV therapy, wellness packages.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Google Search Ads -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#e3f2fd;">💻</div>
+        <h3>Google Search Ads (PPC)</h3>
+        <div class="budget">$1,000–$2,500/mo total</div>
+      </div>
+      <div class="channel-body">
+        <p>Paid search campaigns targeting high-intent keywords where organic rankings aren't yet established. Particularly valuable while SEO fixes from the audit are taking effect (typically 60–120 days to see ranking movement).</p>
+        <ul>
+          <li><strong>Campaign 1 — Injectables:</strong> "botox austin tx," "lip filler austin," "dysport near me," "botox price austin" — bid for both locations</li>
+          <li><strong>Campaign 2 — Wellness:</strong> "semaglutide austin tx," "IV therapy austin," "weight loss injections austin"</li>
+          <li><strong>Campaign 3 — Spa/Facial:</strong> "hydrafacial austin," "med spa austin," "facial near me austin"</li>
+          <li>Use location extensions to show each address and enable call extensions</li>
+          <li>Send traffic to location-specific landing pages (not the homepage) — create one per location if not already live</li>
+          <li>Set a 5-mile radius geo-fence around each location for all campaigns</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Meta / Instagram Ads -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#fce7f3;">📸</div>
+        <h3>Meta Ads (Instagram + Facebook)</h3>
+        <div class="budget">$1,500–$3,000/mo total</div>
+      </div>
+      <div class="channel-body">
+        <p>The highest-visual-impact channel for a beauty brand. Instagram is where Austin's med spa clientele discovers new providers. Meta's geo-targeting by radius is ideal for a two-location setup — you can run location-specific creative that resonates with each neighborhood's audience.</p>
+        <div class="loc-specific">
+          <div class="ls-box b">
+            <strong>Rainey Street — Meta Strategy</strong>
+            Target: Women 25–42, 2-mile radius, interests: nightlife, beauty, self-care, Rainey Street. Ad creative: "Pre-night-out lip flip?" / "Treat yourself before the weekend." CTA: Book same-day appointment.
+          </div>
+          <div class="ls-box p">
+            <strong>Oakland — Meta Strategy</strong>
+            Target: Women 30–55, 3-mile radius, interests: wellness, skincare, fitness, home ownership. Ad creative: "Your neighborhood wellness ritual." / "Clarksville's hidden gem." CTA: Join VIP membership.
+          </div>
+        </div>
+        <ul style="margin-top:14px;">
+          <li><strong>Retargeting campaign:</strong> Anyone who visits lvmedspas.com and doesn't book sees follow-up ads for 30 days</li>
+          <li><strong>Lookalike audiences:</strong> Upload your existing client list from MindBody and create lookalike audiences in Meta Ads Manager — your highest-quality prospecting tool</li>
+          <li><strong>Seasonal promotions:</strong> Valentine's Day couples packages, summer body sculpting, holiday gift cards — plan 4–6 weeks ahead</li>
+          <li><strong>Content format:</strong> Reels and carousel ads consistently outperform static images for beauty brands — invest in monthly content shoots at both locations</li>
+          <li><strong>Instagram @lavieenrainey:</strong> Ensure organic posts and paid ads feel cohesive — boosting existing top-performing organic posts is a quick win</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Local SEO / Organic -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#f0fdf4;">🌱</div>
+        <h3>Local SEO — Two-Location Pages + Content</h3>
+        <div class="budget">$500–$1,000/mo (agency or contractor)</div>
+      </div>
+      <div class="channel-body">
+        <p>Building on the audit findings, organic search is the long-term engine that compounds over time. These actions directly support booking volume at both locations.</p>
+        <ul>
+          <li><strong>Create two dedicated location pages:</strong> /rainey-street-med-spa/ and /clarksville-med-spa/ — each with unique content, embedded Google Map, staff associated with that location, and a location-specific booking CTA</li>
+          <li><strong>Optimize all service pages</strong> with geo-modifiers ("in Austin, TX" / "at our Rainey Street location")</li>
+          <li><strong>Create a Botox/injectables landing page</strong> — the highest-volume med spa keyword in Austin, currently missing</li>
+          <li><strong>Create a Semaglutide/weight loss page</strong> — fastest-growing med spa search category nationally</li>
+          <li><strong>Build citations</strong> for both locations on Yelp, Healthgrades, RealSelf, Vagaro, Mindbody marketplace, and Zocdoc</li>
+          <li><strong>Publish 2 blog posts/month</strong> targeting educational queries: "how much does Botox cost in Austin," "what is a HydraFacial," "Semaglutide vs Ozempic for weight loss Austin"</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Email / SMS -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#fdf4ff;">✉️</div>
+        <h3>Email + SMS — Reactivation & Retention</h3>
+        <div class="budget">$200–$400/mo (tool cost)</div>
+      </div>
+      <div class="channel-body">
+        <p>Your existing client list in MindBody is one of your most valuable assets. Reactivating lapsed clients costs a fraction of acquiring new ones. Consistent email and SMS keeps La Vie top-of-mind between visits and drives repeat bookings.</p>
+        <ul>
+          <li><strong>Win-back campaign:</strong> Clients who haven't booked in 90+ days get a personalized "We miss you" offer (10–15% off next visit)</li>
+          <li><strong>Monthly email newsletter:</strong> New services, seasonal specials, practitioner spotlights, wellness tips — one per month, location-segmented</li>
+          <li><strong>Post-visit SMS:</strong> 3 days after appointment — thank you + review request link. 30 days after — "Ready for your next visit? Book now."</li>
+          <li><strong>Birthday campaigns:</strong> Birthday month offer sent 2 weeks before client's birthday — consistently high open and conversion rates</li>
+          <li><strong>Membership upsell flow:</strong> After 2nd visit, automated email introducing the VIP membership with ROI breakdown ("Members save an average of $X/month")</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Referral / Community -->
+    <div class="channel">
+      <div class="channel-header">
+        <div class="channel-icon" style="background:#fff7ed;">🤝</div>
+        <h3>Referral Program + Local Partnerships</h3>
+        <div class="budget">$300–$600/mo</div>
+      </div>
+      <div class="channel-body">
+        <p>Word-of-mouth is the #1 discovery channel for med spas. A structured referral program turns your happiest clients into your best marketers. Local partnerships extend reach into both neighborhoods at minimal cost.</p>
+        <div class="strat-grid" style="margin-top:10px;">
+          <div class="strat-col blue">
+            <h4>Rainey Street Partnerships</h4>
+            <ul>
+              <li>Partner with Rainey Street bars/restaurants on "pre-night-out" packages</li>
+              <li>Connect with nearby hotels (Marriott, Homewood Suites on Rainey) for guest referrals</li>
+              <li>Offer bachelorette party packages — Rainey is a top ATX bachelorette destination</li>
+              <li>Cross-promote with neighboring fitness studios (yoga, pilates)</li>
+            </ul>
+          </div>
+          <div class="strat-col purple">
+            <h4>Oakland / Clarksville Partnerships</h4>
+            <ul>
+              <li>Connect with Clarksville-area physicians, OBGYNs, and dermatologists for referrals</li>
+              <li>Partner with luxury real estate agents in Old West Austin for client gifting</li>
+              <li>Outreach to local schools/PTA groups for group spa day packages</li>
+              <li>Cross-promote with local boutiques and wine bars in the neighborhood</li>
+            </ul>
+          </div>
+        </div>
+        <ul style="margin-top:14px;">
+          <li><strong>Referral program structure:</strong> Referring client gets $25–$50 credit; new client gets 15% off first visit. Track via MindBody referral source field.</li>
+          <li>Share referral links on post-visit receipts, email signatures, and thank-you SMS messages</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ROADMAP -->
+  <div class="section">
+    <h2>90-Day Execution Roadmap</h2>
+    <div class="timeline">
+      <div class="tl-row">
+        <div class="tl-phase"><div class="ph">Phase</div><div class="pn">Days 1–30</div></div>
+        <div class="tl-items">
+          <div class="tl-item"><strong>Set up both GBP listings</strong> Claim, verify, and fully complete a GBP for each location. Add all services, photos, and booking link.</div>
+          <div class="tl-item"><strong>Launch Meta ads</strong> Set up radius-targeted campaigns for both locations. Start with retargeting existing site visitors and a lookalike of your MindBody client list.</div>
+          <div class="tl-item"><strong>Apply Google LSAs</strong> Submit the LSA application for both locations (requires background check and license verification — start early).</div>
+          <div class="tl-item"><strong>Launch review request flow</strong> Set up automated post-visit SMS/email asking for Google reviews. Target: 5 new reviews/mo per location.</div>
+          <div class="tl-item"><strong>Fix page titles + H1s</strong> Implement the title tag and homepage H1 fixes from the SEO audit — quick wins that take effect within weeks.</div>
+          <div class="tl-item"><strong>Send win-back campaign</strong> Email all clients inactive 90+ days with a "We miss you" offer. Immediate bookings from existing list.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase"><div class="ph">Phase</div><div class="pn">Days 31–60</div></div>
+        <div class="tl-items">
+          <div class="tl-item"><strong>Launch Google Search Ads</strong> Start PPC campaigns for injectables, wellness, and facial keywords once LSA is live. Use separate campaigns per location.</div>
+          <div class="tl-item"><strong>Build location pages</strong> Create /rainey-street-med-spa/ and /clarksville-med-spa/ pages with unique content and location-specific CTAs.</div>
+          <div class="tl-item"><strong>Launch referral program</strong> Announce via email, SMS, and in-location signage. Give front desk scripts to mention it at checkout.</div>
+          <div class="tl-item"><strong>Create Botox + Semaglutide pages</strong> Two new service pages targeting the highest-volume unbaked keywords. Both pages to include pricing ranges.</div>
+          <div class="tl-item"><strong>Initiate local partnerships</strong> Rainey Street: outreach to 3 hotels and 5 bars/restaurants. Oakland: outreach to 3 physicians and 3 boutiques.</div>
+          <div class="tl-item"><strong>First monthly newsletter</strong> Launch branded email newsletter to full client list. Segment by location for customized content.</div>
+        </div>
+      </div>
+      <div class="tl-row">
+        <div class="tl-phase"><div class="ph">Phase</div><div class="pn">Days 61–90</div></div>
+        <div class="tl-items">
+          <div class="tl-item"><strong>Optimize ad performance</strong> Review first 60 days of Meta and Google data. Pause underperforming ad sets. Scale what's converting. Adjust budgets by location.</div>
+          <div class="tl-item"><strong>Publish 2 blog posts</strong> "How much does Botox cost in Austin TX" and "What is Semaglutide and is it right for me?" — both targeting high-intent search terms.</div>
+          <div class="tl-item"><strong>Build membership upsell flow</strong> Set up the automated post-2nd-visit email introducing VIP membership with savings breakdown.</div>
+          <div class="tl-item"><strong>Citation audit + cleanup</strong> Run BrightLocal audit. Submit corrected NAP to all directories for both locations. Standardize brand name everywhere.</div>
+          <div class="tl-item"><strong>Content shoot at both locations</strong> Capture 30+ photos and 5–10 short video clips (Reels) per location for 3 months of organic and paid content.</div>
+          <div class="tl-item"><strong>Review results vs. KPIs</strong> Pull GBP insights, ad dashboards, and MindBody booking data. Set 90-day targets for Q2.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BUDGET SUMMARY -->
+  <div class="section">
+    <h2>Monthly Budget Summary</h2>
+    <table>
+      <tr><th>Channel</th><th>Rainey Street</th><th>Oakland Ave</th><th>Combined</th></tr>
+      <tr><td>Google Business Profile</td><td>Free</td><td>Free</td><td>Free</td></tr>
+      <tr><td>Google Local Services Ads</td><td>$800–$1,000</td><td>$700–$1,000</td><td>$1,500–$2,000</td></tr>
+      <tr><td>Google Search Ads (PPC)</td><td>$700–$1,200</td><td>$600–$1,200</td><td>$1,300–$2,400</td></tr>
+      <tr><td>Meta Ads (Instagram/Facebook)</td><td>$800–$1,500</td><td>$700–$1,500</td><td>$1,500–$3,000</td></tr>
+      <tr><td>Email + SMS (tool cost)</td><td colspan="2" style="text-align:center;">Shared — $200–$400/mo</td><td>$200–$400</td></tr>
+      <tr><td>Local SEO / Content (contractor)</td><td colspan="2" style="text-align:center;">Shared — $500–$1,000/mo</td><td>$500–$1,000</td></tr>
+      <tr><td>Referral Program / Partnerships</td><td colspan="2" style="text-align:center;">Shared — $300–$600/mo</td><td>$300–$600</td></tr>
+      <tr><td><strong>TOTAL MONTHLY</strong></td><td></td><td></td><td><strong>$5,300–$9,400/mo</strong></td></tr>
+    </table>
+    <p style="font-size:0.85em; color:#5a5a5a; margin-top:8px;">Recommendation: Start at the lower end (~$5,500/mo) for the first 60 days while tracking what converts, then scale the highest-performing channels in Month 3.</p>
+  </div>
+
+  <!-- SUCCESS METRICS -->
+  <div class="section">
+    <h2>Success Metrics — What to Track Monthly</h2>
+    <div class="kpi-row">
+      <div class="kpi"><div class="k">New Booked Appts/Mo<br>(per location)</div><div class="v">+25–40%<br><small style="font-size:0.7em;color:#5a5a5a;">by Month 3</small></div></div>
+      <div class="kpi"><div class="k">GBP Direction Requests</div><div class="v">+50%<br><small style="font-size:0.7em;color:#5a5a5a;">vs. baseline</small></div></div>
+      <div class="kpi"><div class="k">Google Reviews<br>(per location)</div><div class="v">5+/mo<br><small style="font-size:0.7em;color:#5a5a5a;">new reviews</small></div></div>
+      <div class="kpi"><div class="k">Cost Per Booked Appt<br>(paid channels)</div><div class="v">&lt;$35<br><small style="font-size:0.7em;color:#5a5a5a;">target blended</small></div></div>
+      <div class="kpi"><div class="k">Email Open Rate</div><div class="v">&gt;28%<br><small style="font-size:0.7em;color:#5a5a5a;">industry avg: 22%</small></div></div>
+      <div class="kpi"><div class="k">Referral Bookings</div><div class="v">10%<br><small style="font-size:0.7em;color:#5a5a5a;">of new clients</small></div></div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Location Growth Plan — La Vie Med Spas &nbsp;|&nbsp; 51 Rainey St + 509 Oakland Ave, Austin TX &nbsp;|&nbsp; March 2026
+</footer>
+
+</body>
+</html>
