@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit — LVS La Vie Med Spas | lvmedspas.com</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --sidebar-bg: #16181f;
+    --card-bg: #1e2029;
+    --card-border: #2a2d3a;
+    --accent: #c9a96e;
+    --accent-light: #e8d5b0;
+    --text: #e8eaf0;
+    --text-muted: #8b8fa8;
+    --red: #e05c5c;
+    --amber: #e0a040;
+    --green: #5cb85c;
+    --red-bg: rgba(224,92,92,0.12);
+    --amber-bg: rgba(224,160,64,0.12);
+    --green-bg: rgba(92,184,92,0.12);
+    --sidebar-w: 260px;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; display: flex; min-height: 100vh; }
+  
+  /* Sidebar */
+  nav {
+    width: var(--sidebar-w); background: var(--sidebar-bg); position: fixed; top: 0; left: 0;
+    height: 100vh; overflow-y: auto; border-right: 1px solid var(--card-border); z-index: 100;
+    display: flex; flex-direction: column;
+  }
+  .nav-brand { padding: 28px 20px 20px; border-bottom: 1px solid var(--card-border); }
+  .nav-brand .label { font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--accent); font-weight: 600; }
+  .nav-brand h2 { font-family: 'Playfair Display', serif; font-size: 15px; color: var(--text); margin-top: 4px; line-height: 1.4; }
+  .nav-score-badge { background: var(--amber-bg); border: 1px solid var(--amber); border-radius: 8px; padding: 10px 14px; margin: 16px; text-align: center; }
+  .nav-score-badge .score-num { font-size: 32px; font-weight: 700; color: var(--amber); font-family: 'Playfair Display', serif; }
+  .nav-score-badge .score-label { font-size: 11px; color: var(--text-muted); margin-top: 2px; }
+  nav ul { list-style: none; padding: 12px 0; flex: 1; }
+  nav ul li a {
+    display: block; padding: 9px 20px; font-size: 12.5px; color: var(--text-muted);
+    text-decoration: none; transition: all 0.2s; border-left: 3px solid transparent;
+  }
+  nav ul li a:hover, nav ul li a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(201,169,110,0.06); }
+  nav ul .section-header { padding: 14px 20px 4px; font-size: 10px; text-transform: uppercase; letter-spacing: 2px; color: var(--card-border); font-weight: 600; }
+
+  /* Main */
+  main { margin-left: var(--sidebar-w); flex: 1; padding: 40px 48px; max-width: 1100px; }
+  
+  h1 { font-family: 'Playfair Display', serif; font-size: 32px; color: var(--text); margin-bottom: 8px; }
+  h2 { font-family: 'Playfair Display', serif; font-size: 22px; color: var(--accent-light); margin-bottom: 16px; }
+  h3 { font-size: 15px; font-weight: 600; color: var(--text); margin-bottom: 10px; }
+  p { font-size: 14px; line-height: 1.7; color: var(--text-muted); margin-bottom: 12px; }
+
+  .page-header { margin-bottom: 40px; padding-bottom: 28px; border-bottom: 1px solid var(--card-border); }
+  .page-header .meta { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; }
+  .page-header .meta span { margin-right: 20px; }
+
+  section { margin-bottom: 48px; scroll-margin-top: 24px; }
+
+  .card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+
+  /* Score chips */
+  .score-chip { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; }
+  .score-chip.red { background: var(--red-bg); color: var(--red); border: 1px solid var(--red); }
+  .score-chip.amber { background: var(--amber-bg); color: var(--amber); border: 1px solid var(--amber); }
+  .score-chip.green { background: var(--green-bg); color: var(--green); border: 1px solid var(--green); }
+
+  /* Score bar */
+  .score-bar-wrap { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+  .score-bar-wrap .label { font-size: 13px; width: 200px; flex-shrink: 0; }
+  .score-bar { flex: 1; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
+  .score-bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+  .score-bar-fill.red { background: var(--red); }
+  .score-bar-fill.amber { background: var(--amber); }
+  .score-bar-fill.green { background: var(--green); }
+  .score-num-sm { font-size: 13px; font-weight: 600; width: 28px; text-align: right; }
+
+  /* Overall score ring */
+  .score-ring-section { display: flex; align-items: center; gap: 40px; margin-bottom: 32px; flex-wrap: wrap; }
+  .score-ring { position: relative; width: 120px; height: 120px; flex-shrink: 0; }
+  .score-ring svg { transform: rotate(-90deg); }
+  .score-ring .center-text { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); text-align: center; }
+  .score-ring .center-num { font-size: 30px; font-weight: 700; color: var(--amber); font-family: 'Playfair Display', serif; }
+  .score-ring .center-label { font-size: 10px; color: var(--text-muted); }
+
+  /* Top wins / issues */
+  .win-list, .issue-list { list-style: none; }
+  .win-list li, .issue-list li { padding: 8px 0; border-bottom: 1px solid var(--card-border); font-size: 13.5px; display: flex; align-items: flex-start; gap: 10px; line-height: 1.5; }
+  .win-list li:last-child, .issue-list li:last-child { border-bottom: none; }
+  .win-list li::before { content: "✓"; color: var(--green); font-weight: 700; margin-top: 1px; flex-shrink: 0; }
+  .issue-list li::before { content: "✗"; color: var(--red); font-weight: 700; margin-top: 1px; flex-shrink: 0; }
+
+  /* Audit section accordion */
+  .audit-section { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; margin-bottom: 16px; overflow: hidden; }
+  .audit-section-header { padding: 18px 24px; cursor: pointer; display: flex; justify-content: space-between; align-items: center; user-select: none; transition: background 0.2s; }
+  .audit-section-header:hover { background: rgba(255,255,255,0.03); }
+  .audit-section-header h3 { margin: 0; font-size: 15px; }
+  .audit-section-header .right { display: flex; align-items: center; gap: 12px; }
+  .chevron { font-size: 12px; color: var(--text-muted); transition: transform 0.3s; }
+  .audit-section-body { padding: 0 24px 24px; display: none; border-top: 1px solid var(--card-border); padding-top: 20px; }
+  .audit-section.open .audit-section-body { display: block; }
+  .audit-section.open .chevron { transform: rotate(180deg); }
+
+  .sub-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  @media(max-width: 700px) { .sub-grid { grid-template-columns: 1fr; } }
+
+  .finding-box { background: rgba(0,0,0,0.2); border-radius: 8px; padding: 16px; }
+  .finding-box h4 { font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); margin-bottom: 10px; font-weight: 600; }
+
+  .hypothesis { background: rgba(201,169,110,0.07); border: 1px solid rgba(201,169,110,0.2); border-radius: 8px; padding: 16px; margin-top: 16px; font-size: 13px; line-height: 1.7; }
+  .hypothesis .h-label { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent); font-weight: 600; margin-bottom: 8px; }
+
+  /* ICE Table */
+  .ice-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .ice-table th { background: rgba(255,255,255,0.04); padding: 10px 14px; text-align: left; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); cursor: pointer; user-select: none; }
+  .ice-table th:hover { color: var(--accent); }
+  .ice-table td { padding: 12px 14px; border-bottom: 1px solid var(--card-border); color: var(--text-muted); vertical-align: top; }
+  .ice-table tr:last-child td { border-bottom: none; }
+  .ice-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .ice-score { font-weight: 700; font-size: 15px; }
+  .ice-score.high { color: var(--green); }
+  .ice-score.mid { color: var(--amber); }
+  .ice-score.low { color: var(--red); }
+  
+  /* Quick wins grid */
+  .qw-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; }
+  .qw-card { background: var(--card-bg); border: 1px solid var(--green); border-radius: 10px; padding: 18px; }
+  .qw-card .qw-tag { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--green); font-weight: 600; margin-bottom: 8px; }
+  .qw-card h4 { font-size: 14px; color: var(--text); margin-bottom: 8px; }
+  .qw-card p { font-size: 12.5px; margin: 0; }
+
+  /* 48hr plan */
+  .plan-item { display: flex; gap: 16px; margin-bottom: 20px; }
+  .plan-num { width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: #0f1117; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 14px; flex-shrink: 0; margin-top: 2px; }
+  .plan-content h4 { font-size: 14px; margin-bottom: 4px; }
+
+  /* Tags */
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: 600; margin-right: 4px; }
+  .tag.cta { background: rgba(92,184,92,0.15); color: var(--green); }
+  .tag.trust { background: rgba(224,160,64,0.15); color: var(--amber); }
+  .tag.ux { background: rgba(100,130,220,0.15); color: #8ba3e8; }
+  .tag.copy { background: rgba(180,100,220,0.15); color: #c987e8; }
+
+  .divider { border: none; border-top: 1px solid var(--card-border); margin: 32px 0; }
+
+  .info-banner { background: rgba(201,169,110,0.08); border: 1px solid rgba(201,169,110,0.2); border-radius: 8px; padding: 14px 18px; font-size: 13px; color: var(--accent-light); margin-bottom: 24px; }
+
+  @media print {
+    nav { display: none; }
+    main { margin-left: 0; padding: 20px; }
+    .audit-section-body { display: block !important; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-brand">
+    <div class="label">CRO Audit</div>
+    <h2>LVS La Vie Med Spas</h2>
+  </div>
+  <div class="nav-score-badge">
+    <div class="score-num">5.4</div>
+    <div class="score-label">Weighted Score / 10</div>
+  </div>
+  <ul>
+    <li class="section-header">Overview</li>
+    <li><a href="#exec">Executive Summary</a></li>
+    <li><a href="#scorecard">Scorecard</a></li>
+    <li class="section-header">Findings</li>
+    <li><a href="#message">1. Message Match & Clarity</a></li>
+    <li><a href="#value">2. Value Proposition</a></li>
+    <li><a href="#trust">3. Trust & Credibility</a></li>
+    <li><a href="#cta">4. CTA & Conversion Path</a></li>
+    <li><a href="#form">5. Form / Lead Capture UX</a></li>
+    <li><a href="#content">6. Content & Persuasion</a></li>
+    <li><a href="#mobile">7. Mobile Experience</a></li>
+    <li class="section-header">Action</li>
+    <li><a href="#ice">Experiment Backlog (ICE)</a></li>
+    <li><a href="#quickwins">Quick Wins</a></li>
+    <li><a href="#plan">48-Hour Action Plan</a></li>
+    <li><a href="#methodology">Methodology</a></li>
+  </ul>
+</nav>
+
+<main>
+  <div class="page-header">
+    <h1>CRO Audit Report</h1>
+    <div class="meta">
+      <span>🌐 lvmedspas.com</span>
+      <span>📍 Austin, TX</span>
+      <span>🏷️ Local Med Spa — Booking Conversion</span>
+      <span>📅 March 2026</span>
+    </div>
+    <div class="info-banner">⚠️ Analytics data not available (no GA4/BigQuery access). All findings are heuristic. ICE Confidence scores capped at 6. Connecting GA4 to BigQuery is recommended as the first action item to enable data-backed optimization.</div>
+  </div>
+
+  <!-- EXEC SUMMARY -->
+  <section id="exec">
+    <h2>Executive Summary</h2>
+    <div class="score-ring-section">
+      <div class="score-ring">
+        <svg width="120" height="120" viewBox="0 0 120 120">
+          <circle cx="60" cy="60" r="50" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="10"/>
+          <circle cx="60" cy="60" r="50" fill="none" stroke="#e0a040" stroke-width="10"
+            stroke-dasharray="314" stroke-dashoffset="145" stroke-linecap="round"/>
+        </svg>
+        <div class="center-text">
+          <div class="center-num">5.4</div>
+          <div class="center-label">out of 10</div>
+        </div>
+      </div>
+      <div>
+        <h3>Overall Assessment</h3>
+        <p>LVS La Vie Med Spas has solid brand aesthetics and a wide service menu, but is leaving significant bookings on the table. The homepage suffers from a fragmented hero experience, diluted CTAs, and a booking path that routes visitors off-site to MindBody without sufficient commitment-building first. Trust signals exist but are underutilized at decision points. The Self-Assessment tool is a genuine standout — it just needs better visibility.</p>
+        <p>Priority focus: clarify the hero, consolidate CTAs, and build trust at conversion points.</p>
+      </div>
+    </div>
+
+    <div class="sub-grid">
+      <div class="card">
+        <h3 style="color: var(--green); margin-bottom: 12px;">✓ What's Working</h3>
+        <ul class="win-list">
+          <li>Self-Assessment quiz tool — high-intent lead capture mechanism</li>
+          <li>Strong social proof with named, specific testimonials</li>
+          <li>Clear service breadth visible in nav mega-menu</li>
+          <li>Gift card and membership monetization paths present</li>
+          <li>Woman-owned, Austin-local story adds differentiation</li>
+          <li>"Voted #1 Med Spa in Austin" claim present in testimonials</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3 style="color: var(--red); margin-bottom: 12px;">✗ Critical Issues</h3>
+        <ul class="issue-list">
+          <li>Hero headline is seasonal (Valentine's) on a permanent homepage — not evergreen</li>
+          <li>8+ competing CTAs above the fold create decision paralysis</li>
+          <li>Primary "Book Now" sends visitors off-site with no social proof nearby</li>
+          <li>No price anchoring or starting-price signals anywhere on homepage</li>
+          <li>Self-Assessment tool buried below the fold — biggest asset is invisible</li>
+          <li>Oakland location listing has no address — erodes trust for multi-location discovery</li>
+          <li>Inconsistent brand naming (LVS, La Vie En Rainey, lvmedspas.com) creates confusion</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCORECARD -->
+  <section id="scorecard">
+    <h2>Scoring Overview</h2>
+    <div class="card">
+
+      <div class="score-bar-wrap">
+        <div class="label">1. Message Match & Clarity</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:40%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">4</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">2. Value Proposition</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:50%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">5</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">3. Trust & Credibility</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:60%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">6</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">4. CTA & Conversion Path</div>
+        <div class="score-bar"><div class="score-bar-fill red" style="width:35%"></div></div>
+        <div class="score-num-sm" style="color:var(--red)">3.5</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">5. Form / Lead Capture UX</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:65%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">6.5</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">6. Content & Persuasion</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:55%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">5.5</div>
+      </div>
+      <div class="score-bar-wrap">
+        <div class="label">7. Mobile Experience</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:55%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber)">5.5</div>
+      </div>
+
+      <hr style="border:none; border-top:1px solid var(--card-border); margin: 20px 0 16px;">
+      <div class="score-bar-wrap">
+        <div class="label" style="font-weight:600; color:var(--text)">Weighted Overall Score</div>
+        <div class="score-bar"><div class="score-bar-fill amber" style="width:54%"></div></div>
+        <div class="score-num-sm" style="color:var(--amber); font-weight:700">5.4</div>
+      </div>
+      <p style="margin-top:12px; font-size:12px;">Weights applied: Trust 25% · Message Match 20% · Value Prop 15% · CTA 15% · Form UX 10% · Content 10% · Mobile 5% (Local Services business type)</p>
+    </div>
+  </section>
+
+  <hr class="divider">
+
+  <!-- SECTION 1 -->
+  <section id="message">
+    <h2>Detailed Findings</h2>
+    <div class="audit-section open">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>1. Message Match & Clarity</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 4 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Valentine's seasonal hero is timely and specific</li>
+              <li>Navigation clearly categorizes services (Med Spa / Luxe / Wellness / Salon)</li>
+              <li>Austin location makes geographic targeting clear</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>Hero is seasonal (Valentine's) but homepage is evergreen — when February passes this becomes stale and confusing</li>
+              <li>Subheadline "Transforming Beauty, Empowering Confidence" is generic — doesn't differentiate</li>
+              <li>Three separate logo variations / brand names (LVS, La Vie En Rainey, lvmedspas.com) create identity confusion</li>
+              <li>Page title in browser tab says "Transforming Beauty Austin" but domain says lvmedspas — message mismatch for paid traffic</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we replace the seasonal hero with a permanent, benefit-driven headline ("Austin's Premier Med Spa — Natural Results, Expert Care") with a clear location/proof statement, THEN bounce rate will decrease for organic search visitors BECAUSE the current hero fails the "Am I in the right place?" test for non-seasonal traffic.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 2 -->
+  <section id="value">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>2. Value Proposition</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 5 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Woman-owned business story is a genuine differentiator for the target audience</li>
+              <li>Semaglutide section includes a specific proof point: "1-2 lbs per week"</li>
+              <li>AviClear section communicates specific benefits (no chemicals, all skin types)</li>
+              <li>Membership and spa party options create unique positioning</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>"Voted #1 Med Spa in Austin" claim appears only in a testimonial — not in the main hero or trust section</li>
+              <li>No pricing signals anywhere on homepage — creates anxiety for high-ticket services</li>
+              <li>Value prop doesn't answer "Why LVS vs. any other Austin med spa?" above the fold</li>
+              <li>Broad service menu (Med Spa + Wellness + Salon + Body) actually dilutes perceived expertise unless framed correctly</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we add a "Why LVS" above-the-fold proof block (voted #1, woman-owned, real practitioners, specific credentials) THEN time-on-page and scroll depth will increase for new visitors BECAUSE visitors currently have no clear reason to choose LVS over competing Austin med spas.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 3 -->
+  <section id="trust">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>3. Trust & Credibility</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 6 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Named testimonials with specific, detailed reviews (Sandra, Jackie, Ladan)</li>
+              <li>Owner mentioned by name (Anna Vickmay) — humanizes the business</li>
+              <li>Physical address (51 Rainey Street) listed in footer</li>
+              <li>Phone number and email in footer</li>
+              <li>"Voted #1 Med Spa in Austin" mentioned in client testimonial</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>No Google review count or star rating displayed (most powerful local trust signal)</li>
+              <li>No provider credentials, certifications, or medical director mentioned on homepage</li>
+              <li>Oakland Ave location has no suite number or full address — looks unfinished</li>
+              <li>Testimonials are text-only — no photos, no last names, no service specified</li>
+              <li>No before/after photos on homepage (highly effective for med spa conversions)</li>
+              <li>No BBB, board certifications, or medical oversight signals</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we add a Google Reviews widget (star rating + count) near the primary "Book Now" CTA, THEN booking clicks will increase BECAUSE social proof placed immediately adjacent to CTAs reduces anxiety at the moment of commitment, particularly for high-ticket aesthetic services where trust is the #1 purchase barrier.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 4 -->
+  <section id="cta">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>4. CTA & Conversion Path</h3>
+        <div class="right">
+          <span class="score-chip red">Score: 3.5 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Sticky "Book Now" button in nav header — persistent visibility</li>
+              <li>Floating action bar at bottom (Book Now, Call Us, Gift Cards, Promotions)</li>
+              <li>Multiple micro-CTAs for different intent levels (specials, membership, gift cards)</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>Hero section has 3 competing CTAs: "View Valentine's Packages," "Our Services," and "Book Now" — users freeze with too many choices</li>
+              <li>Primary Book Now sends visitors to MindBody (external site) with no pre-framing or trust building</li>
+              <li>CTA copy is generic: "Book Now," "Our Services," "Read More" — no benefit language</li>
+              <li>Self-Assessment tool (highest-intent capture) lacks any above-the-fold CTA or visual prominence</li>
+              <li>Floating bottom bar has 4 equal-weight CTAs — no hierarchy, no primary action signaled</li>
+              <li>"Holiday Specials" CTA appears in hero but it's March — stale/confusing</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis — High Priority</div>
+          IF we reduce the hero CTAs to one primary ("Book a Free Consultation") and one secondary ("Take Our Style Quiz"), THEN click-through to booking will increase for first-time visitors BECAUSE eliminating competing choices reduces decision paralysis — the current 3-CTA hero violates the "one primary CTA per viewport" principle.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 5 -->
+  <section id="form">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>5. Form / Lead Capture UX</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 6.5 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Self-Assessment form collects highly qualified intent signals (concerns, timeline, experience level, preferences)</li>
+              <li>Multi-step form with logical flow reduces perceived complexity</li>
+              <li>Personalized categories (Face, Neck, Body, Skin, Hair, Wellness) match visitor mental models</li>
+              <li>Email newsletter subscribe exists in footer for lower-intent nurture</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>Self-Assessment form is buried in a popup triggered from well below the fold — most visitors never see it</li>
+              <li>Form asks for Name, Email, Phone all at once before providing any value — high abandonment risk</li>
+              <li>No privacy statement or "We won't spam you" near form fields</li>
+              <li>"Send to My Team" submit button copy is weak — doesn't tell user what happens next</li>
+              <li>Form label says "What concerns do you have about your face?" even in non-face categories (Body, Hair) — clear copy-paste error erodes trust</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we fix the copy-paste error in form category labels AND add a "What happens next" micro-copy note below the submit button ("Our team will reach out within 2 hours to recommend the right treatment"), THEN form completion rates will increase BECAUSE specificity about next steps reduces submission anxiety, and copy errors signal low quality/care.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 6 -->
+  <section id="content">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>6. Content & Persuasion</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 5.5 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Weight loss section uses outcome language ("lose 1-2 lbs per week") — effective</li>
+              <li>Gift card section uses occasion framing ("birthday, holiday, just because") — reduces friction</li>
+              <li>AviClear section addresses anxiety ("minimal discomfort and downtime")</li>
+              <li>Membership page linked prominently — recurring revenue path supported</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>No FAQ section addressing common objections (pain, downtime, safety, cost)</li>
+              <li>No before/after imagery to visualize results — highest-converting content type for aesthetic services</li>
+              <li>Seasonal Valentine's content dominates the hero but the page has no urgency signal with an end date visible to the user</li>
+              <li>Service categories feel feature-listed, not benefit-driven (e.g., "Fillers" vs. "Restore Lost Volume")</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we add a "Results Gallery" section above the testimonials with 6–8 before/after images (face/skin/body), THEN scroll depth and time-on-page will increase and booking conversions will rise BECAUSE visual proof of outcomes is the #1 driver of purchase intent for aesthetic med spa services.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION 7 -->
+  <section id="mobile">
+    <div class="audit-section">
+      <div class="audit-section-header" onclick="toggle(this)">
+        <h3>7. Mobile Experience</h3>
+        <div class="right">
+          <span class="score-chip amber">Score: 5.5 / 10</span>
+          <span class="chevron">▼</span>
+        </div>
+      </div>
+      <div class="audit-section-body">
+        <div class="sub-grid">
+          <div class="finding-box">
+            <h4>✓ Working</h4>
+            <ul class="win-list">
+              <li>Floating bottom action bar is mobile-native and well-suited for thumb reach</li>
+              <li>"Call Us" in the bottom bar enables one-tap calling</li>
+              <li>Elementor-built site is generally responsive</li>
+            </ul>
+          </div>
+          <div class="finding-box">
+            <h4>✗ Issues</h4>
+            <ul class="issue-list">
+              <li>Mega-menu navigation (30+ links) is likely unusable on mobile — creates scrolling/tapping overload</li>
+              <li>Animated decorative elements (hearts, lips, roses in hero) add page weight without conversion value</li>
+              <li>Self-Assessment popup trigger likely has small touch targets on mobile</li>
+              <li>No page speed data available, but heavy Elementor builds with multiple full-width images are typically slow on mobile</li>
+              <li>Floating bottom bar and sticky header nav both present simultaneously on mobile = double-stacked UI chrome reduces content area</li>
+            </ul>
+          </div>
+        </div>
+        <div class="hypothesis">
+          <div class="h-label">Testable Hypothesis</div>
+          IF we simplify the mobile mega-menu to 5 top-level categories (Book, Services, Specials, About, Contact) and remove decorative animated elements, THEN mobile page load speed and engagement time will improve BECAUSE reducing DOM complexity and request count directly improves Core Web Vitals, which affects both UX and paid traffic Quality Scores.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ICE TABLE -->
+  <section id="ice">
+    <h2>Experiment Backlog (ICE-Scored)</h2>
+    <div class="card" style="overflow-x:auto;">
+      <table class="ice-table" id="iceTable">
+        <thead>
+          <tr>
+            <th onclick="sortTable(0)">Recommendation ↕</th>
+            <th onclick="sortTable(1)">Category ↕</th>
+            <th onclick="sortTable(2)">Impact ↕</th>
+            <th onclick="sortTable(3)">Confidence ↕</th>
+            <th onclick="sortTable(4)">Ease ↕</th>
+            <th onclick="sortTable(5)">ICE ↕</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Fix copy-paste label error in Self-Assessment forms ("face concerns" shown in all categories)</td>
+            <td><span class="tag ux">UX</span></td>
+            <td>7</td><td>6</td><td>9</td>
+            <td><span class="ice-score high">7.3</span></td>
+          </tr>
+          <tr>
+            <td>Add Google Reviews star rating + count near primary Book Now CTA</td>
+            <td><span class="tag trust">Trust</span></td>
+            <td>8</td><td>6</td><td>7</td>
+            <td><span class="ice-score high">7.0</span></td>
+          </tr>
+          <tr>
+            <td>Reduce hero CTAs from 3 to 1 primary + 1 secondary ("Book Free Consult" / "Take Style Quiz")</td>
+            <td><span class="tag cta">CTA</span></td>
+            <td>8</td><td>5</td><td>7</td>
+            <td><span class="ice-score high">6.7</span></td>
+          </tr>
+          <tr>
+            <td>Promote Self-Assessment tool into hero section as secondary CTA</td>
+            <td><span class="tag cta">CTA</span></td>
+            <td>8</td><td>5</td><td>7</td>
+            <td><span class="ice-score high">6.7</span></td>
+          </tr>
+          <tr>
+            <td>Add "What happens next" micro-copy below Self-Assessment submit button</td>
+            <td><span class="tag ux">UX</span></td>
+            <td>6</td><td>6</td><td>9</td>
+            <td><span class="ice-score high">7.0</span></td>
+          </tr>
+          <tr>
+            <td>Create evergreen hero headline (replace seasonal Valentine's with permanent positioning)</td>
+            <td><span class="tag copy">Copy</span></td>
+            <td>7</td><td>5</td><td>7</td>
+            <td><span class="ice-score mid">6.3</span></td>
+          </tr>
+          <tr>
+            <td>Add "Voted #1 Med Spa in Austin" as a trust badge near the hero (not buried in testimonials)</td>
+            <td><span class="tag trust">Trust</span></td>
+            <td>7</td><td>5</td><td>8</td>
+            <td><span class="ice-score high">6.7</span></td>
+          </tr>
+          <tr>
+            <td>Complete Oakland Ave. location listing with full address and hours</td>
+            <td><span class="tag trust">Trust</span></td>
+            <td>5</td><td>6</td><td>10</td>
+            <td><span class="ice-score high">7.0</span></td>
+          </tr>
+          <tr>
+            <td>Add before/after results gallery above testimonials section</td>
+            <td><span class="tag copy">Content</span></td>
+            <td>9</td><td>5</td><td>5</td>
+            <td><span class="ice-score mid">6.3</span></td>
+          </tr>
+          <tr>
+            <td>Add starting-price anchors on high-ticket service links ("Botox from $12/unit")</td>
+            <td><span class="tag copy">Copy</span></td>
+            <td>7</td><td>4</td><td>6</td>
+            <td><span class="ice-score mid">5.7</span></td>
+          </tr>
+          <tr>
+            <td>Add FAQ section addressing cost, pain, downtime, safety for top 3 services</td>
+            <td><span class="tag copy">Content</span></td>
+            <td>7</td><td>5</td><td>5</td>
+            <td><span class="ice-score mid">5.7</span></td>
+          </tr>
+          <tr>
+            <td>Simplify mobile mega-menu to 5 top-level categories</td>
+            <td><span class="tag ux">Mobile</span></td>
+            <td>6</td><td>5</td><td>5</td>
+            <td><span class="ice-score mid">5.3</span></td>
+          </tr>
+          <tr>
+            <td>Add provider credentials / medical director bio on homepage</td>
+            <td><span class="tag trust">Trust</span></td>
+            <td>6</td><td>5</td><td>5</td>
+            <td><span class="ice-score mid">5.3</span></td>
+          </tr>
+          <tr>
+            <td>Remove animated decorative elements from hero (hearts, roses, lips icons) to improve page speed</td>
+            <td><span class="tag ux">Mobile</span></td>
+            <td>5</td><td>5</td><td>8</td>
+            <td><span class="ice-score mid">6.0</span></td>
+          </tr>
+          <tr>
+            <td>Connect GA4 to BigQuery for data-backed optimization</td>
+            <td><span class="tag ux">Analytics</span></td>
+            <td>10</td><td>6</td><td>4</td>
+            <td><span class="ice-score high">6.7</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- QUICK WINS -->
+  <section id="quickwins">
+    <h2>Quick Wins (ICE ≥ 7.0)</h2>
+    <div class="qw-grid">
+      <div class="qw-card">
+        <div class="qw-tag">ICE 7.3 — 30 min fix</div>
+        <h4>Fix Self-Assessment form label error</h4>
+        <p>Every non-face category (Body, Hair, Wellness) shows "What concerns do you have about your face?" — a copy-paste bug that signals carelessness at a trust-critical moment.</p>
+      </div>
+      <div class="qw-card">
+        <div class="qw-tag">ICE 7.0 — 1 hour fix</div>
+        <h4>Complete Oakland Ave. location listing</h4>
+        <p>Add full address, suite number, and hours. An incomplete location listing is a local SEO problem and a trust problem simultaneously.</p>
+      </div>
+      <div class="qw-card">
+        <div class="qw-tag">ICE 7.0 — 1 hour</div>
+        <h4>Add Google Reviews badge near Book Now</h4>
+        <p>Embed star rating and review count adjacent to the primary booking CTA. This is the highest-ROI trust placement position on any local services page.</p>
+      </div>
+      <div class="qw-card">
+        <div class="qw-tag">ICE 7.0 — 30 min</div>
+        <h4>Add "What happens next" copy to Self-Assessment</h4>
+        <p>Below the submit button: "Our team will reach out within 2 hours to recommend the right treatment for you." Specificity eliminates submission anxiety.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 48 HR PLAN -->
+  <section id="plan">
+    <h2>48-Hour Action Plan</h2>
+    <div class="card">
+      <div class="plan-item">
+        <div class="plan-num">1</div>
+        <div class="plan-content">
+          <h4>Fix the Self-Assessment form copy-paste error</h4>
+          <p>Update each form category's label to match the actual body area. This takes 30 minutes and immediately removes a credibility-damaging bug.</p>
+        </div>
+      </div>
+      <div class="plan-item">
+        <div class="plan-num">2</div>
+        <div class="plan-content">
+          <h4>Add Google Reviews widget near Book Now CTA</h4>
+          <p>Install a Google Reviews plugin (e.g., Widgets for Google Reviews) and place it directly above or beside the Book Now button. Zero cost, high trust impact.</p>
+        </div>
+      </div>
+      <div class="plan-item">
+        <div class="plan-num">3</div>
+        <div class="plan-content">
+          <h4>Complete Oakland Ave. location details</h4>
+          <p>Add full address, phone number, and hours for the Oakland Ave. location. Incomplete listings cost local search rankings and confuse prospective clients.</p>
+        </div>
+      </div>
+      <div class="plan-item">
+        <div class="plan-num">4</div>
+        <div class="plan-content">
+          <h4>Move "Voted #1 Med Spa in Austin" into the hero section</h4>
+          <p>Extract this claim from the testimonial copy and add it as a badge or sub-headline in the hero. Takes 15 minutes. Dramatically improves first-impression trust.</p>
+        </div>
+      </div>
+      <div class="plan-item">
+        <div class="plan-num">5</div>
+        <div class="plan-content">
+          <h4>Connect GA4 to BigQuery</h4>
+          <p>Enable the BigQuery Export from Google Analytics → Admin → BigQuery Links. This is a one-time setup that enables data-backed optimization for every future recommendation, moving confidence scores from heuristic (cap 6) to data-backed (7-9).</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- METHODOLOGY -->
+  <section id="methodology">
+    <h2>Methodology</h2>
+    <div class="card">
+      <h3>Frameworks Applied</h3>
+      <p><strong>Conversion Equation:</strong> Motivation − Friction − Anxiety + Incentive = Conversion Likelihood. Every finding is mapped to one of these four levers.</p>
+      <p><strong>Visitor 5 Questions:</strong> Each page section was evaluated against: Am I in the right place? Is this for me? Can I trust you? What will it cost/risk? What do I do next?</p>
+      <p><strong>Decision Design:</strong> Analysis prioritized System 1 (fast, intuitive) optimization — reducing cognitive load, increasing clarity, and placing trust signals at moments of commitment.</p>
+      <p><strong>ICE Prioritization:</strong> Impact (expected conversion lift) × Confidence (evidence quality, capped at 6 without analytics data) × Ease (dev/design effort) — averaged to produce a 1–10 ICE score.</p>
+      <p><strong>Data Availability:</strong> This audit is based on heuristic analysis of the live homepage (fetched March 2026). No GA4, heatmap, or session recording data was available. All confidence scores reflect this ceiling. Connecting analytics is the single highest-value next step.</p>
+    </div>
+  </section>
+</main>
+
+<script>
+function toggle(header) {
+  const section = header.parentElement;
+  section.classList.toggle('open');
+}
+
+function sortTable(col) {
+  const table = document.getElementById('iceTable');
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+  const dir = table.dataset.sortDir === 'asc' ? 1 : -1;
+  table.dataset.sortDir = dir === 1 ? 'desc' : 'asc';
+  rows.sort((a, b) => {
+    const av = a.cells[col].innerText.trim();
+    const bv = b.cells[col].innerText.trim();
+    const an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) return (an - bn) * dir;
+    return av.localeCompare(bv) * dir;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+// Smooth scroll for nav links
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Animate score bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.score-bar-fill').forEach(bar => {
+    const w = bar.style.width;
+    bar.style.width = '0';
+    setTimeout(() => bar.style.width = w, 100);
+  });
+});
+</script>
+</body>
+</html>
