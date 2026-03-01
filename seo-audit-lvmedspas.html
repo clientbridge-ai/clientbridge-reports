@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit Report — La Vie Med Spas (lvmedspas.com)</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:'DM Sans',sans-serif; background:#f5f4f0; color:#0a0a0a; line-height:1.7; font-size:15px; }
+  
+  header { background:linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 100%); color:#f5f4f0; padding:60px 40px; }
+  header .badge { display:inline-block; background:#d97706; color:#fff; padding:6px 14px; border-radius:4px; font-weight:700; font-size:0.78em; letter-spacing:1px; margin-bottom:18px; }
+  header h1 { font-family:'Instrument Serif',serif; font-size:2.6em; font-weight:400; margin-bottom:10px; }
+  header .meta { opacity:0.75; font-size:0.9em; margin-top:8px; }
+  
+  .container { max-width:1100px; margin:0 auto; padding:50px 40px; }
+  
+  /* Score banner */
+  .score-banner { background:#fff; border:1px solid #d8d4cc; border-radius:8px; padding:35px 40px; margin-bottom:40px; display:flex; align-items:center; gap:40px; flex-wrap:wrap; }
+  .score-circle { width:110px; height:110px; border-radius:50%; background:conic-gradient(#d97706 0% 46%, #e5e5e5 46% 100%); display:flex; align-items:center; justify-content:center; flex-shrink:0; position:relative; }
+  .score-inner { width:80px; height:80px; border-radius:50%; background:#fff; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+  .score-num { font-size:1.9em; font-weight:700; color:#0a0a0a; line-height:1; }
+  .score-denom { font-size:0.75em; color:#8a8680; }
+  .score-desc h2 { font-family:'Instrument Serif',serif; font-size:1.5em; font-weight:400; margin-bottom:6px; }
+  .score-desc p { color:#5a5a5a; font-size:0.92em; max-width:620px; }
+  
+  .sub-scores { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-top:28px; }
+  .sub-score { background:#f5f4f0; border-radius:6px; padding:16px; text-align:center; }
+  .sub-score .label { font-size:0.78em; font-weight:600; color:#5a5a5a; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:6px; }
+  .sub-score .val { font-size:1.4em; font-weight:700; }
+  .val.red { color:#dc2626; }
+  .val.amber { color:#d97706; }
+  .val.green { color:#16a34a; }
+  
+  /* Sections */
+  .section { background:#fff; border:1px solid #d8d4cc; border-radius:8px; padding:36px 40px; margin-bottom:30px; }
+  .section h2 { font-family:'Instrument Serif',serif; font-size:1.55em; font-weight:400; padding-bottom:14px; border-bottom:2px solid #0a0a0a; margin-bottom:24px; }
+  .section h3 { font-size:1.05em; font-weight:700; margin:22px 0 10px; }
+  .section p { margin-bottom:12px; color:#1a1a1a; }
+  
+  /* Priority table */
+  table { width:100%; border-collapse:collapse; margin:18px 0; font-size:0.9em; }
+  th { background:#0a0a0a; color:#f5f4f0; padding:11px 14px; text-align:left; font-weight:600; font-size:0.82em; text-transform:uppercase; letter-spacing:0.5px; }
+  td { padding:12px 14px; border-bottom:1px solid #e5e2dc; vertical-align:top; }
+  tr:last-child td { border-bottom:none; }
+  tr:nth-child(even) td { background:#fafaf8; }
+  
+  /* Tags */
+  .tag { display:inline-block; padding:3px 10px; border-radius:20px; font-size:0.75em; font-weight:600; margin:2px; }
+  .tag-critical { background:#fee2e2; color:#dc2626; }
+  .tag-high { background:#fef3c7; color:#b45309; }
+  .tag-medium { background:#dbeafe; color:#1d4ed8; }
+  .tag-low { background:#d1fae5; color:#065f46; }
+  
+  /* Finding boxes */
+  .finding { background:#f5f4f0; border-left:4px solid #d97706; border-radius:4px; padding:18px 20px; margin:14px 0; }
+  .finding.critical { border-left-color:#dc2626; }
+  .finding.good { border-left-color:#16a34a; background:#f0fdf4; }
+  .finding strong { display:block; margin-bottom:5px; font-size:0.95em; }
+  .finding p, .finding ul { font-size:0.9em; color:#3a3a3a; }
+  .finding ul { margin-left:18px; margin-top:6px; }
+  .finding ul li { margin-bottom:4px; }
+  
+  /* Roadmap */
+  .roadmap-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:20px; }
+  .roadmap-col { background:#f5f4f0; border-radius:6px; padding:22px; }
+  .roadmap-col h4 { font-weight:700; font-size:0.85em; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:14px; padding-bottom:10px; border-bottom:2px solid #0a0a0a; }
+  .roadmap-col ol { margin-left:18px; font-size:0.88em; }
+  .roadmap-col ol li { margin-bottom:8px; }
+  
+  /* Exec summary */
+  .exec-box { background:linear-gradient(135deg,#1a1a1a,#0a0a0a); color:#f5f4f0; border-radius:8px; padding:32px 36px; margin-bottom:30px; }
+  .exec-box h2 { font-family:'Instrument Serif',serif; font-size:1.4em; font-weight:400; margin-bottom:14px; color:#f5f4f0; }
+  .exec-box p { opacity:0.88; font-size:0.93em; margin-bottom:10px; }
+  
+  .kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-top:18px; }
+  .kpi { background:rgba(255,255,255,0.08); border-radius:6px; padding:14px 16px; }
+  .kpi .k { font-size:0.75em; opacity:0.7; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:4px; }
+  .kpi .v { font-size:1.1em; font-weight:700; color:#fbbf24; }
+  
+  footer { text-align:center; padding:36px 40px; color:#8a8680; font-size:0.85em; border-top:1px solid #d8d4cc; margin-top:50px; }
+  
+  @media(max-width:700px) {
+    header { padding:40px 20px; }
+    .container { padding:30px 20px; }
+    .section { padding:24px 20px; }
+    .roadmap-grid { grid-template-columns:1fr; }
+    .score-banner { flex-direction:column; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">SEO AUDIT REPORT</div>
+  <h1>La Vie Med Spas &amp; Salon</h1>
+  <div class="meta">lvmedspas.com &nbsp;|&nbsp; Austin, TX &nbsp;|&nbsp; Audit Date: March 2026</div>
+</header>
+
+<div class="container">
+
+  <!-- EXECUTIVE SUMMARY -->
+  <div class="exec-box">
+    <h2>Executive Summary</h2>
+    <p>La Vie Med Spas (LVS) is a full-service med spa and salon on Austin's Rainey Street, offering a broad menu spanning injectables, facials, wellness, salon, and body treatments. The site has solid structural bones — HTTPS, a logical service hierarchy, and reasonable on-page content on key service pages — but is being significantly undercut by brand identity confusion, weak local SEO signals, thin homepage content, and a competitive Austin market where established players like Viva Day Spa, Austin Med Spa, TOC Medical, and Refine Aesthetics have substantially stronger domain authority and keyword presence.</p>
+    <p>The highest-priority opportunities are fixing the brand name inconsistency (La Vie / LVS / La Vie En Rainey are used interchangeably across the site), claiming and optimizing the Google Business Profile, and building out location-specific content to compete in the local 3-Pack — the primary source of booked appointments for med spas.</p>
+    <div class="kpi-row">
+      <div class="kpi"><div class="k">Overall Score</div><div class="v">46 / 100</div></div>
+      <div class="kpi"><div class="k">Technical SEO</div><div class="v">58 / 100</div></div>
+      <div class="kpi"><div class="k">On-Page SEO</div><div class="v">42 / 100</div></div>
+      <div class="kpi"><div class="k">Local SEO</div><div class="v">38 / 100</div></div>
+      <div class="kpi"><div class="k">Content Quality</div><div class="v">50 / 100</div></div>
+      <div class="kpi"><div class="k">Competitive Position</div><div class="v">35 / 100</div></div>
+    </div>
+  </div>
+
+  <!-- SCORE BREAKDOWN -->
+  <div class="score-banner">
+    <div class="score-circle">
+      <div class="score-inner">
+        <div class="score-num">46</div>
+        <div class="score-denom">/100</div>
+      </div>
+    </div>
+    <div class="score-desc">
+      <h2>Needs Significant Work</h2>
+      <p>LVS has a real foundation to build on — a legitimate business, experienced practitioners, and a good service range — but the site is leaving significant organic traffic on the table. Brand confusion, thin local signals, and a crowded competitive set mean the site is likely invisible for most high-intent searches in Austin. A focused 90-day effort on the priorities below can materially shift rankings and bookings.</p>
+    </div>
+    <div class="sub-scores" style="width:100%">
+      <div class="sub-score"><div class="label">Technical</div><div class="val amber">58</div></div>
+      <div class="sub-score"><div class="label">On-Page</div><div class="val red">42</div></div>
+      <div class="sub-score"><div class="label">Local SEO</div><div class="val red">38</div></div>
+      <div class="sub-score"><div class="label">Content</div><div class="val amber">50</div></div>
+      <div class="sub-score"><div class="label">Competitive</div><div class="val red">35</div></div>
+    </div>
+  </div>
+
+  <!-- TECHNICAL SEO -->
+  <div class="section">
+    <h2>Technical SEO — 58/100</h2>
+    <p>The site runs on WordPress with HTTPS active and a mobile-responsive layout. Core technical foundations are in place. However, several issues undermine crawlability and trust signals.</p>
+
+    <div class="finding critical">
+      <strong>CRITICAL: Brand Name Inconsistency Across the Site</strong>
+      <p>The business operates under at least three names: "La Vie Med Spas &amp; Salon," "LVS Med Spas," and "La Vie En Rainey Med Spa &amp; Salon." The page title on the homepage reads "LVS Med Spas in Austin" while the logo image alt text says "Med Spas in Austin." The domain is lvmedspas.com but Google is likely indexing this as a different brand than what customers search for. This fragmentation dilutes brand authority in Google's eyes and creates confusion in search results.</p>
+      <ul>
+        <li>Standardize to one primary name — recommend "La Vie Med Spas Austin" — and use it consistently in page titles, H1s, meta descriptions, and schema markup.</li>
+        <li>Update the logo image alt text immediately (currently "Med Spas in Austin" — a missed brand signal).</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: Page Title Tags Are Weak or Misaligned</strong>
+      <p>Homepage title: "Experience Radiance in Austin - LA VIE MED SPAS &amp; SALON" — generic and not keyword-targeted. The About Us page title reads "Luxury Self-Care at LVS Med Spas" — misses local keywords entirely. Fillers page: "Dermal Fillers for Youthful Look" — no Austin geo-modifier. Competitors like Austin Med Spa and Viva Day Spa lead every title with the primary keyword + city.</p>
+      <ul>
+        <li>Recommended homepage title: "Med Spa Austin TX | Botox, Fillers &amp; Wellness | La Vie Med Spas"</li>
+        <li>All service pages should follow: "[Service Name] Austin TX | [Brand]"</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: Meta Description Consistency Unknown — Likely Missing or Duplicate</strong>
+      <p>ASSUMPTION: Based on the generic page content patterns observed, many service pages likely share templated or missing meta descriptions. Google will auto-generate these, often unfavorably. Each page needs a unique, conversion-oriented meta description with a CTA and location reference.</p>
+    </div>
+
+    <div class="finding">
+      <strong>MEDIUM: Image Alt Text is Inconsistent / Missing</strong>
+      <p>The logo image alt text is "Med Spas in Austin" — generic. Service page images likely have missing or auto-generated alt text. Every image should have descriptive, keyword-relevant alt text (e.g., "botox injection treatment at La Vie Med Spas Austin TX").</p>
+    </div>
+
+    <div class="finding good">
+      <strong>POSITIVE: HTTPS Active, Mobile Responsive, Site Structure is Logical</strong>
+      <p>The service menu hierarchy (MED SPA / LUXE SPA / WELLNESS / SALON / BODY) is well-organized and crawlable. No obvious redirect chains on main pages. WordPress platform enables easy SEO plugin implementation (Yoast or RankMath if not already installed).</p>
+    </div>
+
+    <div class="finding">
+      <strong>MEDIUM: Schema Markup Likely Missing</strong>
+      <p>ASSUMPTION: No structured data (LocalBusiness, MedicalSpa, Service, FAQPage) appears to be implemented. Schema markup is a significant ranking factor for local businesses, particularly for rich results in the local 3-Pack.</p>
+      <ul>
+        <li>Implement LocalBusiness schema on the homepage with NAP (Name, Address, Phone), business hours, and geo-coordinates.</li>
+        <li>Add Service schema to each service page.</li>
+        <li>Add FAQPage schema to any FAQ sections to capture featured snippet real estate.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>LOW: Booking CTA Goes to External Domain (mindbodyonline.com)</strong>
+      <p>All "Book Now" CTAs link out to MindBody, a third-party scheduling platform. This is common in the spa industry but means booking conversions aren't tracked natively on the site. Ensure Google Analytics / GA4 is set up with outbound click tracking to MindBody so conversion data is captured.</p>
+    </div>
+  </div>
+
+  <!-- ON-PAGE SEO -->
+  <div class="section">
+    <h2>On-Page SEO — 42/100</h2>
+    <p>Service pages have descriptive content but consistently miss geo-modifiers, conversion-oriented CTAs, and keyword depth needed to rank against established Austin competitors. The homepage is the most critical problem — it's brand-led rather than search-led.</p>
+
+    <h3>Homepage Analysis</h3>
+    <div class="finding critical">
+      <strong>CRITICAL: Homepage H1 is Absent or Weak</strong>
+      <p>The homepage headline "Experience Radiance in Austin" functions as a tagline, not an H1 optimized for search. There is no primary keyword like "Med Spa Austin" or "Botox Austin" above the fold. Competitors like Refine Aesthetics and TOC Medical Spa lead their homepages with geo-targeted headlines. This single fix could improve homepage rankings meaningfully.</p>
+      <ul>
+        <li>Recommended H1: "Austin's Premier Med Spa &amp; Salon — Botox, Fillers, Facials &amp; Wellness"</li>
+        <li>Ensure this is a true H1 tag, not a styled div or paragraph.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: Service Pages Lack Geographic Specificity in Body Copy</strong>
+      <p>The Fillers page, Laser page, and Facials page all have decent descriptive content but rarely mention "Austin," "Rainey Street," or neighborhood-level location references in the body copy. Google uses geo-signals throughout page content to determine local relevance.</p>
+      <ul>
+        <li>Add "in Austin, TX" or "at our Rainey Street location" naturally throughout service page copy.</li>
+        <li>Add a location paragraph at the bottom of each service page: who you are, where you're located, and a CTA to book.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: No Pricing Information — Missed Conversion and SEO Opportunity</strong>
+      <p>Competitor sites like Viva Day Spa publish specific pricing (e.g., "Botox from $10.80/unit," "Lip flip $100"). Users searching "botox price Austin" or "lip filler cost Austin" — high-intent commercial queries — will land on competitors. LVS has a promotions page but no transparent baseline pricing on service pages.</p>
+      <ul>
+        <li>Add "starting from" pricing to key service pages (Botox/Injectables, Fillers, Facials, IV Therapy).</li>
+        <li>This also reduces friction for new clients who are price-comparing before booking.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>MEDIUM: Internal Linking is Shallow</strong>
+      <p>Service pages don't cross-link to related services (e.g., the Fillers page doesn't link to Injectables, Skin Rejuvenation, or Chemical Peels). The homepage doesn't prominently feature the most revenue-generating services. Internal links distribute page authority and help Google understand your site structure.</p>
+    </div>
+
+    <div class="finding good">
+      <strong>POSITIVE: Service Content Has Good Depth on Key Pages</strong>
+      <p>Pages like Skin Rejuvenation, Facials, and Vitamin Shots have substantive content explaining the services, what to expect, and why to choose LVS. This content foundation is a real asset — it just needs geo-targeting and keyword enhancement, not a full rewrite.</p>
+    </div>
+
+    <h3>Key Page Titles — Current vs. Recommended</h3>
+    <table>
+      <tr><th>Page</th><th>Current Title</th><th>Recommended Title</th></tr>
+      <tr><td>Homepage</td><td>Experience Radiance in Austin - LA VIE MED SPAS &amp; SALON</td><td>Med Spa Austin TX | Botox, Fillers &amp; Wellness | La Vie Med Spas</td></tr>
+      <tr><td>About Us</td><td>Luxury Self-Care at LVS Med Spas</td><td>About La Vie Med Spas | Austin TX Med Spa &amp; Salon Team</td></tr>
+      <tr><td>Fillers</td><td>Dermal Fillers for Youthful Look</td><td>Dermal Fillers Austin TX | Lip &amp; Facial Fillers | La Vie Med Spas</td></tr>
+      <tr><td>Injectables</td><td>(Unknown)</td><td>Botox &amp; Dysport Austin TX | Injectables | La Vie Med Spas</td></tr>
+      <tr><td>IV Therapy</td><td>(Partial match — "/iv-therapy-austin-tx/" slug is correct)</td><td>IV Therapy Austin TX | Vitamin Infusions | La Vie Med Spas</td></tr>
+      <tr><td>Facials</td><td>Reveal Your Skin's True Beauty</td><td>Facials Austin TX | HydraFacial &amp; Custom Facials | La Vie Med Spas</td></tr>
+      <tr><td>Weight Loss</td><td>(Unknown)</td><td>Weight Loss Therapy Austin TX | Semaglutide | La Vie Med Spas</td></tr>
+    </table>
+  </div>
+
+  <!-- LOCAL SEO -->
+  <div class="section">
+    <h2>Local SEO — 38/100</h2>
+    <p>For a med spa, local SEO is the highest-ROI channel. The majority of new clients are discovered through Google Maps / 3-Pack results. This is the area where LVS has the most to gain in the shortest timeframe.</p>
+
+    <div class="finding critical">
+      <strong>CRITICAL: Google Business Profile — Status and Optimization Unknown</strong>
+      <p>ASSUMPTION: The GBP appears under "La Vie En Rainey" on third-party platforms (ClassPass listing confirms this name). If the GBP is listed under a different name than the website, citations are split, reviews are split, and Google can't consolidate authority. This is a high-priority verification task.</p>
+      <ul>
+        <li>Verify the GBP exists and is claimed at business.google.com.</li>
+        <li>Ensure GBP name matches the standardized brand name chosen for the site.</li>
+        <li>Fully complete all GBP fields: services, service areas, hours, photos (15+ minimum), booking link to MindBody, and Q&amp;A.</li>
+        <li>Add all services individually in the GBP Services section — this directly feeds local search results.</li>
+      </ul>
+    </div>
+
+    <div class="finding critical">
+      <strong>CRITICAL: NAP Inconsistency — Multiple Brand Names Across Web</strong>
+      <p>The business appears as "La Vie En Rainey," "LVS Med Spas," and "La Vie Med Spas" across different directories (ClassPass, the website, Google). This NAP (Name, Address, Phone) inconsistency is one of the most damaging local SEO factors. Google uses citation consistency to verify business legitimacy.</p>
+      <ul>
+        <li>Audit all directory listings: Yelp, Healthgrades, RealSelf, ZocDoc, Vagaro, Mindbody marketplace, ClassPass, Facebook, Instagram.</li>
+        <li>Update all citations to use the identical business name, address, and phone number.</li>
+        <li>Use a tool like BrightLocal or Yext to audit and push consistent citations at scale.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: No Neighborhood or City-Area Content Pages</strong>
+      <p>Competitors like Viva Day Spa and Austin Med Spa mention specific Austin neighborhoods (Westlake, Zilker, Tarrytown, Downtown) in their content to capture geo-specific searches. LVS's Rainey Street location is a significant asset — it's a high-traffic entertainment district — but the site doesn't capitalize on it for local SEO.</p>
+      <ul>
+        <li>Create a location page: "Med Spa on Rainey Street Austin — La Vie Med Spas" targeting "Rainey Street spa," "East Austin med spa," "med spa near downtown Austin."</li>
+        <li>Mention proximity to major landmarks: Lady Bird Lake, Red River Cultural District, East 6th Street.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: Review Volume and Strategy</strong>
+      <p>ASSUMPTION: Based on ClassPass and homepage testimonials, reviews exist but the volume relative to competitors is unknown. Austin Med Spa (since 2004) and Viva Day Spa (Allergan Top 250 provider) will have significantly more reviews. Review velocity (getting new reviews regularly) is a key local ranking signal.</p>
+      <ul>
+        <li>Set up an automated post-visit review request via email or SMS (MindBody may support this).</li>
+        <li>Respond to all existing Google reviews — both positive and negative. This signals engagement to Google.</li>
+        <li>Target 5+ new Google reviews per month minimum.</li>
+      </ul>
+    </div>
+
+    <div class="finding good">
+      <strong>POSITIVE: IV Therapy URL Slug is Geo-Targeted</strong>
+      <p>The URL /iv-therapy-austin-tx/ is correctly formatted with a geo-modifier. This is the right approach. Apply this same pattern to other service pages where the URL doesn't already include "austin-tx."</p>
+    </div>
+  </div>
+
+  <!-- CONTENT QUALITY -->
+  <div class="section">
+    <h2>Content Quality — 50/100</h2>
+    <p>LVS has more content depth than most early-stage med spa sites. However, content is not organized to capture SEO-specific search intent, and several high-value content opportunities are missing entirely.</p>
+
+    <div class="finding">
+      <strong>HIGH: No Blog Content Targeting Educational Searches</strong>
+      <p>The site has a /blog/ page but it appears minimally developed. Competitors capture patients earlier in their buying journey through educational content: "How much does Botox cost in Austin?", "Botox vs. Dysport: What's the difference?", "What to expect from your first facial." These long-tail searches drive qualified traffic that converts to bookings.</p>
+      <ul>
+        <li>Prioritize 4–6 blog posts targeting high-intent educational queries: Botox pricing in Austin, lip filler aftercare, Semaglutide weight loss FAQ, HydraFacial benefits.</li>
+        <li>Each post should link internally to the corresponding service page.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>HIGH: Weight Loss / Semaglutide — Trending Keyword, Thin Content</strong>
+      <p>The homepage mentions "Semaglutide Weight Loss Treatment" with patients losing "an average of 1-2 pounds per week." This is one of the highest-intent med spa searches nationally right now. However, the Weight Loss Therapy page content depth is unknown. This warrants a dedicated, content-rich page targeting: "semaglutide Austin TX," "weight loss injections Austin," "GLP-1 Austin."</p>
+    </div>
+
+    <div class="finding">
+      <strong>MEDIUM: Staff Bio Pages Are Strong — But Underleveraged for SEO</strong>
+      <p>The About Us page features detailed staff bios (Justin, Cassandra, Lauren, Morgan, Virginia) with specific credentials and specialties. This is excellent E-E-A-T (Experience, Expertise, Authoritativeness, Trustworthiness) content — critical for YMYL (health/medical) sites. However, staff names don't appear to be indexed as individual practitioner pages, and their specialties aren't linked to the relevant service pages.</p>
+      <ul>
+        <li>Link each staff bio's specialty to the corresponding service page (e.g., "Justin specializes in injectables" → link to /injectables/).</li>
+        <li>Consider adding individual practitioner pages or ensuring staff bios appear on service pages to boost E-E-A-T.</li>
+      </ul>
+    </div>
+
+    <div class="finding">
+      <strong>MEDIUM: Promotions Page Has Good Content But Poor SEO Structure</strong>
+      <p>The /promotions/ page lists specific offers (Triangle Lift, IPL packages, Botox bundles) with real pricing ($800 for 100 units of Botox). This is valuable conversion content, but it's unlikely ranking for any commercial terms. Each promotion could be structured as a dedicated landing page or have proper keyword-rich titles and meta descriptions.</p>
+    </div>
+
+    <div class="finding good">
+      <strong>POSITIVE: Service Descriptions are Medically Accurate and Detailed</strong>
+      <p>Pages like Skin Rejuvenation, Laser, and Facials explain treatments in appropriate clinical depth — a trust signal for both users and Google. The content doesn't appear AI-generated or templated. This is a genuine content quality advantage over many local competitors.</p>
+    </div>
+  </div>
+
+  <!-- COMPETITIVE ANALYSIS -->
+  <div class="section">
+    <h2>Competitive Landscape — 35/100</h2>
+    <p>Austin's med spa market is saturated with well-funded, established competitors. LVS's primary competitive advantages are the Rainey Street location (high foot traffic, brand-aware neighborhood) and the full-service salon+medspa+wellness combo. Neither of these is being leveraged effectively in SEO.</p>
+
+    <table>
+      <tr><th>Competitor</th><th>Key Strengths</th><th>LVS Opportunity vs. Them</th></tr>
+      <tr>
+        <td><strong>Viva Day Spa</strong><br><small>vivadayspa.com</small></td>
+        <td>Allergan Top 250 provider, 5 locations, transparent pricing, strong brand authority</td>
+        <td>LVS can win on Rainey Street local searches and the "full-service salon + med spa" combination that Viva doesn't offer</td>
+      </tr>
+      <tr>
+        <td><strong>Austin Med Spa</strong><br><small>austinmedspa.com</small></td>
+        <td>Since 2004, high domain authority, downtown location, strong review volume</td>
+        <td>LVS is newer but has a trendier location and broader wellness menu (IV therapy, cryotherapy, peptides)</td>
+      </tr>
+      <tr>
+        <td><strong>Rejuvenate Austin</strong><br><small>rejuvenateaustin.com</small></td>
+        <td>Physician-owned (strong trust signal), strong social media, boutique positioning</td>
+        <td>LVS can emphasize the women-owned, nurse injector expertise, and Rainey Street lifestyle brand</td>
+      </tr>
+      <tr>
+        <td><strong>TOC Medical Spa</strong><br><small>tocmedicalspa.com</small></td>
+        <td>Austin's first med spa, long review history, strong Yelp presence</td>
+        <td>LVS's full salon and event/spa party services are a differentiator TOC doesn't offer</td>
+      </tr>
+      <tr>
+        <td><strong>Refine Aesthetics</strong><br><small>refineaesthetics.com</small></td>
+        <td>Clean, modern site, strong on-page SEO, curated injectable menu</td>
+        <td>LVS's broader menu and Rainey Street location serve a different client profile</td>
+      </tr>
+    </table>
+
+    <h3>Keyword Gap — High-Priority Terms LVS is Likely Missing</h3>
+    <table>
+      <tr><th>Keyword</th><th>Est. Intent</th><th>Priority</th><th>Current LVS Gap</th></tr>
+      <tr><td>botox austin tx</td><td>High commercial</td><td><span class="tag tag-critical">Critical</span></td><td>No dedicated Botox page — buried in "Injectables"</td></tr>
+      <tr><td>med spa austin</td><td>High commercial</td><td><span class="tag tag-critical">Critical</span></td><td>Homepage not optimized for this primary term</td></tr>
+      <tr><td>semaglutide austin tx</td><td>High commercial</td><td><span class="tag tag-high">High</span></td><td>Mentioned on homepage only, no dedicated page</td></tr>
+      <tr><td>lip filler austin</td><td>High commercial</td><td><span class="tag tag-high">High</span></td><td>Fillers page exists but title/content unoptimized</td></tr>
+      <tr><td>rainey street spa</td><td>High local</td><td><span class="tag tag-high">High</span></td><td>No content targeting this location-specific term</td></tr>
+      <tr><td>hydrafacial austin tx</td><td>Medium commercial</td><td><span class="tag tag-medium">Medium</span></td><td>Mentioned on facials page, no dedicated page</td></tr>
+      <tr><td>iv therapy austin tx</td><td>Medium commercial</td><td><span class="tag tag-medium">Medium</span></td><td>URL is geo-targeted — this page has best shot already</td></tr>
+      <tr><td>botox price austin</td><td>Medium informational</td><td><span class="tag tag-medium">Medium</span></td><td>No pricing content on site</td></tr>
+      <tr><td>spa party austin</td><td>Medium commercial</td><td><span class="tag tag-medium">Medium</span></td><td>Event space page exists, likely unoptimized</td></tr>
+      <tr><td>cryotherapy austin</td><td>Lower volume</td><td><span class="tag tag-low">Low</span></td><td>Cryo page exists — likely ranks for branded terms</td></tr>
+    </table>
+  </div>
+
+  <!-- 90-DAY ROADMAP -->
+  <div class="section">
+    <h2>90-Day Implementation Roadmap</h2>
+    <p>Prioritized for maximum organic and local impact within 90 days. Assumes one person (or agency) executing 5–10 hours/week.</p>
+
+    <div class="roadmap-grid">
+      <div class="roadmap-col">
+        <h4>Days 1–30 — Foundation</h4>
+        <ol>
+          <li><strong>Standardize brand name</strong> across all pages, titles, and meta tags. Pick one name and enforce it.</li>
+          <li><strong>Claim/optimize Google Business Profile</strong> — complete every field, add 20+ photos, add all services, set booking link.</li>
+          <li><strong>Rewrite all page title tags</strong> using the recommended format: [Service] Austin TX | [Brand].</li>
+          <li><strong>Fix homepage H1</strong> to include primary keyword "Med Spa Austin."</li>
+          <li><strong>Logo alt text fix</strong> — update from "Med Spas in Austin" to brand name.</li>
+          <li><strong>Implement LocalBusiness schema</strong> on homepage with NAP, hours, and coordinates.</li>
+        </ol>
+      </div>
+      <div class="roadmap-col">
+        <h4>Days 31–60 — Content &amp; Local</h4>
+        <ol>
+          <li><strong>Create dedicated Botox/Neuromodulators page</strong> — break it out from "Injectables" to target "botox austin tx" directly.</li>
+          <li><strong>Create Semaglutide/Weight Loss dedicated page</strong> — this is the fastest-growing med spa keyword nationally.</li>
+          <li><strong>Write Rainey Street location page</strong> targeting neighborhood-specific searches.</li>
+          <li><strong>Add geo-text to all major service pages</strong> — 2–3 sentences per page mentioning Austin / Rainey Street location.</li>
+          <li><strong>Audit all external citations</strong> (Yelp, Healthgrades, ClassPass, RealSelf) — update to consistent NAP.</li>
+          <li><strong>Launch review request workflow</strong> via post-visit email/SMS through MindBody.</li>
+        </ol>
+      </div>
+      <div class="roadmap-col">
+        <h4>Days 61–90 — Authority &amp; Content</h4>
+        <ol>
+          <li><strong>Publish 4 blog posts</strong> targeting high-intent educational queries: Botox pricing Austin, lip filler guide, Semaglutide FAQ, HydraFacial vs. regular facial.</li>
+          <li><strong>Add starting-from pricing</strong> to Botox, Fillers, IV Therapy, and Facial pages.</li>
+          <li><strong>Implement Service schema</strong> on each individual service page.</li>
+          <li><strong>Build 3–5 quality local backlinks</strong> — Austin lifestyle blogs, local news features, neighborhood associations for Rainey Street / East Austin.</li>
+          <li><strong>Link staff bios to service pages</strong> — improve E-E-A-T signals for medical/YMYL content.</li>
+          <li><strong>Optimize event space/spa party page</strong> targeting "spa party austin" and "event space rainey street."</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUICK WINS SUMMARY -->
+  <div class="section">
+    <h2>Priority Action Summary</h2>
+    <table>
+      <tr><th>#</th><th>Action</th><th>Priority</th><th>Effort</th><th>Est. Impact</th></tr>
+      <tr><td>1</td><td>Standardize brand name across entire site</td><td><span class="tag tag-critical">Critical</span></td><td>Low</td><td>Brand authority, citation consolidation</td></tr>
+      <tr><td>2</td><td>Optimize Google Business Profile</td><td><span class="tag tag-critical">Critical</span></td><td>Medium</td><td>3-Pack visibility, direct bookings</td></tr>
+      <tr><td>3</td><td>Rewrite all page title tags with geo-modifiers</td><td><span class="tag tag-critical">Critical</span></td><td>Low</td><td>Ranking improvement across all pages</td></tr>
+      <tr><td>4</td><td>Fix homepage H1 to target "Med Spa Austin"</td><td><span class="tag tag-critical">Critical</span></td><td>Low</td><td>Homepage ranking for primary term</td></tr>
+      <tr><td>5</td><td>Create dedicated Botox landing page</td><td><span class="tag tag-high">High</span></td><td>Medium</td><td>Highest search volume injectable term</td></tr>
+      <tr><td>6</td><td>Audit and fix all external NAP citations</td><td><span class="tag tag-high">High</span></td><td>Medium</td><td>Local pack authority</td></tr>
+      <tr><td>7</td><td>Create Semaglutide/weight loss page</td><td><span class="tag tag-high">High</span></td><td>Medium</td><td>Trending high-intent keyword</td></tr>
+      <tr><td>8</td><td>Add "Austin TX" to service page body copy</td><td><span class="tag tag-high">High</span></td><td>Low</td><td>Local relevance signals</td></tr>
+      <tr><td>9</td><td>Create Rainey Street location page</td><td><span class="tag tag-high">High</span></td><td>Low</td><td>Neighborhood search captures</td></tr>
+      <tr><td>10</td><td>Add starting-from pricing to key service pages</td><td><span class="tag tag-medium">Medium</span></td><td>Low</td><td>Price comparison searches + conversion rate</td></tr>
+      <tr><td>11</td><td>Implement LocalBusiness + Service schema</td><td><span class="tag tag-medium">Medium</span></td><td>Medium</td><td>Rich results, local pack eligibility</td></tr>
+      <tr><td>12</td><td>Publish 4 educational blog posts</td><td><span class="tag tag-medium">Medium</span></td><td>High</td><td>Long-tail traffic, E-E-A-T improvement</td></tr>
+      <tr><td>13</td><td>Launch post-visit review request automation</td><td><span class="tag tag-medium">Medium</span></td><td>Low</td><td>Review velocity, local ranking signal</td></tr>
+      <tr><td>14</td><td>Link staff bios to service pages</td><td><span class="tag tag-medium">Medium</span></td><td>Low</td><td>E-E-A-T for YMYL medical content</td></tr>
+      <tr><td>15</td><td>Build 3–5 local backlinks (Austin press/blogs)</td><td><span class="tag tag-low">Low</span></td><td>High</td><td>Domain authority improvement</td></tr>
+    </table>
+  </div>
+
+  <!-- ASSUMPTIONS LOG -->
+  <div class="section">
+    <h2>Assumptions Log</h2>
+    <p>The following items were assessed based on site structure and available data. These should be verified directly before acting on the associated recommendations.</p>
+    <table>
+      <tr><th>Assumption</th><th>Verification Step</th></tr>
+      <tr><td>Google Business Profile exists under "La Vie En Rainey" or similar name, possibly inconsistent with website branding</td><td>Search Google Maps for business address; check business.google.com</td></tr>
+      <tr><td>No SEO plugin (Yoast/RankMath) is actively managing meta descriptions — many are missing or auto-generated</td><td>Check WordPress admin plugins; crawl site with Screaming Frog or Ahrefs</td></tr>
+      <tr><td>Schema markup (LocalBusiness, Service, FAQ) is not implemented</td><td>Run URL through Google's Rich Results Test tool</td></tr>
+      <tr><td>Google Analytics / GA4 is installed but may not be tracking outbound clicks to MindBody booking system</td><td>Check GA4 admin for event tracking; use GTM to verify outbound link events</td></tr>
+      <tr><td>Review volume on Google is lower than primary competitors (Viva, Austin Med Spa)</td><td>Google search "[La Vie Med Spas Austin reviews]" and compare review counts</td></tr>
+      <tr><td>Citation listings on Yelp, Healthgrades, RealSelf are inconsistent or incomplete</td><td>Run BrightLocal Citation Audit or search each directory manually</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<footer>
+  <p>SEO Audit Report — La Vie Med Spas (lvmedspas.com) &nbsp;|&nbsp; Prepared March 2026</p>
+  <p style="margin-top:6px; opacity:0.7;">All scoring is based on observable on-site signals, competitive research, and labeled assumptions where direct data was unavailable.</p>
+</footer>
+
+</body>
+</html>
