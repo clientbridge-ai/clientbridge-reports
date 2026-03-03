@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit — TileRedi.com | ClientBridge</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0e0f12;
+    --surface: #16181d;
+    --surface2: #1e2028;
+    --border: #2a2d38;
+    --text: #e8eaf0;
+    --muted: #7b8099;
+    --accent: #e8601a;
+    --accent2: #f0a05a;
+    --green: #3ecf8e;
+    --amber: #f5a623;
+    --red: #e8364a;
+    --sidebar-w: 260px;
+    --score-green: #3ecf8e;
+    --score-amber: #f5a623;
+    --score-red: #e8364a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+  }
+
+  /* ── SIDEBAR ── */
+  aside {
+    width: var(--sidebar-w);
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    overflow-y: auto;
+    z-index: 100;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .sidebar-brand {
+    padding: 28px 24px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-brand .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .sidebar-brand h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 18px;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  .sidebar-score-widget {
+    margin: 20px 16px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+  }
+  .sidebar-score-widget .big-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 56px;
+    line-height: 1;
+    color: var(--amber);
+  }
+  .sidebar-score-widget .score-label {
+    font-size: 11px;
+    color: var(--muted);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-top: 6px;
+  }
+  .sidebar-score-widget .score-sub {
+    font-size: 12px;
+    color: var(--text);
+    margin-top: 4px;
+  }
+
+  nav { padding: 8px 0; flex: 1; }
+  nav a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 24px;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    transition: all 0.15s;
+    border-left: 3px solid transparent;
+  }
+  nav a:hover { color: var(--text); background: var(--surface2); }
+  nav a.active { color: var(--accent); border-left-color: var(--accent); background: rgba(232,96,26,0.06); }
+  nav .nav-section {
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 16px 24px 6px;
+    font-weight: 600;
+  }
+  nav a .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .sidebar-footer {
+    padding: 16px 24px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+  }
+
+  /* ── MAIN ── */
+  main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    min-height: 100vh;
+  }
+
+  .page-header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+  }
+  .page-header .badge {
+    display: inline-block;
+    background: rgba(232,96,26,0.15);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+  }
+  .page-header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+  .page-header .meta {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    margin-top: 16px;
+  }
+  .page-header .meta-item {
+    font-size: 13px;
+    color: var(--muted);
+  }
+  .page-header .meta-item span { color: var(--text); font-weight: 500; }
+
+  /* Content sections */
+  .content { padding: 40px 48px; max-width: 960px; }
+
+  section { margin-bottom: 56px; scroll-margin-top: 24px; }
+
+  h2.section-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .section-desc { color: var(--muted); font-size: 14px; margin-bottom: 24px; line-height: 1.6; }
+
+  /* Alert banner */
+  .alert {
+    display: flex;
+    gap: 14px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.6;
+    border: 1px solid;
+  }
+  .alert-red { background: rgba(232,54,74,0.08); border-color: rgba(232,54,74,0.25); color: #f8a5ad; }
+  .alert-amber { background: rgba(245,166,35,0.08); border-color: rgba(245,166,35,0.25); color: #fcd28a; }
+  .alert-green { background: rgba(62,207,142,0.08); border-color: rgba(62,207,142,0.25); color: #88e8c0; }
+  .alert-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+
+  /* Top wins */
+  .top-wins {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .win-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .win-card .win-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 32px;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 10px;
+  }
+  .win-card .win-title { font-size: 14px; font-weight: 600; margin-bottom: 6px; }
+  .win-card .win-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* Scorecard grid */
+  .scorecard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+  .score-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+  .score-card:hover { background: var(--surface2); }
+  .score-card .sc-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 10px;
+  }
+  .score-card .sc-name { font-size: 14px; font-weight: 600; }
+  .score-card .sc-weight { font-size: 11px; color: var(--muted); }
+  .score-badge {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    line-height: 1;
+  }
+  .score-green { color: var(--score-green); }
+  .score-amber { color: var(--score-amber); }
+  .score-red { color: var(--score-red); }
+  .score-bar-bg {
+    height: 4px;
+    background: var(--border);
+    border-radius: 99px;
+    overflow: hidden;
+  }
+  .score-bar-fill { height: 100%; border-radius: 99px; transition: width 0.8s ease; }
+
+  /* Findings */
+  .finding {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+  }
+  .finding-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 18px 24px;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s;
+  }
+  .finding-header:hover { background: var(--surface2); }
+  .finding-header-left { display: flex; align-items: center; gap: 14px; }
+  .finding-num {
+    width: 32px; height: 32px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px; font-weight: 600; color: var(--muted);
+    flex-shrink: 0;
+  }
+  .finding-title { font-size: 15px; font-weight: 600; }
+  .finding-header-right { display: flex; align-items: center; gap: 14px; }
+  .finding-score { font-family: 'DM Serif Display', serif; font-size: 24px; }
+  .chevron { color: var(--muted); font-size: 18px; transition: transform 0.2s; }
+  .finding.open .chevron { transform: rotate(180deg); }
+
+  .finding-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+  .finding.open .finding-body { display: block; }
+
+  .finding-section { margin-top: 20px; }
+  .finding-section h4 {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+    font-weight: 600;
+  }
+  .finding-list { list-style: none; }
+  .finding-list li {
+    font-size: 14px;
+    line-height: 1.6;
+    padding: 6px 0;
+    padding-left: 18px;
+    position: relative;
+    color: var(--text);
+  }
+  .finding-list li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 13px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--muted);
+  }
+  .finding-list.positive li::before { background: var(--green); }
+  .finding-list.issue li::before { background: var(--red); }
+
+  .hypothesis {
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 8px;
+    padding: 16px 18px;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 8px;
+    color: var(--text);
+  }
+  .hypothesis strong { color: var(--accent2); }
+
+  /* ICE Table */
+  .ice-table-wrap { overflow-x: auto; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  th {
+    text-align: left;
+    padding: 10px 14px;
+    border-bottom: 2px solid var(--border);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    background: var(--surface2);
+  }
+  th:hover { color: var(--text); }
+  td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--border);
+    vertical-align: middle;
+    line-height: 1.4;
+  }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+  .ice-score-pill {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  .pill-high { background: rgba(62,207,142,0.12); color: var(--green); }
+  .pill-mid { background: rgba(245,166,35,0.12); color: var(--amber); }
+  .pill-low { background: rgba(232,54,74,0.12); color: var(--red); }
+
+  /* Quick wins */
+  .quick-wins {
+    display: grid;
+    gap: 12px;
+  }
+  .qw-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 10px;
+    padding: 18px 20px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  .qw-card .qw-ice {
+    font-family: 'DM Serif Display', serif;
+    font-size: 28px;
+    color: var(--green);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 40px;
+    text-align: center;
+  }
+  .qw-card .qw-ice .qw-label { font-family: 'DM Sans', sans-serif; font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
+  .qw-card .qw-title { font-size: 14px; font-weight: 600; margin-bottom: 4px; }
+  .qw-card .qw-desc { font-size: 13px; color: var(--muted); line-height: 1.5; }
+
+  /* 48hr plan */
+  .action-steps { counter-reset: steps; }
+  .action-step {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 20px;
+  }
+  .step-num {
+    width: 36px; height: 36px;
+    background: var(--accent);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    font-size: 14px;
+    color: white;
+    flex-shrink: 0;
+  }
+  .step-body .step-title { font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+  .step-body .step-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+  /* Methodology */
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+  .method-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px;
+  }
+  .method-card h4 { font-size: 13px; font-weight: 600; margin-bottom: 6px; color: var(--accent2); }
+  .method-card p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* Tags */
+  .tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-right: 4px;
+  }
+  .tag-red { background: rgba(232,54,74,0.15); color: var(--red); }
+  .tag-amber { background: rgba(245,166,35,0.15); color: var(--amber); }
+  .tag-green { background: rgba(62,207,142,0.15); color: var(--green); }
+
+  /* Misc */
+  .divider { height: 1px; background: var(--border); margin: 32px 0; }
+  .data-note {
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(123,128,153,0.1);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 24px;
+  }
+  .data-note .dn-icon { font-size: 16px; }
+
+  /* ── MOBILE TOPBAR ── */
+  .mobile-topbar {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: 56px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    z-index: 200;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  .mobile-topbar .tb-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 16px;
+    color: var(--text);
+  }
+  .mobile-topbar .tb-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--amber);
+  }
+  .hamburger-btn {
+    width: 40px; height: 40px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .hamburger-btn span {
+    display: block;
+    width: 18px; height: 2px;
+    background: var(--text);
+    border-radius: 2px;
+    transition: all 0.25s ease;
+    transform-origin: center;
+  }
+  .hamburger-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .hamburger-btn.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+  .hamburger-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* Mobile nav drawer */
+  .mobile-nav-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 150;
+    opacity: 0;
+    transition: opacity 0.25s ease;
+  }
+  .mobile-nav-overlay.visible { opacity: 1; }
+
+  .mobile-nav-drawer {
+    position: fixed;
+    top: 56px; left: 0; bottom: 0;
+    width: 280px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    z-index: 160;
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    flex-direction: column;
+  }
+  .mobile-nav-drawer.open { transform: translateX(0); }
+
+  .mobile-score-strip {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface2);
+  }
+  .mobile-score-strip .ms-score {
+    font-family: 'DM Serif Display', serif;
+    font-size: 40px;
+    color: var(--amber);
+    line-height: 1;
+  }
+  .mobile-score-strip .ms-info .ms-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--muted);
+  }
+  .mobile-score-strip .ms-info .ms-sub {
+    font-size: 13px;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  @media (max-width: 900px) {
+    aside { display: none; }
+    main { margin-left: 0; padding-top: 56px; }
+    .mobile-topbar { display: flex; }
+    .content { padding: 24px 20px; }
+    .top-wins { grid-template-columns: 1fr; }
+    .scorecard { grid-template-columns: 1fr; }
+    .method-grid { grid-template-columns: 1fr; }
+    .page-header { padding: 24px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── MOBILE TOPBAR ── -->
+<div class="mobile-topbar">
+  <div class="tb-brand">TileRedi CRO Audit</div>
+  <div class="tb-score">5.4</div>
+  <div class="hamburger-btn" id="hamburgerBtn" onclick="toggleMobileNav()" aria-label="Open navigation">
+    <span></span><span></span><span></span>
+  </div>
+</div>
+
+<!-- Mobile overlay -->
+<div class="mobile-nav-overlay" id="mobileOverlay" onclick="closeMobileNav()"></div>
+
+<!-- Mobile nav drawer -->
+<div class="mobile-nav-drawer" id="mobileDrawer">
+  <div class="mobile-score-strip">
+    <div class="ms-score">5.4</div>
+    <div class="ms-info">
+      <div class="ms-label">Weighted Score</div>
+      <div class="ms-sub">out of 10 · Ecommerce</div>
+    </div>
+  </div>
+  <nav id="mobileNav">
+    <div class="nav-section">Overview</div>
+    <a href="#executive-summary" onclick="closeMobileNav()">📋 Executive Summary</a>
+    <a href="#scorecard" onclick="closeMobileNav()">📊 Scorecard</a>
+    <div class="nav-section">Findings</div>
+    <a href="#f1" onclick="closeMobileNav()"><span class="dot" style="background:#f5a623"></span> Message Match</a>
+    <a href="#f2" onclick="closeMobileNav()"><span class="dot" style="background:#e8364a"></span> Value Proposition</a>
+    <a href="#f3" onclick="closeMobileNav()"><span class="dot" style="background:#f5a623"></span> Trust &amp; Credibility</a>
+    <a href="#f4" onclick="closeMobileNav()"><span class="dot" style="background:#e8364a"></span> CTA &amp; Conversion</a>
+    <a href="#f5" onclick="closeMobileNav()"><span class="dot" style="background:#f5a623"></span> Product UX</a>
+    <a href="#f6" onclick="closeMobileNav()"><span class="dot" style="background:#f5a623"></span> Content &amp; Persuasion</a>
+    <a href="#f7" onclick="closeMobileNav()"><span class="dot" style="background:#e8364a"></span> Mobile Experience</a>
+    <div class="nav-section">Recommendations</div>
+    <a href="#ice-table" onclick="closeMobileNav()">🧊 Experiment Backlog</a>
+    <a href="#quick-wins" onclick="closeMobileNav()">⚡ Quick Wins</a>
+    <a href="#action-plan" onclick="closeMobileNav()">🗓 48-Hr Action Plan</a>
+    <a href="#methodology" onclick="closeMobileNav()">📐 Methodology</a>
+  </nav>
+  <div class="sidebar-footer" style="margin-top:auto;padding-top:20px;">
+    Prepared by ClientBridge LLC<br>
+    March 2026 · Heuristic Analysis
+  </div>
+</div>
+
+<!-- ── SIDEBAR ── -->
+<aside>
+  <div class="sidebar-brand">
+    <div class="label">CRO Audit Report</div>
+    <h2>TileRedi.com</h2>
+  </div>
+
+  <div class="sidebar-score-widget">
+    <div class="big-score">5.4</div>
+    <div class="score-label">Weighted Score</div>
+    <div class="score-sub">out of 10 · Ecommerce</div>
+  </div>
+
+  <nav>
+    <div class="nav-section">Overview</div>
+    <a href="#executive-summary">📋 Executive Summary</a>
+    <a href="#scorecard">📊 Scorecard</a>
+
+    <div class="nav-section">Findings</div>
+    <a href="#f1"><span class="dot" style="background:#f5a623"></span> Message Match</a>
+    <a href="#f2"><span class="dot" style="background:#e8364a"></span> Value Proposition</a>
+    <a href="#f3"><span class="dot" style="background:#f5a623"></span> Trust & Credibility</a>
+    <a href="#f4"><span class="dot" style="background:#e8364a"></span> CTA & Conversion</a>
+    <a href="#f5"><span class="dot" style="background:#f5a623"></span> Product UX</a>
+    <a href="#f6"><span class="dot" style="background:#f5a623"></span> Content & Persuasion</a>
+    <a href="#f7"><span class="dot" style="background:#e8364a"></span> Mobile Experience</a>
+
+    <div class="nav-section">Recommendations</div>
+    <a href="#ice-table">🧊 Experiment Backlog</a>
+    <a href="#quick-wins">⚡ Quick Wins</a>
+    <a href="#action-plan">🗓 48-Hr Action Plan</a>
+    <a href="#methodology">📐 Methodology</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    Prepared by ClientBridge LLC<br>
+    March 2026 · Heuristic Analysis
+  </div>
+</aside>
+
+<!-- ── MAIN ── -->
+<main>
+  <div class="page-header">
+    <div class="badge">Conversion Rate Optimization</div>
+    <h1>TileRedi.com CRO Audit</h1>
+    <p style="color:var(--muted);font-size:14px;margin-top:6px;">Homepage & core e-commerce experience · tileredi.com</p>
+    <div class="meta">
+      <div class="meta-item">Business Type: <span>E-commerce / DTC Manufacturing</span></div>
+      <div class="meta-item">Primary Goal: <span>Product Purchase / Add to Cart</span></div>
+      <div class="meta-item">Audience: <span>DIY homeowners + Professional contractors</span></div>
+      <div class="meta-item">Analytics: <span>Heuristic (no GA4 data)</span></div>
+      <div class="meta-item">Date: <span>March 2026</span></div>
+    </div>
+  </div>
+
+  <div class="content">
+
+    <!-- ── EXECUTIVE SUMMARY ── -->
+    <section id="executive-summary">
+      <h2 class="section-title">Executive Summary</h2>
+      <p class="section-desc">TileRedi is a legitimate, 25-year-old manufacturer with a genuinely differentiated product — one-piece, leakproof, tileable shower systems. The product story is strong. The website, however, does not tell it well. Key conversion barriers include: a fragmented dual-audience homepage, CTA language that undersells, trust signals buried below conversion friction, and an active shipping delay notice that is raising anxiety without providing reassurance. Revenue is being left on the table.</p>
+
+      <div class="alert alert-red">
+        <div class="alert-icon">🚨</div>
+        <div><strong>Critical Issue:</strong> A sitewide banner announcing "We are currently experiencing shipping delays" is front-and-center on the homepage with zero remediation language (no ETA, no compensation, no urgency reframe). For a high-ticket building product where project timelines are critical, this is likely causing significant abandonment before visitors even see the product.</div>
+      </div>
+
+      <div class="alert alert-amber">
+        <div class="alert-icon">⚠️</div>
+        <div><strong>Analytics Gap:</strong> No GA4/BigQuery data was available for this audit. All scores reflect heuristic analysis (ICE Confidence max = 6). Connecting GA4 to BigQuery should be the first infrastructure action — device split data, landing page bounce by source, and funnel drop-off data would substantially improve prioritization.</div>
+      </div>
+
+      <div class="top-wins">
+        <div class="win-card">
+          <div class="win-num">01</div>
+          <div class="win-title">Fix the Shipping Delay Banner</div>
+          <div class="win-desc">Replace anxiety-inducing notice with proactive trust reframe + estimated lead time.</div>
+        </div>
+        <div class="win-card">
+          <div class="win-num">02</div>
+          <div class="win-title">Unify the Dual Audience</div>
+          <div class="win-desc">Homepage splits between DIY and PRO with no clear entry point. One primary CTA path needed above fold.</div>
+        </div>
+        <div class="win-card">
+          <div class="win-num">03</div>
+          <div class="win-title">Make the Value Prop Unmissable</div>
+          <div class="win-desc">The product's core claim ("only one-piece tileable shower pan with any drain location") is buried. It should be the hero.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── SCORECARD ── -->
+    <section id="scorecard">
+      <h2 class="section-title">Scoring Overview</h2>
+      <p class="section-desc">Weighted for e-commerce business type. Overall weighted score: <strong style="color:var(--amber)">5.4 / 10</strong>.</p>
+      <div class="scorecard">
+        <div class="score-card" onclick="document.getElementById('f1').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Message Match & Clarity</div>
+              <div class="sc-weight">Weight: 15%</div>
+            </div>
+            <div class="score-badge score-amber">6</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:60%;background:var(--amber)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f2').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Value Proposition</div>
+              <div class="sc-weight">Weight: 15%</div>
+            </div>
+            <div class="score-badge score-red">4</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:40%;background:var(--red)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f3').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Trust & Credibility</div>
+              <div class="sc-weight">Weight: 15%</div>
+            </div>
+            <div class="score-badge score-amber">5</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:50%;background:var(--amber)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f4').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">CTA & Conversion Path</div>
+              <div class="sc-weight">Weight: 20%</div>
+            </div>
+            <div class="score-badge score-red">4</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:40%;background:var(--red)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f5').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Product UX / Findability</div>
+              <div class="sc-weight">Weight: 20%</div>
+            </div>
+            <div class="score-badge score-amber">6</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:60%;background:var(--amber)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f6').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Content & Persuasion</div>
+              <div class="sc-weight">Weight: 10%</div>
+            </div>
+            <div class="score-badge score-amber">6</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:60%;background:var(--amber)"></div></div>
+        </div>
+        <div class="score-card" onclick="document.getElementById('f7').scrollIntoView({behavior:'smooth'})">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name">Mobile Experience</div>
+              <div class="sc-weight">Weight: 5%</div>
+            </div>
+            <div class="score-badge score-red">4</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:40%;background:var(--red)"></div></div>
+        </div>
+        <div class="score-card" style="background:rgba(232,96,26,0.06);border-color:var(--accent);">
+          <div class="sc-top">
+            <div>
+              <div class="sc-name" style="color:var(--accent)">Weighted Overall</div>
+              <div class="sc-weight">Ecommerce weights applied</div>
+            </div>
+            <div class="score-badge score-amber">5.4</div>
+          </div>
+          <div class="score-bar-bg"><div class="score-bar-fill" style="width:54%;background:var(--accent)"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── FINDINGS ── -->
+    <section>
+      <h2 class="section-title">Detailed Findings</h2>
+      <p class="section-desc">Click any section to expand findings, recommendations, and testable hypotheses.</p>
+
+      <!-- F1: Message Match -->
+      <div class="finding open" id="f1">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">01</div>
+            <div class="finding-title">Message Match & Clarity</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-amber">6/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>The brand name "Tile Redi" and tagline "Waterproof Shower Systems" immediately answer "Am I in the right place?" for category-aware visitors.</li>
+              <li>The mega-nav is well-organized with product imagery — a strong visual orienter for first-time visitors.</li>
+              <li>Blog content addresses relevant purchase-phase questions (labor cost, tariffs, installation) — showing good content strategy intent.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>The homepage headline (hero area) does not contain a clear, benefit-led statement above the fold. Visitors see product promotions before understanding why Tile Redi exists.</li>
+              <li>Three separate audience messages compete simultaneously: DIY homeowners, Professional contractors (PRO site CTA), and tile buyers (NEWTILE15 code). No dominant path is established.</li>
+              <li>The active shipping delay banner is placed at the top of every page — message-first real estate being consumed by negative news rather than brand value.</li>
+              <li>"Shop Now" hero CTAs don't specify what's being shopped — too generic for a complex, multi-product category.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> the homepage hero is redesigned with a single outcome-led headline ("Build a Leakproof Shower — Faster and Easier Than You Think") and a clear audience fork (DIY vs. PRO) presented as two equal pathways, <strong>THEN</strong> scroll depth and time-on-site will increase for new visitors, <strong>BECAUSE</strong> visitors with ambiguous intent will self-select a lane rather than bouncing from an undifferentiated feed.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F2: Value Proposition -->
+      <div class="finding" id="f2">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">02</div>
+            <div class="finding-title">Value Proposition</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-red">4/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>The product has a genuinely strong differentiator: the only manufacturer offering a one-piece tileable shower pan in any size with any drain location. This exists in the About page copy but not the homepage.</li>
+              <li>UL certification is mentioned — a powerful trust signal that builds perceived quality.</li>
+              <li>Bundled pricing ("everything you need right in the box") addresses a real purchasing pain point in this category.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>The homepage hero does not surface the core value proposition. A new visitor has no idea Tile Redi is the market leader in one-piece systems without navigating to the About page.</li>
+              <li>Competitive framing is absent — no comparison to traditional mud-bed installation or competitor products. This matters enormously for a product that changes a $5,000 trade installation into a DIY project.</li>
+              <li>Quantified benefits are missing. The site says "faster and easier" but doesn't say how much faster (e.g., "30% less installation time vs. mud-bed").</li>
+              <li>The "Since 1998" longevity signal is buried in the About page; it should be visible on the homepage to reduce new visitor skepticism.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> the homepage hero section includes a three-part proof statement: "One-piece construction · Any size, any drain location · Leakproof or we make it right," paired with an "Only from Tile Redi" claim, <strong>THEN</strong> product page add-to-cart rates will increase for homepage-originated sessions, <strong>BECAUSE</strong> visitors arriving with high-ticket purchase intent need a clear reason to choose Tile Redi over a local supply house or competing brand before investing further engagement.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F3: Trust -->
+      <div class="finding" id="f3">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">03</div>
+            <div class="finding-title">Trust & Credibility</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-amber">5/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>A dedicated Testimonials page exists with genuine, detailed customer stories — strong raw material that isn't surfaced on the homepage.</li>
+              <li>Customer service recovery stories in testimonials (replacement pans, next-day shipping) are powerful credibility signals for a high-damage-risk product category.</li>
+              <li>PRO program and commercial site creates legitimacy for contractor buyers.</li>
+              <li>Certifications page exists (UL certification, testing) — excellent trust anchor.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>Recent negative reviews on ConsumerAffairs (shipping delays, no phone response, Dec 2025) directly contradict the homepage trust signals. The shipping delay banner amplifies this anxiety rather than defusing it.</li>
+              <li>No star rating, review count, or social proof widget visible on the homepage or product listing pages (based on available HTML).</li>
+              <li>The phone number (855-455-1167) is in the nav but there is no visible "we answer the phone" guarantee or support hours — critical for a high-consideration product where customers often want to speak to someone before a large purchase.</li>
+              <li>No money-back guarantee, damage protection, or satisfaction pledge visible on the homepage. For a product frequently damaged in shipping, this is a significant anxiety driver.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> the homepage features a "Why Buy Direct" trust strip with four icons (UL Certified · Damage Replacement Guarantee · 25 Years Manufacturing · Contractor Approved), placed above the product grid fold, <strong>THEN</strong> cart abandonment on product pages will decrease, <strong>BECAUSE</strong> high-ticket, damage-prone purchases require trust scaffolding before intent converts — and current trust signals require navigation to find.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F4: CTA -->
+      <div class="finding" id="f4">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">04</div>
+            <div class="finding-title">CTA & Conversion Path</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-red">4/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>"Find Your Shower Pan" as a top nav item acts as a guided-selling entry point — an underrated conversion asset.</li>
+              <li>PRO-specific sign-up CTA is clearly segmented from consumer path.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>"Shop Now" is the primary homepage CTA — generic, unspecific, and creates no commitment or path clarity for a visitor who doesn't know where to start.</li>
+              <li>No sticky CTA in the header for mobile visitors. The purchase path requires multiple nav interactions before reaching a product.</li>
+              <li>The "Find Your Shower Pan" configurator — likely the highest-converting page on the site — is buried in a nav dropdown rather than featured as a primary homepage CTA.</li>
+              <li>Free shipping offer appears in the header bar but the terms link is a non-functional anchor (#). Unclear terms create purchase anxiety, not incentive.</li>
+              <li>No secondary CTA for lower-intent visitors (e.g., "Download our Installation Guide," "View Measuring Guides") to capture email or advance nurturing.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> the primary hero CTA is changed from "Shop Now" to "Find Your Shower Pan →" (linking to the configurator) alongside a secondary "Get PRO Pricing" CTA, <strong>THEN</strong> configurator engagement will increase and downstream product add-to-cart rates will improve, <strong>BECAUSE</strong> the configurator self-qualifies visitors by size/drain type, reducing the decision paralysis caused by a catalog with dozens of variants.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F5: Product UX -->
+      <div class="finding" id="f5">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">05</div>
+            <div class="finding-title">Product UX / Findability</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-amber">6/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>The mega-nav with product images is a strong category-browsing experience — clearly organized by product type.</li>
+              <li>Sub-categories (Redi Base, Redi Trench, Corner, Barrier Free, Base'N Bench) with brief descriptors aid decision-making.</li>
+              <li>Measuring Guides page addresses a top pre-purchase anxiety (will it fit?) — strong friction reducer when discoverable.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>The mega-nav is heavy — five major categories, dozens of sub-items. For mobile, this likely creates a confusing browsing experience.</li>
+              <li>Custom Shower Pans ("Redi Your Way") is a premium, high-ticket differentiator buried as a nav sub-item rather than featured as a distinct pathway for complex projects.</li>
+              <li>No product comparison tool is evident — for a category where shoppers compare point vs. linear drain, corner vs. standard, the absence of comparison functionality likely increases bounce from the product listing pages.</li>
+              <li>The tiles category (new addition) feels grafted onto the site without a clear content rationale on the homepage. It dilutes focus and may confuse first-time visitors about the brand's core identity.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> a "Which System Is Right for Me?" quiz/guide is surfaced on the homepage and in the product navigation, <strong>THEN</strong> sessions per user will increase and products-per-order will improve, <strong>BECAUSE</strong> shower system purchases typically involve multiple complementary products (pan + wall + drain + door) and guided discovery reduces the cognitive load of self-selection.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F6: Content & Persuasion -->
+      <div class="finding" id="f6">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">06</div>
+            <div class="finding-title">Content & Persuasion</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-amber">6/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>Active blog with relevant, SEO-aligned content (tariffs, installation, new products) — solid top-of-funnel content machine.</li>
+              <li>DIY Gallery mentioned in nav — user-generated content is a powerful bottom-of-funnel trust signal if executed well.</li>
+              <li>Continuing Education / CEU page for contractors demonstrates deep category authority.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>Blog content and social proof (testimonials, DIY gallery) are siloed in the nav and not surfaced on the homepage or product pages where they'd influence purchase decisions.</li>
+              <li>Loss framing is absent. The category's natural anxiety — "what happens if my shower leaks?" — is never addressed with a satisfaction guarantee or warranty language on the homepage.</li>
+              <li>FAQ is nav-buried. Common objections (can I install this myself? what if it arrives damaged? how long does shipping take?) likely drive phone calls or abandonment rather than being resolved inline.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> a "Real Projects, Real Results" homepage section surfaces 3 DIY gallery photos with customer quotes and installation times, placed between the product grid and the footer, <strong>THEN</strong> homepage-to-product-page click-through will increase, <strong>BECAUSE</strong> social proof placed near a decision point (browsing the site) reduces last-mile hesitation for DIY-segment visitors evaluating whether they can successfully install the product.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- F7: Mobile -->
+      <div class="finding" id="f7">
+        <div class="finding-header" onclick="toggleFinding(this)">
+          <div class="finding-header-left">
+            <div class="finding-num">07</div>
+            <div class="finding-title">Mobile Experience</div>
+          </div>
+          <div class="finding-header-right">
+            <div class="finding-score score-red">4/10</div>
+            <div class="chevron">▾</div>
+          </div>
+        </div>
+        <div class="finding-body">
+          <div class="finding-section">
+            <h4>✅ What's Working</h4>
+            <ul class="finding-list positive">
+              <li>Shopify platform provides a reasonable mobile baseline with responsive product grids and native cart behavior.</li>
+              <li>Phone number in the nav is a clickable tel: link — good for mobile conversion.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>⚠️ Issues Found</h4>
+            <ul class="finding-list issue">
+              <li>The four-layer notification bar stack (shipping delay + promo code + free shipping + PRO signup) eats 25–35% of above-fold mobile viewport before any product content appears. This is a critical mobile-first failure.</li>
+              <li>The mega-nav, while excellent on desktop, likely collapses into a complex hamburger menu on mobile — 5 categories × multiple sub-items creates excessive tap depth to reach products.</li>
+              <li>No evidence of mobile-specific CTAs or sticky "Add to Cart" behavior on product pages. Shopify default may be adequate but warrants testing.</li>
+              <li>Without GA4 data, device conversion gap is unknown — but given notification bar density and nav complexity, mobile conversion is likely meaningfully below desktop.</li>
+            </ul>
+          </div>
+          <div class="finding-section">
+            <h4>💡 Recommendation & Hypothesis</h4>
+            <div class="hypothesis">
+              <strong>IF</strong> the mobile header is simplified to a single rotating notification (not four stacked bars), and a sticky "Find My Shower Pan" CTA is added to the mobile homepage footer, <strong>THEN</strong> mobile scroll depth and configurator entry rate will increase, <strong>BECAUSE</strong> mobile visitors experiencing above-fold notification overload are more likely to bounce before ever engaging with the product catalog.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ICE TABLE ── -->
+    <section id="ice-table">
+      <h2 class="section-title">Experiment Backlog</h2>
+      <p class="section-desc">All recommendations scored by Impact, Confidence, and Ease. Click column headers to sort.</p>
+      <div class="ice-table-wrap">
+        <table id="iceTable">
+          <thead>
+            <tr>
+              <th onclick="sortTable(0)">Recommendation</th>
+              <th onclick="sortTable(1)">Section</th>
+              <th onclick="sortTable(2)">Impact ↕</th>
+              <th onclick="sortTable(3)">Confidence ↕</th>
+              <th onclick="sortTable(4)">Ease ↕</th>
+              <th onclick="sortTable(5)">ICE Score ↕</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Replace shipping delay banner with proactive ETA + guarantee message</td>
+              <td><span class="tag tag-red">Trust</span></td>
+              <td>9</td><td>6</td><td>9</td>
+              <td><span class="ice-score-pill pill-high">8.0</span></td>
+            </tr>
+            <tr>
+              <td>Promote "Find Your Shower Pan" as primary homepage hero CTA</td>
+              <td><span class="tag tag-red">CTA</span></td>
+              <td>9</td><td>6</td><td>7</td>
+              <td><span class="ice-score-pill pill-high">7.3</span></td>
+            </tr>
+            <tr>
+              <td>Add value prop statement with "only one-piece" claim above the fold</td>
+              <td><span class="tag tag-red">Value Prop</span></td>
+              <td>8</td><td>6</td><td>7</td>
+              <td><span class="ice-score-pill pill-high">7.0</span></td>
+            </tr>
+            <tr>
+              <td>Collapse 4 notification bars to 1 rotating bar (mobile priority)</td>
+              <td><span class="tag tag-red">Mobile</span></td>
+              <td>7</td><td>6</td><td>8</td>
+              <td><span class="ice-score-pill pill-high">7.0</span></td>
+            </tr>
+            <tr>
+              <td>Add "Why Buy Direct" trust strip (UL · Damage Guarantee · 25 Yrs · PRO Approved)</td>
+              <td><span class="tag tag-amber">Trust</span></td>
+              <td>8</td><td>5</td><td>8</td>
+              <td><span class="ice-score-pill pill-high">7.0</span></td>
+            </tr>
+            <tr>
+              <td>Surface customer testimonials / star rating on homepage</td>
+              <td><span class="tag tag-amber">Trust</span></td>
+              <td>7</td><td>6</td><td>7</td>
+              <td><span class="ice-score-pill pill-mid">6.7</span></td>
+            </tr>
+            <tr>
+              <td>Create homepage audience fork: DIY / Professional dual-CTA</td>
+              <td><span class="tag tag-amber">Message</span></td>
+              <td>8</td><td>5</td><td>6</td>
+              <td><span class="ice-score-pill pill-mid">6.3</span></td>
+            </tr>
+            <tr>
+              <td>Add "Real Projects" social proof section above homepage footer</td>
+              <td><span class="tag tag-amber">Content</span></td>
+              <td>6</td><td>5</td><td>8</td>
+              <td><span class="ice-score-pill pill-mid">6.3</span></td>
+            </tr>
+            <tr>
+              <td>Fix "See Terms" anchor link for free shipping offer</td>
+              <td><span class="tag tag-green">CTA</span></td>
+              <td>5</td><td>6</td><td>10</td>
+              <td><span class="ice-score-pill pill-mid">7.0</span></td>
+            </tr>
+            <tr>
+              <td>Add quantified proof to hero copy ("Install in 1 day, not 3")</td>
+              <td><span class="tag tag-amber">Value Prop</span></td>
+              <td>7</td><td>4</td><td>7</td>
+              <td><span class="ice-score-pill pill-mid">6.0</span></td>
+            </tr>
+            <tr>
+              <td>Add damage replacement guarantee / satisfaction pledge to homepage</td>
+              <td><span class="tag tag-amber">Trust</span></td>
+              <td>7</td><td>5</td><td>7</td>
+              <td><span class="ice-score-pill pill-mid">6.3</span></td>
+            </tr>
+            <tr>
+              <td>Add "Which system is right for me?" guided quiz entry point</td>
+              <td><span class="tag tag-amber">Product UX</span></td>
+              <td>8</td><td>4</td><td>4</td>
+              <td><span class="ice-score-pill pill-mid">5.3</span></td>
+            </tr>
+            <tr>
+              <td>Add inline FAQ section on homepage (shipping, installation, damage)</td>
+              <td><span class="tag tag-amber">Content</span></td>
+              <td>6</td><td>5</td><td>7</td>
+              <td><span class="ice-score-pill pill-mid">6.0</span></td>
+            </tr>
+            <tr>
+              <td>Surface "Since 1998" longevity signal and UL certification on homepage</td>
+              <td><span class="tag tag-green">Trust</span></td>
+              <td>5</td><td>5</td><td>9</td>
+              <td><span class="ice-score-pill pill-mid">6.3</span></td>
+            </tr>
+            <tr>
+              <td>Add product comparison tool to shower pan collection page</td>
+              <td><span class="tag tag-amber">Product UX</span></td>
+              <td>7</td><td>4</td><td>3</td>
+              <td><span class="ice-score-pill pill-low">4.7</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── QUICK WINS ── -->
+    <section id="quick-wins">
+      <h2 class="section-title">Quick Wins</h2>
+      <p class="section-desc">High ICE score items (≥7.0) that can be implemented within 1–2 weeks without major development.</p>
+      <div class="quick-wins">
+        <div class="qw-card">
+          <div class="qw-ice">8.0<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Replace the Shipping Delay Banner</div>
+            <div class="qw-desc">Change "We are experiencing shipping delays. Thank you for your patience" to something like: "Current lead time: [X] business days. Order today and we'll keep you updated every step of the way." Include a link to the order tracking page. Eliminates the single biggest anxiety trigger on the site with a one-sentence copy edit.</div>
+          </div>
+        </div>
+        <div class="qw-card">
+          <div class="qw-ice">7.3<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Make "Find Your Shower Pan" the Hero CTA</div>
+            <div class="qw-desc">Replace the generic "Shop Now" button with "Find Your Shower Pan →" pointing to the existing configurator/guided tool. The configurator already exists — this is a single CTA copy + link change with potentially large conversion impact for undecided visitors.</div>
+          </div>
+        </div>
+        <div class="qw-card">
+          <div class="qw-ice">7.0<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Fix the Broken "See Terms" Link</div>
+            <div class="qw-desc">The free shipping offer links to "#" — a dead anchor. Link it to an actual shipping policy page. Currently this creates micro-anxiety ("what are the terms I can't see?") that may suppress free shipping's motivational effect. 5-minute fix.</div>
+          </div>
+        </div>
+        <div class="qw-card">
+          <div class="qw-ice">7.0<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Add a Trust Strip to the Homepage</div>
+            <div class="qw-desc">A simple 4-icon bar (UL Certified · Free Shipping · 25 Years in Business · Damage Replacement) placed below the hero or above the product grid. Every element already exists as a fact — this is a layout addition, not new content creation. High-trust signal, low effort.</div>
+          </div>
+        </div>
+        <div class="qw-card">
+          <div class="qw-ice">7.0<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Collapse Mobile Notification Bars</div>
+            <div class="qw-desc">Reduce four stacked header banners to one rotating single-line bar on mobile viewport. This alone recovers 25–35% of above-fold mobile real estate and reduces cognitive overload at the first impression moment.</div>
+          </div>
+        </div>
+        <div class="qw-card">
+          <div class="qw-ice">7.0<div class="qw-label">ICE</div></div>
+          <div>
+            <div class="qw-title">Add "Only From Tile Redi" Hero Claim</div>
+            <div class="qw-desc">A single sub-headline under the hero image: "The only one-piece, tileable shower system custom-built to any size and drain location." This is factually accurate and a category-exclusive claim. Takes 5 minutes to add in Shopify theme editor.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── ACTION PLAN ── -->
+    <section id="action-plan">
+      <h2 class="section-title">48-Hour Action Plan</h2>
+      <p class="section-desc">Five actions to implement immediately, in priority order. None require development resources.</p>
+      <div class="action-steps">
+        <div class="action-step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Rewrite the shipping delay banner (Day 1, 15 min)</div>
+            <div class="step-desc">Go into Shopify Admin → Themes → Customize → Announcement bar. Replace the current text with: "Current shipping lead time: [X] business days. Questions? Call 855-455-1167." This directly addresses the #1 trust/anxiety issue on the site without any development work.</div>
+          </div>
+        </div>
+        <div class="action-step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">Fix the free shipping terms link (Day 1, 5 min)</div>
+            <div class="step-desc">In the same announcement bar settings, link "See Terms" to your actual shipping policy page (/policies/shipping-policy). Removes a micro-anxiety trigger and activates the motivational effect of the free shipping offer.</div>
+          </div>
+        </div>
+        <div class="action-step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">Update the hero CTA copy (Day 1, 10 min)</div>
+            <div class="step-desc">In the homepage hero section, change the primary CTA from "Shop Now" to "Find Your Shower Pan →" and link to /products/find-your-shower-pan. Also add a one-line sub-headline: "The only one-piece system built to any size, any drain location."</div>
+          </div>
+        </div>
+        <div class="action-step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">Add a 4-icon trust strip (Day 2, 2–4 hrs)</div>
+            <div class="step-desc">Design and add a simple icon bar section to the homepage (below hero or above product grid): UL Certified | Free Shipping on All Orders | 25 Years Manufacturing | Damage Replacement Guarantee. Use simple SVG icons and brief labels. Can be done in Shopify theme editor with a custom HTML section.</div>
+          </div>
+        </div>
+        <div class="action-step">
+          <div class="step-num">5</div>
+          <div class="step-body">
+            <div class="step-title">Connect GA4 to BigQuery (Day 2, 1 hr setup)</div>
+            <div class="step-desc">In GA4 → Admin → BigQuery Links, enable the BigQuery export. This enables data-driven prioritization of all future CRO work — device split, bounce by traffic source, funnel drop-off. Without this, all recommendations remain heuristic-only (ICE confidence ceiling of 6).</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ── METHODOLOGY ── -->
+    <section id="methodology">
+      <h2 class="section-title">Methodology</h2>
+      <p class="section-desc">Frameworks and data sources used in this audit.</p>
+      <div class="method-grid">
+        <div class="method-card">
+          <h4>Conversion Equation</h4>
+          <p>Motivation − Friction − Anxiety + Incentive = Conversion Likelihood. Applied to every section to identify where the equation breaks down for TileRedi.</p>
+        </div>
+        <div class="method-card">
+          <h4>Visitor 5 Questions</h4>
+          <p>Every page evaluated against: Am I in the right place? Is this for me? Can I trust you? What will it cost or risk? What do I do next?</p>
+        </div>
+        <div class="method-card">
+          <h4>ICE Prioritization</h4>
+          <p>Impact (effect on CR), Confidence (evidence quality), Ease (implementation effort). Confidence capped at 6 for heuristic analysis — data would unlock 7–9.</p>
+        </div>
+        <div class="method-card">
+          <h4>Research Hierarchy</h4>
+          <p>Behavioral data (N/A) → Qualitative (customer reviews from ConsumerAffairs, TileRedi testimonials) → Heuristic (page analysis) → Expert opinion.</p>
+        </div>
+        <div class="method-card">
+          <h4>Data Sources</h4>
+          <p>tileredi.com homepage HTML, About page, Blog, customer testimonials (first-party), ConsumerAffairs reviews, ZoomInfo company data, brand positioning copy.</p>
+        </div>
+        <div class="method-card">
+          <h4>Business Context</h4>
+          <p>Ecommerce / DTC Manufacturing. Primary conversion: product purchase. Dual audience: DIY homeowners + professional contractors. High-ticket, damage-risk, long lead time category.</p>
+        </div>
+      </div>
+      <div style="margin-top:24px;font-size:12px;color:var(--muted);line-height:1.7;">
+        <strong style="color:var(--text)">Prepared by:</strong> ClientBridge LLC &nbsp;·&nbsp; Jack Barry, Fractional CMO + AI Implementation &nbsp;·&nbsp; March 2026<br>
+        <strong style="color:var(--text)">Limitations:</strong> No GA4/BigQuery analytics data available. All confidence scores reflect heuristic ceiling (max 6). Visual/layout findings based on HTML structure analysis; live screenshot review recommended before implementation.
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+  // Toggle findings
+  function toggleFinding(header) {
+    const finding = header.closest('.finding');
+    finding.classList.toggle('open');
+  }
+
+  // Highlight active nav item on scroll
+  const sections = document.querySelectorAll('section[id], .finding[id]');
+  const navLinks = document.querySelectorAll('nav a[href^="#"]');
+  
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => {
+          link.classList.remove('active');
+          if (link.getAttribute('href') === '#' + entry.target.id) {
+            link.classList.add('active');
+          }
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  document.querySelectorAll('section[id]').forEach(s => observer.observe(s));
+
+  // Animate score bars on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.score-bar-fill').forEach(bar => {
+      const w = bar.style.width;
+      bar.style.width = '0';
+      setTimeout(() => { bar.style.width = w; }, 200);
+    });
+  });
+
+  // Sort ICE table
+  let sortDir = {};
+  function sortTable(col) {
+    const table = document.getElementById('iceTable');
+    const tbody = table.querySelector('tbody');
+    const rows = Array.from(tbody.querySelectorAll('tr'));
+    const dir = sortDir[col] === 'asc' ? 'desc' : 'asc';
+    sortDir[col] = dir;
+
+    rows.sort((a, b) => {
+      const aVal = a.cells[col].innerText.replace(/[^0-9.]/g, '');
+      const bVal = b.cells[col].innerText.replace(/[^0-9.]/g, '');
+      const aNum = parseFloat(aVal);
+      const bNum = parseFloat(bVal);
+      
+      if (!isNaN(aNum) && !isNaN(bNum)) {
+        return dir === 'asc' ? aNum - bNum : bNum - aNum;
+      }
+      return dir === 'asc' 
+        ? a.cells[col].innerText.localeCompare(b.cells[col].innerText)
+        : b.cells[col].innerText.localeCompare(a.cells[col].innerText);
+    });
+
+    rows.forEach(row => tbody.appendChild(row));
+  }
+
+  // Mobile nav
+  function toggleMobileNav() {
+    const btn = document.getElementById('hamburgerBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('mobileOverlay');
+    const isOpen = drawer.classList.contains('open');
+    if (isOpen) {
+      closeMobileNav();
+    } else {
+      btn.classList.add('open');
+      drawer.classList.add('open');
+      overlay.style.display = 'block';
+      requestAnimationFrame(() => overlay.classList.add('visible'));
+      document.body.style.overflow = 'hidden';
+    }
+  }
+
+  function closeMobileNav() {
+    const btn = document.getElementById('hamburgerBtn');
+    const drawer = document.getElementById('mobileDrawer');
+    const overlay = document.getElementById('mobileOverlay');
+    btn.classList.remove('open');
+    drawer.classList.remove('open');
+    overlay.classList.remove('visible');
+    setTimeout(() => { overlay.style.display = ''; }, 250);
+    document.body.style.overflow = '';
+  }
+
+  // Smooth scroll for nav links
+  document.querySelectorAll('nav a[href^="#"]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(link.getAttribute('href'));
+      if (target) {
+        // Close mobile nav if open
+        if (document.getElementById('mobileDrawer').classList.contains('open')) {
+          closeMobileNav();
+        }
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        // Open finding if it's a finding
+        if (target.classList.contains('finding') && !target.classList.contains('open')) {
+          target.classList.add('open');
+        }
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
