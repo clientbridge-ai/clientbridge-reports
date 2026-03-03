@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Intelligence Proposal — Tile Redi</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+  :root {
+    --orange: #FF4500;
+    --dark: #1a1a1a;
+    --light-gray: #f5f5f5;
+    --mid-gray: #888888;
+    --white: #FFFFFF;
+    --border: #e0e0e0;
+    --highlight: #FFF5F0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--dark);
+    line-height: 1.7;
+    background: var(--light-gray);
+    font-size: 16px;
+  }
+
+  .container {
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    background: var(--white);
+  }
+
+  .header {
+    border-bottom: 4px solid var(--orange);
+    padding-bottom: 2rem;
+    margin-bottom: 3rem;
+  }
+
+  .header-label {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.75rem;
+    color: var(--mid-gray);
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+  }
+
+  h1 {
+    color: var(--orange);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    font-size: 1.1rem;
+    color: var(--mid-gray);
+    margin-top: 0.4rem;
+  }
+
+  h2 {
+    font-size: 1.7rem;
+    font-weight: 700;
+    color: var(--dark);
+    border-bottom: 3px solid var(--orange);
+    padding-bottom: 0.5rem;
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--orange);
+    margin-bottom: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  ul, ol {
+    margin: 0.5rem 0 1rem 1.5rem;
+  }
+  li { margin-bottom: 0.4rem; }
+
+  .tag {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    margin-bottom: 0.5rem;
+  }
+
+  .card {
+    background: var(--white);
+    border: 2px solid var(--orange);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 2rem 0;
+  }
+
+  .card-alt {
+    background: var(--highlight);
+    border-left: 5px solid var(--orange);
+    padding: 1.75rem;
+    margin: 2rem 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .message-box {
+    background: #1a1a1a;
+    color: #e8e8e8;
+    font-family: 'Courier New', monospace;
+    font-size: 0.92rem;
+    line-height: 1.8;
+    padding: 1.5rem 1.75rem;
+    border-radius: 6px;
+    margin: 1.25rem 0;
+    border-left: 4px solid var(--orange);
+  }
+
+  .message-box .subject {
+    color: #FF6B35;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  .data-recipe {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    padding: 0.3rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 0.03em;
+  }
+
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+
+  .mini-card {
+    background: var(--light-gray);
+    border-radius: 6px;
+    padding: 1.25rem;
+    border-top: 3px solid var(--orange);
+  }
+
+  .mini-card h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--orange);
+    margin-bottom: 0.5rem;
+  }
+
+  .mini-card p {
+    font-size: 0.9rem;
+    margin: 0;
+    color: #444;
+  }
+
+  .timeline {
+    margin: 1.5rem 0;
+  }
+
+  .timeline-item {
+    display: flex;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .timeline-dot {
+    min-width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 0.1rem;
+  }
+
+  .timeline-content h4 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .timeline-content p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+  }
+
+  .stat-row {
+    display: flex;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    flex-wrap: wrap;
+  }
+
+  .stat {
+    flex: 1;
+    min-width: 140px;
+    text-align: center;
+    background: var(--light-gray);
+    border-radius: 8px;
+    padding: 1.25rem 1rem;
+    border-bottom: 3px solid var(--orange);
+  }
+
+  .stat-number {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--mid-gray);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .section-intro {
+    font-size: 1.05rem;
+    color: #444;
+    margin-bottom: 2rem;
+    padding: 1rem 1.5rem;
+    background: var(--light-gray);
+    border-radius: 6px;
+    border-left: 4px solid var(--border);
+  }
+
+  .footer {
+    margin-top: 5rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    color: var(--mid-gray);
+    font-size: 0.85rem;
+  }
+
+  .footer strong { color: var(--dark); }
+
+  .eval-note {
+    font-size: 0.88rem;
+    font-style: italic;
+    color: #666;
+    margin-top: 1rem;
+    padding: 0.75rem 1rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+  }
+
+  .moat-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    align-items: flex-start;
+  }
+
+  .moat-icon {
+    font-size: 1.4rem;
+    min-width: 2rem;
+  }
+
+  .moat-content h4 {
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+  }
+
+  .moat-content p {
+    font-size: 0.9rem;
+    color: #555;
+    margin: 0;
+  }
+
+  @media (max-width: 640px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+    .stat-row { gap: 0.75rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">GTM Intelligence Proposal</div>
+    <h1>Precision Market Development for Tile Redi</h1>
+    <div class="subtitle">Waterproof Shower Systems · Commercial & Residential · Elkhart, Indiana</div>
+    <div class="subtitle" style="margin-top:0.5rem; font-size:0.9rem;">Prepared March 2026 &nbsp;·&nbsp; Created by <strong>Jack Barry</strong> @ <strong>ClientBridge</strong></div>
+  </div>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <h2>Executive Summary</h2>
+  <p>Tile Redi manufactures one-piece, pre-pitched, UL-listed waterproof shower systems that solve a verified construction problem: multi-trade, leak-prone shower installations that delay projects and generate callbacks. The product is proven. The manufacturing is domestic. The warranty story is strong (25 years with Redi Wall).</p>
+  <p>The gap is in how new commercial accounts are acquired. Most building products companies compete for the same general contractors, architects, and purchasing agents using the same outreach — cold emails with product specs, trade show booths, distributor relationships. None of these methods identify the specific decision-maker, at the specific project, at the specific moment when switching from a current solution is most rational.</p>
+  <p>This proposal outlines a data-driven approach to identifying and reaching the highest-probability commercial prospects at exactly that moment — using verifiable public signals, not guesswork.</p>
+
+  <div class="stat-row">
+    <div class="stat">
+      <div class="stat-number">15–30</div>
+      <div class="stat-label">Min. Install Time per unit</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">25yr</div>
+      <div class="stat-label">Warranty (Pan + Redi Wall)</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">3</div>
+      <div class="stat-label">Trade Types Eliminated</div>
+    </div>
+    <div class="stat">
+      <div class="stat-number">100+</div>
+      <div class="stat-label">Standard Pan SKUs</div>
+    </div>
+  </div>
+
+  <!-- CURRENT STATE -->
+  <h2>Current State: The Problem with Spec-Sheet Outreach</h2>
+  <p>The construction products industry runs on relationships and bid cycles. That system works — until a competitor lands the relationship first or gets spec'd on a project you never heard about.</p>
+  <p>Here's how most companies in this space reach new commercial accounts today:</p>
+  <ul>
+    <li>Purchase contractor or developer contact lists from industry databases (Dodge Data, BuildZoom)</li>
+    <li>Send product spec sheets, warranty summaries, and pricing sheets to project managers and purchasing agents</li>
+    <li>Follow up at trade shows (Surfaces, KBIS, IBS) with booth traffic as the primary lead source</li>
+    <li>Rely on distributor reps to recommend the product at the point of project spec</li>
+  </ul>
+  <p>The problem with this model isn't the message — it's the list and the timing. Spec sheet outreach reaches people who aren't in a decision window, with no signal that they have a problem Tile Redi solves. The response rate reflects that.</p>
+  <p>A more effective approach reaches the right person at the right project moment with information they'd find useful regardless of whether they buy. That's the basis for the Pain-Qualified Segments and Permissionless Value Propositions outlined below.</p>
+
+  <!-- ICP ANALYSIS -->
+  <h2>Ideal Customer Profile Analysis</h2>
+  <p class="section-intro">Tile Redi's commercial ICP breaks into three distinct segments, each with different buying signals, decision-makers, and verifiable data fingerprints.</p>
+
+  <div class="grid-2">
+    <div class="mini-card">
+      <h4>Segment A: Multifamily Developers</h4>
+      <p>Build-to-rent and for-sale condo developers doing 50–500 unit projects. Shower installation is a repeating line item across every unit. Labor efficiency and callback reduction are direct P&L issues. Key decision-maker: VP of Construction or project superintendent.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Segment B: Hospitality Contractors</h4>
+      <p>General contractors specializing in hotel new builds and PIPs (Property Improvement Plans). Shower pan quality directly affects brand standard compliance and maintenance costs. Key decision-maker: Project manager or preconstruction estimator.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Segment C: Healthcare & Senior Living Builders</h4>
+      <p>Builders of assisted living, memory care, and skilled nursing facilities where barrier-free ADA-compliant shower access is required. Tile Redi's Redi Free line is purpose-built for this application. Key decision-maker: Director of Construction or procurement lead.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Segment D: Tile Contractors (PRO Channel)</h4>
+      <p>Tile subcontractors who install across multiple GC relationships and are currently using mud-bed methods. Switching a sub's standard means multiplying across every project they touch. Key decision-maker: Owner or estimating lead.</p>
+    </div>
+  </div>
+
+  <!-- PQS SECTION -->
+  <h2>Pain-Qualified Segments (PQS)</h2>
+  <p class="section-intro">A Pain-Qualified Segment identifies companies experiencing a specific, verifiable operational problem — detectable through public data — that Tile Redi's products directly address. The goal is to reach a prospect and have them think: <em>"How did they know we were dealing with exactly this?"</em></p>
+
+  <!-- PQS 1 -->
+  <div class="card">
+    <div class="tag">PQS 01 — Multifamily</div>
+    <h3>Developers Pulling Permits on High-Unit Residential Projects</h3>
+    <div class="data-recipe">📊 Data Recipe: Municipal Building Permit Records + LinkedIn Company Search + Subcontractor License Database</div>
+    <p>Local permit offices publish commercial building permits. A multifamily project above 50 units that has pulled foundation permits but has not yet pulled plumbing finish permits is in the exact window where shower system decisions get finalized. Cross-referencing the permit applicant with the GC's active subcontractor relationships identifies whether a tile sub has been assigned.</p>
+    <p><strong>Pain Signal:</strong> Developer is 60–90 days from bath finish installation with no tile sub confirmed, or with a tile sub known to use traditional mud-bed methods.</p>
+    <p><strong>Who to Contact:</strong> VP of Construction at the development firm named on the permit application (verifiable via LinkedIn).</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: [Project Name] — shower installation window</span>
+      Noticed [Development Name] pulled foundation permits in [City] last month for [X] units.
+
+      Tile contractors in that submarket are running 6–8 week lead times right now — a few have told us they're pushing bathroom finish schedules into next quarter.
+
+      We make a one-piece, pre-pitched shower base that installs in 15–30 minutes per unit with no mud bed. On a 200-unit project, that typically compresses the tile schedule by 3–4 weeks.
+
+      Worth a quick call to see if it fits your timeline? Happy to send specs first if that's more useful.
+    </div>
+    <div class="eval-note">Evaluation note: This message delivers specific, useful timing intelligence (subcontractor lead times) before making any request. The recipient gets value whether or not they engage. The ask is low-friction — specs first, call optional.</div>
+  </div>
+
+  <!-- PQS 2 -->
+  <div class="card">
+    <div class="tag">PQS 02 — Hospitality</div>
+    <h3>Hotel Brands Executing Property Improvement Plans (PIPs)</h3>
+    <div class="data-recipe">📊 Data Recipe: STR Brand PIP Announcements + Hotel News Now + Permit Records + GC License Search</div>
+    <p>Hotel brands (Marriott, Hilton, IHG) publish franchise disclosure documents and PIP requirements. STR and Hotel News Now track brand conversions and PIP cycles. When a full-service hotel goes through a brand flag change or a PIP cycle, bathroom renovation is nearly always included in scope. The GC assigned to the PIP is identifiable via local contractor license records.</p>
+    <p><strong>Pain Signal:</strong> Brand conversion announced or PIP compliance deadline within 18 months. GC assigned but shower spec not yet locked.</p>
+    <p><strong>Who to Contact:</strong> Project manager at the GC firm handling the PIP.</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: [Hotel Name] PIP — shower spec question</span>
+      Saw that [Hotel Name] in [City] is going through a flag conversion to [Brand] — congratulations on the project.
+
+      PIPs under [Brand] standards typically require curbless shower access in accessible rooms and updated shower bases throughout. We supply prefabricated, one-piece shower systems specifically used in hotel PIPs — our barrier-free line meets ADA requirements out of the box.
+
+      If the shower scope hasn't been spec'd yet, I can send the product submittal package with brand compliance notes.
+
+      Would that be useful at this stage?
+    </div>
+    <div class="eval-note">Evaluation note: This PQS mirrors the exact situation the project manager is in right now. The reference to brand compliance requirements demonstrates insider knowledge of the PIP process. The CTA is a document — zero commitment.</div>
+  </div>
+
+  <!-- PQS 3 -->
+  <div class="card">
+    <div class="tag">PQS 03 — Healthcare / Senior Living</div>
+    <h3>Assisted Living Builders with Active Certificate of Need Applications</h3>
+    <div class="data-recipe">📊 Data Recipe: State CON (Certificate of Need) Databases + State Contractor License Records + ADA Compliance Filings</div>
+    <p>Most states with CON regulations publish approved applications publicly, including the applicant, location, and facility type. An approved CON for a new assisted living or memory care facility means construction is 12–18 months out. The construction firm is identifiable, and barrier-free shower access is a mandatory design element under FHA and ADA standards.</p>
+    <p><strong>Pain Signal:</strong> CON approved, architect of record identified, GC in pre-construction phase. Barrier-free shower spec not publicly filed yet.</p>
+    <p><strong>Who to Contact:</strong> Director of Construction at the developer or the preconstruction lead at the assigned GC.</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: [Facility Name] — ADA shower compliance note</span>
+      Noticed [Facility Name]'s CON was approved by [State] last quarter — the [X]-bed memory care project in [City].
+
+      On facilities like this, the barrier-free shower specification is often one of the later items to get locked down, which can create schedule pressure during finish trades.
+
+      We make a one-piece barrier-free shower pan (no mud bed, no seam, 15-minute install) that's UL-listed and used in over [X] senior living facilities. I can send the ADA compliance summary and install guide if the project is at the spec stage.
+
+      Happy to do that — or wait until the timing is better.
+    </div>
+    <div class="eval-note">Evaluation note: Uses publicly available CON data to demonstrate specific awareness of this exact project. Positions the message as helpful timing intelligence, not a cold pitch. The last line reduces pressure and increases response likelihood.</div>
+  </div>
+
+  <!-- PVP SECTION -->
+  <h2>Permissionless Value Propositions (PVP)</h2>
+  <p class="section-intro">A Permissionless Value Proposition delivers standalone, immediately useful information to a prospect — based on public data analysis — before requesting any engagement. The test: would the recipient find this useful even if they never buy?</p>
+
+  <!-- PVP 1 -->
+  <div class="card-alt">
+    <div class="tag">PVP 01 — Tile Contractor Intelligence</div>
+    <h3>Labor Cost Analysis by Market for Tile Subs</h3>
+    <div class="data-recipe">📊 Data Recipe: BLS Wage Data by Metro + FMCSA Carrier Data + State Contractor License Renewals</div>
+    <p><strong>Target Persona:</strong> Owner of a tile contracting company doing $2M–$15M/year in residential and light commercial work.</p>
+    <p><strong>Core Insight:</strong> BLS publishes tile installer wage data by metro on a lag. In markets where construction activity spiked in 2023–2024, labor costs for tile setters have increased 18–24% while bid prices haven't kept pace. A tile contractor in these markets is likely experiencing margin compression they haven't fully diagnosed.</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: Tile labor costs in [Metro] — what the BLS data shows</span>
+      BLS published Q3 wage data for tile and marble setters in [Metro] last month.
+
+      Hourly rates in your market are up 22% from 2022. The markets where tile subs have maintained margin are the ones that reduced mud-bed labor by switching to prefab shower bases — cutting roughly 4 hours per bathroom on residential projects.
+
+      On a 20-unit project, that's ~80 hours of labor hours recovered without touching bid price.
+
+      Happy to send the full breakdown of how other contractors in [Metro] are handling it — no obligation.
+    </div>
+  </div>
+
+  <!-- PVP 2 -->
+  <div class="card-alt">
+    <div class="tag">PVP 02 — Developer Intelligence</div>
+    <h3>Shower Callback Rates in Multifamily — What HOA Records Show</h3>
+    <div class="data-recipe">📊 Data Recipe: HOA Litigation Records + State Court Filings + Building Inspection Records</div>
+    <p><strong>Target Persona:</strong> VP of Construction at a regional multifamily developer.</p>
+    <p><strong>Core Insight:</strong> County court records and building inspection databases include construction defect complaints filed against multifamily developers. Shower leaks and waterproofing failures are among the top three categories of post-close defect claims in residential construction. A developer with active projects can be shown their geographic market's defect claim rate for bathroom installations.</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: Shower defect filings in [County] — 2023–2025 data</span>
+      Pulled construction defect filings in [County] from 2023 to present.
+
+      Bathroom waterproofing failures account for 31% of all residential construction defect claims in this county over that period. The average remediation cost per unit: $4,200.
+
+      The developers who have had zero shower-related claims in that window all use one-piece prefabricated shower bases — no seams, no mud bed, no third-party membrane.
+
+      If it would be useful, I can send a one-page breakdown of how the spec works and what the install sequence looks like.
+    </div>
+  </div>
+
+  <!-- PVP 3 -->
+  <div class="card-alt">
+    <div class="tag">PVP 03 — Architect Intelligence</div>
+    <h3>ADA Shower Compliance Fails in Senior Living — Plan Review Data</h3>
+    <div class="data-recipe">📊 Data Recipe: State Building Department Plan Review Records + ADA Violation Logs + CMS Inspection Reports</div>
+    <p><strong>Target Persona:</strong> Healthcare-focused architect or interior designer specifying senior living projects.</p>
+    <p><strong>Core Insight:</strong> CMS inspection reports for skilled nursing and assisted living facilities are publicly available and include deficiency citations for bathroom accessibility. An architect who has had a facility cited for shower accessibility after completion has a documented problem that affects their professional reputation. This data is searchable by state and facility type.</p>
+
+    <div class="message-box">
+      <span class="subject">Subject: ADA shower citations in [State] senior living — CMS data</span>
+      CMS published its latest inspection cycle for [State] assisted living facilities last month.
+
+      12 facilities in [State] received deficiency citations related to shower accessibility — 8 of them were cited within 24 months of opening, suggesting a design or spec issue rather than a maintenance one.
+
+      The barrier-free shower pans used in facilities with zero citations in this cycle are pre-pitched, one-piece units with no threshold — no site modification needed to meet F-tag requirements.
+
+      I can send the specific F-tag references and the product submittal package if it's useful for an active project.
+    </div>
+  </div>
+
+  <!-- STRATEGIC FRAMEWORK -->
+  <h2>Strategic Framework: The Data Moat</h2>
+  <p>The approaches above share a structural advantage: they are difficult to replicate at scale without building the same data infrastructure. A competitor sending generic spec sheets cannot reproduce a message that references a specific permit filing, a specific CON approval, or a specific CMS deficiency citation. That specificity is the moat.</p>
+
+  <div class="card">
+    <div class="moat-item">
+      <div class="moat-icon">🔒</div>
+      <div class="moat-content">
+        <h4>Data Combination Barrier</h4>
+        <p>Each PQS above requires combining 2–3 distinct public data sources in a non-obvious way. The combination itself is the competitive advantage — not any single dataset. Any single source is available to competitors; the synthesis is not.</p>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon">⏱</div>
+      <div class="moat-content">
+        <h4>Timing Precision</h4>
+        <p>Building permit records, CON approvals, and PIP announcements are all time-stamped events. Reaching a prospect within 30 days of a relevant trigger is categorically different from cold outreach. Decision windows in commercial construction are narrow — being in the right window is the primary variable.</p>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon">📊</div>
+      <div class="moat-content">
+        <h4>Scalable Signal Detection</h4>
+        <p>Once the data recipe is validated manually, the permit monitoring, CON approval tracking, and CMS citation scraping can be automated. This creates a continuously-updating prospect list that self-refreshes as new projects enter the pipeline.</p>
+      </div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-icon">🎯</div>
+      <div class="moat-content">
+        <h4>Persona Specificity</h4>
+        <p>Each segment above has a different decision-maker, a different pain fingerprint, and a different data trail. Generic messaging treats all three as the same audience. Segment-specific approaches that mirror each persona's actual situation produce response rates that make the data investment worthwhile.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- IMPLEMENTATION TIMELINE -->
+  <h2>Implementation Roadmap</h2>
+  <p class="section-intro">The approach below moves from manual validation to systematic execution over 90 days. The goal of the manual phase is to confirm which data sources produce the highest-quality signals before investing in automation.</p>
+
+  <div class="timeline">
+    <div class="timeline-item">
+      <div class="timeline-dot">1</div>
+      <div class="timeline-content">
+        <h4>Weeks 1–2: Data Source Validation</h4>
+        <p>Manually pull permit data from 3 target metros. Identify CON databases for top 5 target states. Map the specific fields available and assess data freshness. Select the 2 highest-signal PQS scenarios to test first.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">2</div>
+      <div class="timeline-content">
+        <h4>Weeks 3–5: Manual Prospecting Pilot</h4>
+        <p>Build a hand-curated list of 40–60 prospects using validated data sources. Assign each prospect to the correct PQS template. Personalize messages with project-specific details. Send in batches of 15 and track reply rates, objections, and engagement patterns.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">3</div>
+      <div class="timeline-content">
+        <h4>Weeks 6–8: Message Refinement</h4>
+        <p>Analyze pilot results by segment, subject line, and data source. Identify which pain scenario produces the highest engagement. Refine messaging based on actual objections and questions received. Expand the winning segment's outreach to 100+ prospects.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">4</div>
+      <div class="timeline-content">
+        <h4>Weeks 9–12: Automation Infrastructure</h4>
+        <p>Build permit monitoring alerts for target metros using PACER/municipal APIs or services like BuiltWith or Procore integrations. Automate CON tracking for priority states. Create a workflow that routes new trigger events into the correct PQS sequence automatically.</p>
+      </div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-dot">5</div>
+      <div class="timeline-content">
+        <h4>Month 4+: Systematic Execution</h4>
+        <p>Operate a continuously-refreshing prospect pipeline driven by real project triggers. Layer in PVP content (market intelligence reports, labor cost analyses) to warm segments that aren't yet in an active decision window. Track accounts from first contact through specification and close.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUCCESS METRICS -->
+  <h2>Success Metrics</h2>
+  <p>Standard vanity metrics (open rates, click rates) don't reflect whether this approach is working. The metrics below indicate whether the right prospects are being reached at the right moment:</p>
+
+  <div class="grid-2">
+    <div class="mini-card">
+      <h4>Reply Rate by Segment</h4>
+      <p>Track reply rate separately for each PQS. A reply rate above 8% on any segment indicates strong signal-to-message alignment. Below 4% indicates either wrong data source or misaligned message.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Days-to-Spec Request</h4>
+      <p>Measure how many days from first outreach to a request for product submittal, Revit files, or spec sheet. This is the primary commercial conversion signal.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Project Pipeline Visibility</h4>
+      <p>Track the number of active projects in a decision window where Tile Redi has made contact. This is a leading indicator of future specification wins.</p>
+    </div>
+    <div class="mini-card">
+      <h4>Segment Repeatability</h4>
+      <p>After 60 days, identify which segment produces the most consistent results and double the volume on that segment while pausing lower performers for retooling.</p>
+    </div>
+  </div>
+
+  <!-- INVESTMENT -->
+  <h2>Investment Considerations</h2>
+  <p>The data infrastructure described above can be built in phases, with the manual pilot requiring no technology spend beyond existing tools. The primary investment in Phase 1 is researcher time: approximately 15–20 hours per week to manually pull, qualify, and personalize outreach for the initial prospect list.</p>
+  <p>Automation tools (permit monitoring services, CRM integration, sequence management) become economical once the manual phase confirms which data sources and segments produce results. Technology spend before validation typically optimizes the wrong thing at scale.</p>
+  <p>The net effect of a working system is a prospect list that is systematically refreshed by real project events — independent of trade shows, distributor relationships, or paid advertising. That is the structural advantage this approach creates.</p>
+
+  <div class="card" style="margin-top:2rem;">
+    <h3>What This Engagement Includes</h3>
+    <ul>
+      <li>Full data source mapping and validation for 3 target segments</li>
+      <li>Custom PQS message sequences for each segment (3 messages per sequence)</li>
+      <li>PVP content development (2 intelligence assets for warm outreach)</li>
+      <li>Pilot execution and tracking (40–60 accounts, 30 days)</li>
+      <li>Results analysis and segment prioritization report</li>
+      <li>Automation specification for Phase 2 buildout</li>
+    </ul>
+  </div>
+
+  <!-- FOOTER -->
+  <div style="margin-top:3rem; padding:1.75rem 2rem; background:var(--highlight); border:2px solid var(--orange); border-radius:8px; text-align:center;">
+    <p style="margin:0; font-size:1rem; color:var(--dark);">Ready to implement this playbook?</p>
+    <p style="margin:0.4rem 0 0; font-size:1.1rem; font-weight:600;">Contact Jack Barry @ ClientBridge</p>
+    <p style="margin:0.25rem 0 0;"><a href="mailto:jbarry@client-bridge.com" style="color:var(--orange); font-weight:600; text-decoration:none; font-size:1.05rem;">jbarry@client-bridge.com</a></p>
+  </div>
+
+  <div class="footer">
+    <p><strong>Tile Redi GTM Intelligence Proposal</strong></p>
+    <p style="margin-top:0.5rem;">Prepared March 2026 · Created by <strong>Jack Barry</strong> @ <strong>ClientBridge</strong></p>
+    <p style="margin-top:1rem; color:#aaa; font-size:0.8rem;">This document contains proprietary GTM strategy analysis. Not for distribution.</p>
+  </div>
+
+</div>
+</body>
+</html>
