@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Growth Strategy Analysis — Crawford Power Systems</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0c0c0c;
+    --ink: #1a1a1a;
+    --steel: #2c3340;
+    --slate: #4a5568;
+    --mist: #8a93a0;
+    --silver: #c8cfd8;
+    --border: #e2e6ea;
+    --off-white: #f7f8fa;
+    --white: #ffffff;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --amber-dark: #92400e;
+    --green: #15803d;
+    --green-light: #dcfce7;
+    --red: #b91c1c;
+    --red-light: #fee2e2;
+    --blue: #1e40af;
+    --blue-light: #dbeafe;
+    --ai-purple: #6d28d9;
+    --ai-purple-light: #ede9fe;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--white); color: var(--ink); line-height: 1.65; font-size: 14px; }
+
+  /* COVER */
+  .cover {
+    background: var(--black);
+    color: var(--white);
+    min-height: 460px;
+    padding: 80px 64px 64px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute; top: 0; right: 0; bottom: 0; width: 45%;
+    background: repeating-linear-gradient(-45deg, transparent, transparent 18px, rgba(255,255,255,0.02) 18px, rgba(255,255,255,0.02) 19px);
+  }
+  .cover::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--ai-purple));
+  }
+  .cover-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 54px; line-height: 1.1; margin-bottom: 8px; max-width: 700px;
+  }
+  .cover h1 em { font-style: italic; color: #9ca8b4; }
+  .cover-sub { font-size: 16px; color: var(--silver); margin-bottom: 16px; font-weight: 300; }
+  .ai-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: linear-gradient(90deg, var(--ai-purple), #4f46e5);
+    color: white; border-radius: 20px; padding: 6px 16px;
+    font-family: 'JetBrains Mono', monospace; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 0.1em;
+    margin-bottom: 48px;
+  }
+  .ai-pill-dot { width: 6px; height: 6px; background: #a5b4fc; border-radius: 50%; }
+  .cover-meta {
+    display: flex; gap: 40px;
+    border-top: 1px solid rgba(255,255,255,0.1); padding-top: 28px;
+  }
+  .cover-meta-item h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--mist); margin-bottom: 4px;
+  }
+  .cover-meta-item p { font-size: 13px; color: var(--silver); font-weight: 500; }
+
+  /* LAYOUT */
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 64px; }
+  .page-section { padding: 72px 0; border-bottom: 1px solid var(--border); }
+  .page-section:last-child { border-bottom: none; }
+
+  /* LABELS */
+  .section-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.15em; text-transform: uppercase; color: var(--amber); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'DM Serif Display', serif; font-size: 34px;
+    color: var(--black); margin-bottom: 20px; line-height: 1.2;
+  }
+  .section-intro {
+    font-size: 15px; color: var(--slate); max-width: 720px;
+    margin-bottom: 40px; line-height: 1.75;
+  }
+
+  /* AI CALLOUT BANNER */
+  .ai-banner {
+    background: linear-gradient(135deg, var(--ai-purple) 0%, #4338ca 100%);
+    color: white; border-radius: 8px; padding: 32px 36px;
+    margin-bottom: 32px; position: relative; overflow: hidden;
+  }
+  .ai-banner::before {
+    content: 'AI';
+    position: absolute; right: 36px; top: 50%; transform: translateY(-50%);
+    font-family: 'DM Serif Display', serif; font-size: 120px; color: rgba(255,255,255,0.05);
+    line-height: 1;
+  }
+  .ai-banner h3 {
+    font-family: 'DM Serif Display', serif; font-size: 22px; margin-bottom: 10px;
+  }
+  .ai-banner p { font-size: 13.5px; color: #c4b5fd; line-height: 1.7; max-width: 720px; }
+  .ai-banner strong { color: white; }
+
+  /* AI ADVANTAGE CARDS */
+  .ai-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 32px; }
+  .ai-card {
+    background: var(--ai-purple-light); border: 1px solid #c4b5fd;
+    border-radius: 6px; padding: 22px; border-top: 3px solid var(--ai-purple);
+  }
+  .ai-card h4 {
+    font-family: 'DM Serif Display', serif; font-size: 15px;
+    color: var(--ai-purple); margin-bottom: 8px;
+  }
+  .ai-card p { font-size: 12.5px; color: #4c1d95; line-height: 1.65; }
+  .ai-card ul { padding-left: 16px; margin-top: 8px; }
+  .ai-card li { font-size: 12px; color: #4c1d95; margin-bottom: 4px; }
+
+  /* HIGHLIGHT BAR */
+  .highlight-bar {
+    background: var(--black); color: var(--white); border-radius: 6px;
+    padding: 28px 32px; display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 24px; margin-bottom: 36px;
+  }
+  .highlight-bar-item { border-left: 2px solid var(--amber); padding-left: 16px; }
+  .highlight-bar-item .stat { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--white); }
+  .highlight-bar-item .stat-label { font-size: 11px; color: var(--mist); margin-top: 2px; }
+
+  /* EXEC CARDS */
+  .exec-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 36px; }
+  .exec-card {
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: 6px; padding: 24px;
+  }
+  .exec-card.full-width { grid-column: 1 / -1; }
+  .exec-card h3 { font-family: 'DM Serif Display', serif; font-size: 17px; margin-bottom: 10px; color: var(--ink); }
+  .exec-card p { font-size: 13.5px; color: var(--slate); line-height: 1.7; }
+
+  /* ASSUMPTION BOX */
+  .assumption-box {
+    background: var(--amber-light); border-left: 3px solid var(--amber);
+    border-radius: 4px; padding: 16px 20px; margin-bottom: 28px;
+  }
+  .assumption-box strong {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.08em; display: block; margin-bottom: 6px;
+  }
+  .assumption-box p { font-size: 12.5px; color: var(--amber-dark); line-height: 1.6; }
+
+  /* ANSOFF */
+  .ansoff-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 40px; }
+  .ansoff-cell { border-radius: 6px; padding: 28px; border: 1px solid var(--border); }
+  .ansoff-cell.primary { background: var(--black); color: var(--white); border-color: var(--black); }
+  .ansoff-cell.secondary { background: var(--steel); color: var(--white); border-color: var(--steel); }
+  .ansoff-cell.tertiary { background: var(--off-white); color: var(--ink); }
+  .ansoff-cell.low-priority { background: var(--off-white); color: var(--slate); opacity: 0.65; }
+  .ansoff-cell .quadrant-label {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 8px; opacity: 0.7;
+  }
+  .ansoff-cell.primary .quadrant-label { color: var(--amber); opacity: 1; }
+  .ansoff-cell h3 { font-family: 'DM Serif Display', serif; font-size: 20px; margin-bottom: 10px; }
+  .ansoff-cell p { font-size: 13px; line-height: 1.65; margin-bottom: 10px; }
+  .ansoff-cell ul { padding-left: 18px; }
+  .ansoff-cell li { font-size: 12.5px; margin-bottom: 5px; line-height: 1.5; }
+  .priority-badge {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    padding: 3px 10px; border-radius: 20px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-bottom: 12px;
+  }
+  .badge-p1 { background: var(--amber); color: var(--black); }
+  .badge-p2 { background: rgba(255,255,255,0.15); color: var(--silver); }
+  .badge-p3 { background: var(--silver); color: var(--ink); }
+  .badge-p4 { background: var(--border); color: var(--mist); }
+
+  /* COMP TABLE */
+  .comp-table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 32px; }
+  .comp-table { width: 100%; border-collapse: collapse; }
+  .comp-table thead { background: var(--black); color: var(--white); }
+  .comp-table th {
+    padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; text-align: left;
+  }
+  .comp-table td { padding: 14px 18px; border-top: 1px solid var(--border); font-size: 12.5px; vertical-align: top; }
+  .comp-table tr:nth-child(even) td { background: var(--off-white); }
+  .comp-table tr.crawford-row td { background: var(--amber-light); font-weight: 600; }
+  .dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 5px; vertical-align: middle; }
+  .dot-green { background: var(--green); }
+  .dot-red { background: var(--red); }
+  .dot-amber { background: var(--amber); }
+
+  /* RECS */
+  .rec-list { display: flex; flex-direction: column; gap: 20px; margin-bottom: 36px; }
+  .rec-card { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; }
+  .rec-card-header {
+    display: flex; align-items: center; gap: 20px;
+    padding: 20px 24px; background: var(--ink); color: var(--white);
+  }
+  .rec-number { font-family: 'DM Serif Display', serif; font-size: 28px; color: var(--amber); min-width: 36px; line-height: 1; }
+  .rec-card-header h3 { font-family: 'DM Serif Display', serif; font-size: 18px; flex: 1; }
+  .vector-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    background: rgba(255,255,255,0.1); padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap; text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .ai-tag {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    background: var(--ai-purple); padding: 4px 10px; border-radius: 20px;
+    white-space: nowrap; text-transform: uppercase; letter-spacing: 0.08em; color: white;
+  }
+  .rec-card-body {
+    padding: 24px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 20px;
+  }
+  .rec-col h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--mist); margin-bottom: 10px;
+  }
+  .rec-col p, .rec-col li { font-size: 12.5px; color: var(--slate); line-height: 1.65; }
+  .rec-col ul { padding-left: 16px; }
+  .rec-col li { margin-bottom: 5px; }
+
+  /* AI TOOLS TABLE */
+  .ai-tools-table-wrap { border: 1px solid #c4b5fd; border-radius: 6px; overflow: hidden; margin-bottom: 32px; }
+  .ai-tools-table { width: 100%; border-collapse: collapse; }
+  .ai-tools-table thead { background: var(--ai-purple); color: var(--white); }
+  .ai-tools-table th {
+    padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; text-align: left;
+  }
+  .ai-tools-table td {
+    padding: 14px 18px; border-top: 1px solid #e0d9f7;
+    font-size: 12.5px; vertical-align: top; line-height: 1.6;
+  }
+  .ai-tools-table tr:nth-child(even) td { background: var(--ai-purple-light); }
+  .cost-free { color: var(--green); font-weight: 600; }
+  .cost-low { color: var(--amber); font-weight: 600; }
+
+  /* ROADMAP TABLE */
+  .roadmap-table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 32px; }
+  .roadmap-table { width: 100%; border-collapse: collapse; }
+  .roadmap-table thead { background: var(--steel); color: var(--white); }
+  .roadmap-table th {
+    padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; text-align: left;
+  }
+  .roadmap-table td {
+    padding: 14px 18px; border-top: 1px solid var(--border);
+    font-size: 12.5px; vertical-align: top; line-height: 1.6;
+  }
+  .roadmap-table tr:nth-child(even) td { background: var(--off-white); }
+  .phase-tag {
+    display: inline-block; font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    padding: 3px 10px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; font-weight: 500;
+  }
+  .phase-1 { background: var(--amber); color: var(--black); }
+  .phase-2 { background: var(--steel); color: var(--white); }
+  .phase-3 { background: var(--green); color: var(--white); }
+
+  /* KPI */
+  .kpi-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-bottom: 36px; }
+  .kpi-card {
+    background: var(--off-white); border: 1px solid var(--border);
+    border-radius: 6px; padding: 20px; border-top: 3px solid var(--amber);
+  }
+  .kpi-card h4 {
+    font-family: 'JetBrains Mono', monospace; font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.1em; color: var(--mist); margin-bottom: 8px;
+  }
+  .kpi-card .kpi-target { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--black); margin-bottom: 4px; }
+  .kpi-card p { font-size: 12px; color: var(--slate); }
+
+  /* RISK TABLE */
+  .risk-table-wrap { border: 1px solid var(--border); border-radius: 6px; overflow: hidden; margin-bottom: 32px; }
+  .risk-table { width: 100%; border-collapse: collapse; }
+  .risk-table thead { background: var(--steel); color: var(--white); }
+  .risk-table th {
+    padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 500; text-align: left;
+  }
+  .risk-table td {
+    padding: 14px 18px; border-top: 1px solid var(--border);
+    font-size: 12.5px; vertical-align: top; line-height: 1.6;
+  }
+  .risk-table tr:nth-child(even) td { background: var(--off-white); }
+  .risk-high { color: var(--red); font-weight: 600; }
+  .risk-med { color: var(--amber); font-weight: 600; }
+  .risk-low { color: var(--green); font-weight: 600; }
+
+  /* CONCLUSION */
+  .conclusion-box {
+    background: var(--black); color: var(--white); border-radius: 8px; padding: 48px;
+    position: relative; overflow: hidden;
+  }
+  .conclusion-box::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--amber), var(--ai-purple));
+  }
+  .conclusion-box .section-label { color: var(--amber); }
+  .conclusion-box .section-title { color: var(--white); }
+  .conclusion-box p { font-size: 14px; color: #b0bbc6; line-height: 1.8; margin-bottom: 16px; }
+  .conclusion-box p:last-child { margin-bottom: 0; }
+
+  /* DISCLAIMER */
+  .disclaimer {
+    background: var(--off-white); border-top: 1px solid var(--border);
+    padding: 24px 64px; font-size: 11px; color: var(--mist); line-height: 1.6;
+  }
+</style>
+</head>
+<body>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-eyebrow">Growth Strategy Analysis · Confidential · v2</div>
+  <h1>Crawford Power<br><em>Systems</em></h1>
+  <p class="cover-sub">Multi-Vector Growth Strategy · Ansoff Framework Analysis · 2026–2027</p>
+  <div class="ai-pill"><div class="ai-pill-dot"></div>AI-First Business Strategy</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item"><h4>Company</h4><p>Crawford Power Systems</p></div>
+    <div class="cover-meta-item"><h4>Industry</h4><p>Commercial &amp; Industrial Power Generation</p></div>
+    <div class="cover-meta-item"><h4>HQ</h4><p>Houston, TX</p></div>
+    <div class="cover-meta-item"><h4>Founded</h4><p>January 2026</p></div>
+    <div class="cover-meta-item"><h4>CRM</h4><p>Zoho CRM (deployed)</p></div>
+    <div class="cover-meta-item"><h4>Analysis Date</h4><p>March 2026</p></div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- SECTION 1: EXEC SUMMARY -->
+  <div class="page-section">
+    <div class="section-label">01 · Executive Summary</div>
+    <div class="section-title">Strategic Situation &amp; Priority Findings</div>
+    <p class="section-intro">Crawford Power Systems launched in January 2026 as a Houston-based dealer and rental provider of commercial and industrial generators and engines. The founder brings an established industry network and buyer list — a critical early-stage asset most new entrants lack. The strategic imperative is to activate that network systematically, build scalable AI-powered systems on top of it, and convert relationship capital into $1M+ in Year 1 revenue while building the pipeline for accelerated Year 2 growth.</p>
+
+    <div class="assumption-box">
+      <strong>Assumptions Applied</strong>
+      <p>ASSUMPTION: Year 1 revenue target is $1M–$2M based on high-ticket equipment deal sizes and existing network advantage. ASSUMPTION: Marketing budget is under $1,000/month in Year 1 with willingness to increase as revenue grows. ASSUMPTION: Zoho CRM is deployed and operational. ASSUMPTION: Geographic focus is Texas and Gulf Coast region. ASSUMPTION: Team is lean (1–3 people) — AI tools are essential to extend capacity without headcount. These should be corrected where inaccurate.</p>
+    </div>
+
+    <div class="highlight-bar">
+      <div class="highlight-bar-item">
+        <div class="stat">$1M+</div>
+        <div class="stat-label">Year 1 Revenue Target</div>
+      </div>
+      <div class="highlight-bar-item">
+        <div class="stat">AI-First</div>
+        <div class="stat-label">Core Competitive Differentiator</div>
+      </div>
+      <div class="highlight-bar-item">
+        <div class="stat">&lt;$1K/mo</div>
+        <div class="stat-label">Marketing Budget Constraint</div>
+      </div>
+      <div class="highlight-bar-item">
+        <div class="stat">Network</div>
+        <div class="stat-label">Existing Buyer List — Key Asset</div>
+      </div>
+    </div>
+
+    <div class="exec-cards">
+      <div class="exec-card">
+        <h3>The Starting Advantage</h3>
+        <p>Most new entrants spend 12–18 months building credibility and a buyer list from scratch. Crawford skips that phase. The founder's existing network is the single most valuable asset on the balance sheet — it represents pipeline that can be activated immediately. The primary strategy is to systematize that network using AI-powered outreach and Zoho CRM automation so no relationship falls through the cracks.</p>
+      </div>
+      <div class="exec-card">
+        <h3>The AI-First Thesis</h3>
+        <p>Large competitors like Depco and WPP have legacy systems, sales processes, and organizational inertia. Crawford can move 3–5x faster on quoting, follow-up, and outreach by deploying AI tools across every customer-facing function from Day 1. In a relationship-driven business, <strong>speed of response is a competitive weapon</strong> — and AI is the lever that makes a lean team feel like a large one.</p>
+      </div>
+      <div class="exec-card full-width">
+        <h3>Top 3 Recommendations at a Glance</h3>
+        <p><strong>1. Activate the Existing Network with AI-Powered Zoho Sequences (Immediate):</strong> Build structured outreach cadences in Zoho to re-engage every contact in the existing buyer list. AI-assisted personalization at scale — no mass blast, no cold feeling. Goal: 10–15 qualified opportunities in pipeline within 30 days.<br><br>
+        <strong>2. Deploy an AI Lead Engine on &lt;$1K/Month (Months 1–6):</strong> Use a disciplined, low-budget combination of targeted Google Ads, SEO-optimized resource pages, and AI-generated LinkedIn content to generate inbound leads without overspending. Crawford's existing website resources (spec sheets, sizing calculator, fuel charts) are underutilized lead magnets.<br><br>
+        <strong>3. Use Rental as a Relationship Entry Point and Recurring Revenue Engine (Year 1–2):</strong> Position rental as the low-friction way to start relationships with new buyers, then convert to sales and service contracts. AI tools track rental pipelines, automate follow-up timing, and flag conversion opportunities automatically in Zoho.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 2: AI-FIRST STRATEGY -->
+  <div class="page-section">
+    <div class="section-label">02 · AI-First Competitive Strategy</div>
+    <div class="section-title">Building Structural Advantage Through AI</div>
+    <p class="section-intro">The AI-first positioning is not a marketing claim — it is an operational architecture. Crawford deploys AI tools across three dimensions to outperform larger, slower competitors without proportional headcount or marketing spend.</p>
+
+    <div class="ai-banner">
+      <h3>The Core Thesis: Speed + Personalization at Scale</h3>
+      <p>Established competitors — Depco, WPP, and national dealers — operate with legacy CRM systems, manual quoting processes, and standard response times measured in hours or days. <strong>Crawford can respond in minutes, personalize at scale, and move from inquiry to quote faster than any competitor in the market.</strong> In a business where equipment needs are often urgent (construction delays, grid failures, project deadlines), being the fastest responder closes deals. AI makes this possible with a lean team and a sub-$1K/month marketing budget.</p>
+    </div>
+
+    <div class="ai-grid">
+      <div class="ai-card">
+        <h4>Operational Edge</h4>
+        <p>AI tools accelerate every internal workflow — faster quotes, smarter sourcing decisions, automated follow-up sequences, and CRM data enrichment. A two-person team runs like a ten-person team.</p>
+        <ul>
+          <li>AI-assisted quote generation from specs</li>
+          <li>Zoho automation for follow-up cadences</li>
+          <li>AI-powered inventory sourcing research</li>
+          <li>Automated deal stage progression in CRM</li>
+        </ul>
+      </div>
+      <div class="ai-card">
+        <h4>Lead Generation</h4>
+        <p>AI-generated content, SEO optimization, and intelligent prospecting tools replace expensive agency spend. Stay under $1K/month while generating high-quality inbound and outbound leads.</p>
+        <ul>
+          <li>AI-written blog/SEO content (2x/month)</li>
+          <li>LinkedIn content generation and scheduling</li>
+          <li>AI prospecting for target buyer lists</li>
+          <li>Smart keyword bidding on Google Ads</li>
+        </ul>
+      </div>
+      <div class="ai-card">
+        <h4>Customer Experience</h4>
+        <p>Buyers feel like Crawford is a larger, more sophisticated operation than it is. AI enables faster responses, smarter recommendations, and proactive communication that builds trust and loyalty.</p>
+        <ul>
+          <li>AI-drafted response templates for RFQs</li>
+          <li>Proactive inventory match notifications</li>
+          <li>Rental-to-purchase conversion nudges</li>
+          <li>Post-sale follow-up and review requests</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="section-label" style="margin-top: 16px;">AI Tool Stack</div>
+    <div class="ai-tools-table-wrap">
+      <table class="ai-tools-table">
+        <thead>
+          <tr>
+            <th>Function</th>
+            <th>Recommended Tool(s)</th>
+            <th>Use Case</th>
+            <th>Monthly Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>CRM &amp; Automation</strong></td>
+            <td>Zoho CRM + Zoho Flow</td>
+            <td>Lead tracking, deal pipeline, automated email sequences, task creation on deal stage changes</td>
+            <td class="cost-free">Already Deployed</td>
+          </tr>
+          <tr>
+            <td><strong>AI Writing &amp; Content</strong></td>
+            <td>Claude / ChatGPT</td>
+            <td>Blog posts, LinkedIn content, email outreach drafts, quote responses, spec sheet summaries</td>
+            <td class="cost-low">$20–$40/mo</td>
+          </tr>
+          <tr>
+            <td><strong>Lead Prospecting</strong></td>
+            <td>Apollo.io (free tier) or Clay</td>
+            <td>Build targeted buyer lists by industry, title, and geography; enrich existing contacts with emails and phone numbers</td>
+            <td class="cost-free">Free–$50/mo</td>
+          </tr>
+          <tr>
+            <td><strong>LinkedIn Outreach</strong></td>
+            <td>LinkedIn + AI-drafted messages</td>
+            <td>Personalized connection requests and follow-up messages drafted by AI, sent manually to stay within LinkedIn limits</td>
+            <td class="cost-free">Free (time)</td>
+          </tr>
+          <tr>
+            <td><strong>Paid Search</strong></td>
+            <td>Google Ads (Smart Campaigns)</td>
+            <td>Target high-intent industrial generator searches in Texas; AI-optimized bidding keeps cost-per-click efficient</td>
+            <td class="cost-low">$500–$800/mo</td>
+          </tr>
+          <tr>
+            <td><strong>SEO &amp; Content</strong></td>
+            <td>Google Search Console + AI content</td>
+            <td>Optimize existing resource pages; publish 2 AI-assisted blog articles/month targeting long-tail buyer keywords</td>
+            <td class="cost-free">Free</td>
+          </tr>
+          <tr>
+            <td><strong>Email Marketing</strong></td>
+            <td>Zoho Campaigns</td>
+            <td>Monthly newsletter to buyer list; automated drip sequences for leads; AI-generated email copy</td>
+            <td class="cost-free">Included in Zoho</td>
+          </tr>
+          <tr>
+            <td><strong>Quoting</strong></td>
+            <td>Zoho Quote + AI assist</td>
+            <td>Generate professional quotes rapidly from templates; AI suggests pricing based on comp data</td>
+            <td class="cost-free">Included in Zoho</td>
+          </tr>
+          <tr>
+            <td><strong>AI Chat / Website</strong></td>
+            <td>Zoho SalesIQ or Tidio</td>
+            <td>AI chatbot on website to qualify leads after hours, capture contact info, answer spec questions</td>
+            <td class="cost-low">Free–$25/mo</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:12.5px; color:var(--slate); margin-bottom:16px;"><strong>Total estimated AI tool stack cost: $570–$915/month</strong> — staying within the sub-$1K budget while covering all critical functions. As revenue grows, expand Google Ads spend first, then add prospecting tools.</p>
+  </div>
+
+  <!-- SECTION 3: COMPETITIVE LANDSCAPE -->
+  <div class="page-section">
+    <div class="section-label">03 · Market &amp; Competitive Context</div>
+    <div class="section-title">Competitor Landscape &amp; Crawford's Position</div>
+    <p class="section-intro">Crawford competes primarily against four identified players. The two most dangerous are co-located in Houston. The AI-first strategy creates a speed and responsiveness moat that legacy competitors cannot easily replicate.</p>
+
+    <div class="comp-table-wrap">
+      <table class="comp-table">
+        <thead>
+          <tr>
+            <th>Company</th>
+            <th>HQ / Reach</th>
+            <th>Strengths</th>
+            <th>Vulnerabilities Crawford Can Exploit</th>
+            <th>Crawford's Counter</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="crawford-row">
+            <td><strong>Crawford Power Systems</strong></td>
+            <td>Houston, TX · Gulf Coast</td>
+            <td>
+              <span class="dot dot-green"></span>Existing network &amp; buyer list<br>
+              <span class="dot dot-green"></span>Zoho CRM deployed<br>
+              <span class="dot dot-green"></span>AI-first operations<br>
+              <span class="dot dot-green"></span>Rental capability<br>
+              <span class="dot dot-green"></span>Components catalog
+            </td>
+            <td>No public track record yet; limited reviews</td>
+            <td>Activate network immediately; collect reviews aggressively from Day 1</td>
+          </tr>
+          <tr>
+            <td><strong>Depco Power Systems</strong><br><span style="font-size:11px;color:#6b7280;">depco.com · Houston</span></td>
+            <td>Houston, TX · National + Int'l</td>
+            <td>
+              <span class="dot dot-amber"></span>Established Houston brand<br>
+              <span class="dot dot-amber"></span>Marine + international<br>
+              <span class="dot dot-amber"></span>Deep inventory
+            </td>
+            <td>
+              <span class="dot dot-green"></span>Larger org = slower response<br>
+              <span class="dot dot-green"></span>No visible rental offering<br>
+              <span class="dot dot-green"></span>Corporate process friction
+            </td>
+            <td>Win on speed-to-quote (AI-assisted), rental entry point, and personal founder relationship</td>
+          </tr>
+          <tr>
+            <td><strong>Worldwide Power Products</strong><br><span style="font-size:11px;color:#6b7280;">wpowerproducts.com · Houston</span></td>
+            <td>Houston, TX · National</td>
+            <td>
+              <span class="dot dot-amber"></span>Forbes-recognized brand<br>
+              <span class="dot dot-amber"></span>Full rental + service<br>
+              <span class="dot dot-amber"></span>Power module specialization
+            </td>
+            <td>
+              <span class="dot dot-green"></span>Premium pricing<br>
+              <span class="dot dot-green"></span>Scale creates impersonal experience<br>
+              <span class="dot dot-green"></span>Mid-market buyers underserved
+            </td>
+            <td>Target mid-market buyers WPP prices out; compete on responsiveness and value</td>
+          </tr>
+          <tr>
+            <td><strong>Midwest Engines &amp; Generators</strong><br><span style="font-size:11px;color:#6b7280;">midwest-generators.com · Indiana</span></td>
+            <td>Edinburgh, IN · National</td>
+            <td>
+              <span class="dot dot-amber"></span>National reach<br>
+              <span class="dot dot-amber"></span>Top brand inventory
+            </td>
+            <td>
+              <span class="dot dot-green"></span>No Gulf Coast local presence<br>
+              <span class="dot dot-green"></span>No rental mentioned<br>
+              <span class="dot dot-green"></span>Freight disadvantage for TX buyers
+            </td>
+            <td>Local presence, faster delivery, Gulf Coast expertise and personal relationships</td>
+          </tr>
+          <tr>
+            <td><strong>American Energy Solutions</strong><br><span style="font-size:11px;color:#6b7280;">americanenergysolutions.com</span></td>
+            <td>National</td>
+            <td>
+              <span class="dot dot-amber"></span>Established national presence
+            </td>
+            <td>
+              <span class="dot dot-green"></span>No Gulf Coast specialization<br>
+              <span class="dot dot-green"></span>Less relevant to TX energy sector buyers
+            </td>
+            <td>Lead with Gulf Coast expertise, local delivery, and industry-specific knowledge</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="exec-card">
+      <h3>Competitive Moat Summary</h3>
+      <p>Crawford's defensible advantage is a combination of <strong>local presence + existing relationships + AI-powered speed</strong>. No competitor can replicate the founder's network. No large competitor can match the responsiveness of a lean, AI-first operation. The components catalog (radiators, enclosures, transfer switches, parts) is an underutilized differentiator — most competitors bury or skip this category, yet it serves a large base of refurb and maintenance buyers who are high-repeat, high-loyalty customers.</p>
+    </div>
+  </div>
+
+  <!-- SECTION 4: ANSOFF MATRIX -->
+  <div class="page-section">
+    <div class="section-label">04 · Ansoff Growth Matrix Analysis</div>
+    <div class="section-title">Four-Vector Growth Assessment</div>
+    <p class="section-intro">Market Penetration is the mandatory Year 1 focus — activating existing relationships and building pipeline. Product Development (rental scaling, service) runs in parallel. Market Expansion and Diversification are Year 2+ priorities funded by Year 1 success.</p>
+
+    <div class="ansoff-wrapper">
+      <div class="ansoff-cell primary">
+        <div class="quadrant-label">Existing Products · Existing Markets</div>
+        <span class="priority-badge badge-p1">Priority 1 · Immediate</span>
+        <h3>Market Penetration</h3>
+        <p>Activate the existing buyer network using AI-powered Zoho sequences. Convert known relationships into deals before building cold pipeline. Then layer in digital lead generation to grow inbound.</p>
+        <ul>
+          <li>Segment existing buyer list in Zoho by deal size, urgency, and equipment type</li>
+          <li>Build AI-personalized outreach cadences for each segment — not mass blasts</li>
+          <li>Target oil &amp; gas, construction, mining, logistics, and agriculture sectors in Texas</li>
+          <li>Google Ads on 15–20 high-intent Houston/Texas generator search terms</li>
+          <li>SEO-optimize all existing resource pages (spec sheets, calculator, fuel charts)</li>
+          <li>Leverage the "Sell Your Equipment" program as both sourcing and relationship funnel</li>
+          <li>Collect 10+ Google reviews from first transactions to establish social proof</li>
+          <li>Component buyers (radiators, transfer switches, parts) — a high-repeat, underserved segment</li>
+        </ul>
+      </div>
+
+      <div class="ansoff-cell secondary">
+        <div class="quadrant-label">New Products · Existing Markets</div>
+        <span class="priority-badge badge-p2">Priority 2 · Year 1–2</span>
+        <h3>Product Development</h3>
+        <p>Expand service depth for the same customer base. Rental is the most important lever — it lowers entry barriers, creates recurring revenue, and generates natural conversion opportunities. AI tools manage rental pipeline and automate conversion timing.</p>
+        <ul>
+          <li>Elevate rental as a primary CTA across website and outbound outreach</li>
+          <li>Develop generator maintenance and repair as a recurring revenue add-on</li>
+          <li>Build equipment buyback program — creates loyalty and resale inventory</li>
+          <li>Bundle delivery + on-site support + maintenance as managed service</li>
+          <li>Explore long-term lease / generator-as-a-service for anchor clients</li>
+          <li>Use Zoho automation to trigger rental-to-purchase conversations at 60 days</li>
+        </ul>
+      </div>
+
+      <div class="ansoff-cell tertiary">
+        <div class="quadrant-label">Existing Products · New Markets</div>
+        <span class="priority-badge badge-p3">Priority 3 · Year 2</span>
+        <h3>Market Expansion</h3>
+        <p>Once Texas foothold is established and systems are proven, expand reach to adjacent Gulf Coast and Sunbelt markets. AI-powered digital marketing makes geographic expansion capital-efficient.</p>
+        <ul>
+          <li>Louisiana, Oklahoma, New Mexico — Gulf Coast energy corridor extensions</li>
+          <li>National online buyers via SEO-driven inbound for shippable inventory</li>
+          <li>Target mid-market buyers priced out by premium national dealers</li>
+          <li>International leads via "Voltage &amp; Frequency by Country" resource page</li>
+          <li>Expand Zoho contact database with AI-sourced buyers in new geographies</li>
+        </ul>
+      </div>
+
+      <div class="ansoff-cell low-priority">
+        <div class="quadrant-label">New Products · New Markets</div>
+        <span class="priority-badge badge-p4">Priority 4 · Year 3+</span>
+        <h3>Diversification</h3>
+        <p>Lowest priority. Revisit after Year 2 performance review with proven systems and capital to invest.</p>
+        <ul>
+          <li>Renewable hybrid systems (solar + generator integration)</li>
+          <li>Marine engine segment (natural Gulf Coast adjacency)</li>
+          <li>Equipment financing partnerships</li>
+          <li>AI-powered equipment valuation / brokerage service</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 5: RECOMMENDATIONS -->
+  <div class="page-section">
+    <div class="section-label">05 · Strategic Recommendations</div>
+    <div class="section-title">Prioritized Action Plan</div>
+    <p class="section-intro">Four recommendations, sequenced by urgency. All are executable under the $1K/month marketing budget constraint using AI tools and the existing Zoho CRM infrastructure.</p>
+
+    <div class="rec-list">
+
+      <div class="rec-card">
+        <div class="rec-card-header">
+          <div class="rec-number">01</div>
+          <h3>Activate the Existing Network via AI-Powered Zoho Outreach</h3>
+          <span class="vector-tag">Market Penetration</span>
+          <span class="ai-tag">AI-Powered</span>
+        </div>
+        <div class="rec-card-body">
+          <div class="rec-col">
+            <h4>Rationale</h4>
+            <p>The existing buyer list is the highest-value asset Crawford has — it bypasses the cold-start problem that kills most new entrants. These contacts already know and trust the founder. The priority is to re-engage systematically and personally, not with a generic newsletter blast. AI-assisted personalization makes this possible at scale inside Zoho without hours of manual writing.</p>
+          </div>
+          <div class="rec-col">
+            <h4>Key Actions</h4>
+            <ul>
+              <li>Segment Zoho contact list by industry, last interaction, and estimated deal size</li>
+              <li>Build 3–4 Zoho email sequences tailored to each segment (use AI to draft copy)</li>
+              <li>Open with a personal, founder-voice message — not a sales pitch</li>
+              <li>Sequence: touch 1 (re-intro), touch 2 (value/resource), touch 3 (ask for meeting/quote)</li>
+              <li>Set Zoho tasks to follow up personally with top 20 contacts within 5 business days</li>
+              <li>Log all responses and update deal stages in real time</li>
+              <li>Reactivate dormant contacts quarterly with new inventory highlights</li>
+            </ul>
+          </div>
+          <div class="rec-col">
+            <h4>Success Metrics</h4>
+            <ul>
+              <li>100% of existing contacts loaded and segmented in Zoho by Week 2</li>
+              <li>First outreach sequence launched by Week 3</li>
+              <li>10–15 qualified opportunities in Zoho pipeline by Day 30</li>
+              <li>3–5 deals closed from network reactivation in Month 1–2</li>
+              <li>Email open rate 35%+ (warm list benchmark)</li>
+            </ul>
+            <h4 style="margin-top:14px;">Est. Cost</h4>
+            <p>$0 incremental — Zoho already deployed. AI writing tool: ~$20/month. Highest ROI action available.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-card-header">
+          <div class="rec-number">02</div>
+          <h3>Deploy a Sub-$1K/Month AI Lead Generation Engine</h3>
+          <span class="vector-tag">Market Penetration</span>
+          <span class="ai-tag">AI-Powered</span>
+        </div>
+        <div class="rec-card-body">
+          <div class="rec-col">
+            <h4>Rationale</h4>
+            <p>Industrial generator buyers are search-driven and high-intent. A disciplined, AI-optimized Google Ads presence targeting Texas-specific keywords captures buyers actively looking to purchase — at the moment of need. Crawford's existing resource pages (spec sheets, fuel charts, sizing calculator) are rare in this industry and can be SEO-optimized to generate free organic traffic at zero marginal cost once published.</p>
+          </div>
+          <div class="rec-col">
+            <h4>Key Actions</h4>
+            <ul>
+              <li>Launch Google Ads: $600–$800/month targeting "used generator Houston," "generator rental Texas," "CAT generator for sale," and 12–15 similar terms</li>
+              <li>Add lead capture forms to all resource pages (email required to download spec sheets or use calculator)</li>
+              <li>Publish 2 AI-written SEO blog articles per month targeting long-tail keywords buyers search before purchasing</li>
+              <li>Post 3x/week on LinkedIn using AI-drafted content: inventory highlights, tips, industry insights</li>
+              <li>Add AI chatbot (Zoho SalesIQ) to website to capture after-hours inquiries and qualify leads instantly</li>
+              <li>All leads auto-enter Zoho CRM and trigger an immediate follow-up sequence</li>
+            </ul>
+          </div>
+          <div class="rec-col">
+            <h4>Success Metrics</h4>
+            <ul>
+              <li>10+ inbound quote requests per month by Month 4</li>
+              <li>Cost-per-lead below $150 from Google Ads</li>
+              <li>100+ new contacts added to Zoho via lead capture by Month 6</li>
+              <li>300+ LinkedIn followers by Month 12</li>
+              <li>Organic traffic growing 20%+ month-over-month by Month 6</li>
+            </ul>
+            <h4 style="margin-top:14px;">Est. Cost</h4>
+            <p>Google Ads: $600–$800/mo. AI content tool: $20–$40/mo. Chatbot: free tier. Total: ~$650–$850/month — within budget.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-card-header">
+          <div class="rec-number">03</div>
+          <h3>Use Rental as the Primary New-Customer Acquisition Strategy</h3>
+          <span class="vector-tag">Product Development</span>
+          <span class="ai-tag">AI-Powered</span>
+        </div>
+        <div class="rec-card-body">
+          <div class="rec-col">
+            <h4>Rationale</h4>
+            <p>Rental dramatically lowers the first engagement barrier for new buyers. A construction PM or site supervisor with an urgent need can say yes to a rental in hours — they cannot say yes to a $150K generator purchase in hours. Once in a rental relationship, Crawford owns the touchpoints, the follow-up cadence, and the natural conversion conversation. Zoho automation handles the timing; AI handles the messaging.</p>
+          </div>
+          <div class="rec-col">
+            <h4>Key Actions</h4>
+            <ul>
+              <li>Elevate rental as a primary homepage CTA — not buried in navigation</li>
+              <li>Create a simple "Rental Intake" form in Zoho capturing kW requirements, duration, and project type</li>
+              <li>All rental contacts enter a Zoho sequence: deliver → check-in at 30 days → purchase conversation at 60–90 days</li>
+              <li>Use AI to draft rental proposals and follow-up communications rapidly</li>
+              <li>Target construction PMs and site supervisors directly via LinkedIn outreach</li>
+              <li>Price early rentals to win relationships, not maximize per-transaction margin</li>
+            </ul>
+          </div>
+          <div class="rec-col">
+            <h4>Success Metrics</h4>
+            <ul>
+              <li>10+ rental transactions in Year 1</li>
+              <li>30%+ of rental customers engaged in purchase conversation by 90 days</li>
+              <li>2+ rental-to-sale conversions in Year 1</li>
+              <li>Rental revenue covers 15–20% of operating costs by Month 12</li>
+            </ul>
+            <h4 style="margin-top:14px;">Est. Cost</h4>
+            <p>Fleet acquisition depends on sourcing strategy. Using consignment and buyback inventory can dramatically reduce upfront capital. Zoho automation adds zero incremental cost.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="rec-card">
+        <div class="rec-card-header">
+          <div class="rec-number">04</div>
+          <h3>Build Trade &amp; Network Presence to Accelerate Trust at Low Cost</h3>
+          <span class="vector-tag">Market Penetration</span>
+        </div>
+        <div class="rec-card-body">
+          <div class="rec-col">
+            <h4>Rationale</h4>
+            <p>High-ticket industrial equipment is a trust business. Buyers spend $50K–$500K+ based on confidence in the seller. Crawford's founder brings existing trust — the strategy is to make that trust visible and expand it to new contacts quickly through industry presence, referrals, and social proof. This is primarily a time investment, not a dollars investment.</p>
+          </div>
+          <div class="rec-col">
+            <h4>Key Actions</h4>
+            <ul>
+              <li>Join 1–2 Houston industry associations (AGC Texas, API Houston, PBPA)</li>
+              <li>Attend or exhibit at 1 major Houston trade event in Year 1 (OTC, Power &amp; Energy Expo)</li>
+              <li>Formalize 5 referral relationships with electricians, contractors, and project managers</li>
+              <li>Request Google reviews after every completed transaction — make it standard process in Zoho</li>
+              <li>Post AI-generated LinkedIn content 3x/week to maintain top-of-mind visibility</li>
+              <li>Use Zoho to systematically track referral source for every deal — optimize for highest-ROI relationships</li>
+            </ul>
+          </div>
+          <div class="rec-col">
+            <h4>Success Metrics</h4>
+            <ul>
+              <li>10+ Google reviews by Month 12</li>
+              <li>5+ active referral partners by Month 6</li>
+              <li>1 trade event per quarter</li>
+              <li>300+ LinkedIn followers by Month 12</li>
+              <li>Buyer list grows to 400+ total contacts by Year 1 end</li>
+            </ul>
+            <h4 style="margin-top:14px;">Est. Cost</h4>
+            <p>Association memberships: $500–$2,000/year. Trade show: $1,000–$3,000 for booth/attendance. Primarily a time investment — high ROI per dollar spent.</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- SECTION 6: ROADMAP -->
+  <div class="page-section">
+    <div class="section-label">06 · Implementation Roadmap</div>
+    <div class="section-title">Phased Execution Plan · 2026–2027</div>
+    <p class="section-intro">Three phases over 18 months. Phase 1 prioritizes activating existing relationships to generate early revenue. Phases 2 and 3 layer in systems and scale as cash flow grows.</p>
+
+    <div class="roadmap-table-wrap">
+      <table class="roadmap-table">
+        <thead>
+          <tr>
+            <th>Phase</th>
+            <th>Timeline</th>
+            <th>Strategic Focus</th>
+            <th>Key Initiatives</th>
+            <th>Target Outcomes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="phase-tag phase-1">Phase 1</span><br><strong>Activate</strong></td>
+            <td>Months 1–3<br>Q1–Q2 2026</td>
+            <td>Convert existing network to revenue; launch lead systems</td>
+            <td>
+              · Segment and sequence entire Zoho contact list<br>
+              · Launch Google Ads ($600–$800/mo, 15 keywords)<br>
+              · Gate all resource pages with lead capture<br>
+              · Add AI chatbot to website<br>
+              · LinkedIn company page + 3x/week AI content<br>
+              · First 5–8 deals closed from network<br>
+              · Begin collecting Google reviews
+            </td>
+            <td>
+              · $200–$400K revenue from network<br>
+              · 50+ new leads in Zoho<br>
+              · 5+ Google reviews<br>
+              · First 2+ rental transactions
+            </td>
+          </tr>
+          <tr>
+            <td><span class="phase-tag phase-2">Phase 2</span><br><strong>Accelerate</strong></td>
+            <td>Months 4–9<br>Q2–Q4 2026</td>
+            <td>Scale inbound pipeline; grow rental; build referral network</td>
+            <td>
+              · Expand Google Ads to 25–30 keywords<br>
+              · Publish 2 SEO blog posts/month (AI-written)<br>
+              · Scale rental fleet to 5+ units<br>
+              · Launch formal referral partner program<br>
+              · Monthly newsletter to full buyer list (Zoho Campaigns)<br>
+              · Join 1–2 industry associations<br>
+              · Attend 1 trade show
+            </td>
+            <td>
+              · $600–$900K cumulative revenue<br>
+              · 10+ deals/month in pipeline<br>
+              · 5+ rental deals completed<br>
+              · 200+ email subscribers<br>
+              · 5 active referral partners
+            </td>
+          </tr>
+          <tr>
+            <td><span class="phase-tag phase-3">Phase 3</span><br><strong>Scale</strong></td>
+            <td>Months 10–18<br>Q1–Q3 2027</td>
+            <td>Geographic expansion; recurring revenue; team growth</td>
+            <td>
+              · Begin targeting LA, OK, NM buyers via Zoho outreach<br>
+              · Launch maintenance/repair service add-on<br>
+              · Explore long-term lease contracts with anchor clients<br>
+              · Increase marketing budget as % of revenue<br>
+              · Evaluate first sales/BD hire<br>
+              · Explore marine engine segment entry
+            </td>
+            <td>
+              · $1M+ cumulative revenue achieved<br>
+              · 400+ buyer list<br>
+              · 30%+ revenue from rental/service<br>
+              · 2+ recurring contracts<br>
+              · Profitable operations
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION 7: KPIs -->
+  <div class="page-section">
+    <div class="section-label">07 · KPIs &amp; Success Metrics</div>
+    <div class="section-title">Year 1 Performance Dashboard</div>
+    <p class="section-intro">Twelve KPIs across revenue, pipeline, digital, and network dimensions. Review in Zoho monthly. Adjust strategy at 90-day intervals based on what's converting.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <h4>Revenue · Year 1 Target</h4>
+        <div class="kpi-target">$1M+</div>
+        <p>Total equipment sales and rental revenue; achievable given high-ticket deal sizes and existing network</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Revenue · Deals Closed</h4>
+        <div class="kpi-target">20–30 deals</div>
+        <p>At avg. $40–80K per sale transaction, 20+ deals reaches $1M. Network reactivation drives first 5–8.</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Revenue · Rental Transactions</h4>
+        <div class="kpi-target">10+ rentals</div>
+        <p>Rental volume target; prioritize repeat customers and conversion to long-term relationships</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Pipeline · Qualified Opportunities</h4>
+        <div class="kpi-target">15 by Day 30</div>
+        <p>Active opportunities in Zoho pipeline from network reactivation sequence alone</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Pipeline · Inbound Quote Requests</h4>
+        <div class="kpi-target">10/month by M4</div>
+        <p>Inbound leads from Google Ads and organic SEO; tracked in Zoho by source</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Pipeline · Lead-to-Close Rate</h4>
+        <div class="kpi-target">20–30%</div>
+        <p>Higher than industry average expected due to warm network; track by lead source monthly</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Digital · Email Subscribers</h4>
+        <div class="kpi-target">300+ by M9</div>
+        <p>Zoho Campaigns subscriber count; primary owned-channel buyer list asset</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Digital · LinkedIn Followers</h4>
+        <div class="kpi-target">300+ by M12</div>
+        <p>Company page reach; driven by AI-generated content posted 3x/week</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Digital · Google Reviews</h4>
+        <div class="kpi-target">10+ by M12</div>
+        <p>5-star Google Business reviews; critical trust signal for inbound buyers. Automate request in Zoho post-sale.</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Network · Total Buyer List</h4>
+        <div class="kpi-target">400 contacts</div>
+        <p>Total qualified buyer contacts in Zoho by Year 1 end — existing + new from all sources</p>
+      </div>
+      <div class="kpi-card">
+        <h4>Network · Referral Partners</h4>
+        <div class="kpi-target">5 partners</div>
+        <p>Active referral relationships with contractors, electricians, and project managers</p>
+      </div>
+      <div class="kpi-card">
+        <h4>AI Ops · Response Time</h4>
+        <div class="kpi-target">&lt;2 hours</div>
+        <p>Average time from inbound inquiry to first meaningful response; tracked in Zoho. Competitive moat metric.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION 8: RISK ASSESSMENT -->
+  <div class="page-section">
+    <div class="section-label">10 · Risk Assessment</div>
+    <div class="section-title">Key Risks &amp; Mitigation Strategies</div>
+    <p class="section-intro">Risk profile is meaningfully lower than a typical new-entrant due to existing network and deployed CRM. Remaining risks are concentrated in execution pace and inventory availability.</p>
+
+    <div class="risk-table-wrap">
+      <table class="risk-table">
+        <thead>
+          <tr>
+            <th>Risk</th>
+            <th>Probability</th>
+            <th>Impact</th>
+            <th>Mitigation Strategy</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Network reactivation underperforms — contacts have moved on or are not ready to buy</strong></td>
+            <td class="risk-med">Medium</td>
+            <td class="risk-high">High</td>
+            <td>Segment contacts carefully — prioritize highest-probability buyers first. Supplement network with inbound from Google Ads from Day 1 in parallel, not sequentially. Set a 30-day review gate.</td>
+          </tr>
+          <tr>
+            <td><strong>Google Ads CPC too high for $1K/month budget in competitive category</strong></td>
+            <td class="risk-med">Medium</td>
+            <td class="risk-med">Medium</td>
+            <td>Focus on long-tail, geo-specific terms ("used CAT generator Houston") rather than broad terms. Use AI Smart Bidding to optimize automatically. Shift budget toward SEO content if Ads CPCs are prohibitive.</td>
+          </tr>
+          <tr>
+            <td><strong>Inventory availability — unable to source right equipment at the right time for buyers</strong></td>
+            <td class="risk-med">Medium</td>
+            <td class="risk-high">High</td>
+            <td>Use the "Sell Your Equipment" program proactively as a sourcing funnel. Build relationships with decommissioning companies in oil &amp; gas. Maintain a network of equipment brokers. Zoho pipeline visibility helps anticipate demand 30–60 days ahead.</td>
+          </tr>
+          <tr>
+            <td><strong>Lean team capacity — AI tools and Zoho require initial setup time investment</strong></td>
+            <td class="risk-high">High</td>
+            <td class="risk-med">Medium</td>
+            <td>Phase AI tool deployment — activate Zoho sequences in Week 1, Google Ads in Week 2, SEO and content in Month 2. Do not attempt to build everything simultaneously. Revenue-generating activities always take priority over system-building.</td>
+          </tr>
+          <tr>
+            <td><strong>Price competition from larger players with deeper inventory and buying power</strong></td>
+            <td class="risk-med">Medium</td>
+            <td class="risk-med">Medium</td>
+            <td>Do not compete on price as a primary strategy. Compete on speed (AI-assisted quote in &lt;2 hours), relationships, and local expertise. Target mid-market buyers who value responsiveness over rock-bottom price. Use components catalog as a margin-enhancing add-on.</td>
+          </tr>
+          <tr>
+            <td><strong>AI tools underdelivering on time savings if not properly prompted and configured</strong></td>
+            <td class="risk-low">Low</td>
+            <td class="risk-med">Medium</td>
+            <td>Invest 2–4 hours upfront building AI prompt templates for common use cases: quote drafts, follow-up emails, blog outlines, LinkedIn posts. Well-designed prompts make AI 10x more effective. Document and refine templates monthly.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- SECTION: MARKETPLACE CHANNELS -->
+  <div class="page-section">
+    <div class="section-label">09 · Marketplace Channel Strategy</div>
+    <div class="section-title">Equipment Listing Marketplaces</div>
+    <p class="section-intro">Third-party marketplaces represent one of the highest-ROI distribution channels available to Crawford — pre-built audiences of active industrial buyers, no cold outreach required. The strategic role is dual: demand capture (buyers find Crawford's listings) and inventory sourcing (sellers list equipment Crawford can acquire). Each platform has a distinct audience, cost model, and fit for Crawford's inventory type.</p>
+
+    <div class="ai-banner">
+      <h3>Strategic Framing: Marketplaces as a Passive Lead Engine</h3>
+      <p>Listing on the right marketplaces means Crawford's inventory is discoverable 24/7 by buyers actively searching — without additional ad spend. Combined with AI-assisted listing creation (consistent descriptions, optimized titles, spec sheet uploads), Crawford can list faster and more thoroughly than competitors who write listings manually. <strong>AI writes the listings; the marketplaces deliver the buyers.</strong> Each listing is also a backlink to crawfordpowersystems.com, compounding SEO value over time.</p>
+    </div>
+
+    <div class="ai-tools-table-wrap">
+      <table class="ai-tools-table">
+        <thead>
+          <tr>
+            <th>Marketplace</th>
+            <th>Best For</th>
+            <th>Audience &amp; Reach</th>
+            <th>Cost Model</th>
+            <th>Crawford Recommendation</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <strong>Surplus Record</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">surplusrecord.com</span>
+            </td>
+            <td>Industrial generators, engines, components, parts — exact match for Crawford's full catalog including the components category</td>
+            <td>130,000+ end users; 50,000 monthly print catalogs; in operation since 1924; the industry's most trusted industrial equipment marketplace. Active generator and engine category with strong daily traffic.</td>
+            <td class="cost-low">Monthly subscription fee (no commissions). Pricing not published — requires inquiry. Typically affordable for dealers. Backlinks to your website included per listing.</td>
+            <td><strong style="color:#15803d;">Tier 1 — Start Here.</strong> Best audience-to-category fit for Crawford. Industrial buyer focus, no commission on sales, long-standing credibility. Also a strong sourcing channel — sellers list equipment here too. List all inventory. Prioritize.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Machinio</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">machinio.com</span>
+            </td>
+            <td>Used generators, engines, and industrial equipment — global reach with strong North American base</td>
+            <td>Described as "the Google of heavy equipment." Aggregates millions of listings globally. 21-step lead vetting process — leads delivered are qualified buyers only. Strong dealer tools including Machinio System for inventory management.</td>
+            <td class="cost-low">Dealer subscription model; bulk discounts for larger inventories. Free for buyers. Leads delivered via email and direct contact. Pricing requires registration — estimated $100–$300/month for dealer accounts.</td>
+            <td><strong style="color:#15803d;">Tier 1 — High Priority.</strong> Modern platform with strong lead quality vetting. Tech-forward approach aligns with Crawford's AI-first positioning. Good global reach for buyers who will accept shipping. List all generators and engines.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>eBay (Industrial)</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">ebay.com/b/Industrial</span>
+            </td>
+            <td>Smaller generators, components, parts, transfer switches, radiators — the components catalog is particularly well-suited</td>
+            <td>Massive general audience with a strong industrial/surplus buyer base. Best for items under ~$50K where buyers are comfortable transacting online. Components and parts sell exceptionally well here.</td>
+            <td class="cost-low">Free listings up to a limit; final value fee ~2–3% on industrial equipment sales. Low cost of entry. eBay Store subscription ($22–$350/month) unlocks bulk listing discounts and lower fees.</td>
+            <td><strong style="color:#d97706;">Tier 2 — Components &amp; Parts Focus.</strong> Less ideal for large, high-ticket generators (buyer trust issues at high price points), but excellent for the components catalog — radiators, transfer switches, enclosures, parts. High transaction volume, strong ROI on smaller items. Start with an eBay Store.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Machinery Trader</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">machinerytrader.com</span>
+            </td>
+            <td>Construction equipment primary — generators secondary. Better fit if Crawford targets construction sector buyers specifically.</td>
+            <td>1M+ monthly visitors; long-established print + digital platform (since 1978). Strong construction industry buyer base. Print catalog distribution adds offline reach. Generator category exists but is not the primary focus.</td>
+            <td class="cost-low">Monthly fees range from $799–$3,000+/month depending on package. Higher cost than alternatives. Requires speaking with a sales rep. Print inclusion adds premium pricing.</td>
+            <td><strong style="color:#d97706;">Tier 2 — Consider in Year 2.</strong> Strong audience but high cost relative to the $1K/month budget constraint. Construction buyer focus is relevant for Crawford's construction sector targeting. Evaluate once revenue supports the investment. Negotiate hard on entry-level packages.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>IronPlanet</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">ironplanet.com</span>
+            </td>
+            <td>High-value equipment liquidation and auction — useful for moving aged or hard-to-sell inventory quickly</td>
+            <td>Global auction platform; strong buyer base for construction and industrial equipment. IronClad Assurance inspection program adds buyer confidence. Equipment typically sells within 4–6 weeks.</td>
+            <td class="cost-low">Commission-based: 8% on sales $25K+; 10% on $5K–$25K; 14% below $5K. Plus listing fees per unit. Commissions are significant on high-ticket items — a $100K generator costs ~$8K in fees.</td>
+            <td><strong style="color:#8a93a0;">Tier 3 — Tactical/Situational Use.</strong> Not recommended as a primary channel due to high commissions eating into margin on expensive equipment. Best used situationally to move stuck inventory quickly or for items below $20K where speed matters more than margin. Not a fit for core sales strategy.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Ritchie Bros / Rouse</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">rbauction.com</span>
+            </td>
+            <td>Large-scale equipment auctions; unreserved format — good for bulk or estate liquidations</td>
+            <td>World's largest industrial auctioneer. Massive buyer network globally. High visibility for major equipment lots. Houston has an active Ritchie Bros location.</td>
+            <td class="cost-low">Commission-based (similar structure to IronPlanet — now part of same RB Global parent). Unreserved format means equipment sells regardless of price, which can result in below-market outcomes.</td>
+            <td><strong style="color:#8a93a0;">Tier 3 — Avoid for Core Sales.</strong> Unreserved auction format is margin-destructive for a dealer trying to maximize per-unit value. Useful only for liquidating distressed or end-of-life inventory in bulk. Not a fit for Crawford's strategy.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>ThomasNet</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">thomasnet.com</span>
+            </td>
+            <td>Industrial supplier discovery — B2B buyers sourcing from verified suppliers; better for rental and service than one-off equipment sales</td>
+            <td>Industrial procurement platform used heavily by engineers, facility managers, and procurement teams at manufacturers. Strong lead quality; buyers are often institutional.</td>
+            <td class="cost-low">Free basic listing; premium supplier profiles available. Requires application and verification as a supplier. Primarily a long-term brand-building channel rather than immediate transaction driver.</td>
+            <td><strong style="color:#d97706;">Tier 2 — Year 1 Brand Building.</strong> Free to list as a supplier. Strong channel for the rental and service offering — institutional buyers use ThomasNet to vet suppliers before RFPs. Set up a free profile now; it compounds over time as Crawford builds its service layer.</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Craigslist (Industrial)</strong><br>
+              <span style="font-size:11px; color:#4c1d95;">houston.craigslist.org</span>
+            </td>
+            <td>Local buyers in Houston and Texas — smaller transactions, opportunistic deals, parts buyers</td>
+            <td>Large local audience but lower quality and lower intent on average. Useful for smaller items, components, or local rental inquiries. No vetting — expect noise in leads.</td>
+            <td class="cost-free">Free or near-free ($5–$10 per listing in some categories).</td>
+            <td><strong style="color:#8a93a0;">Tier 3 — Low Priority.</strong> Worth 30 minutes/month to post select listings (components, smaller generators, local rental availability). Free exposure with no downside. Do not invest significant time here — lead quality is low compared to industrial-specific platforms.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Tier summary -->
+    <div style="display:grid; grid-template-columns: 1fr 1fr 1fr; gap:16px; margin-bottom:32px;">
+      <div class="exec-card" style="border-top:3px solid #15803d;">
+        <h3 style="color:#15803d;">Tier 1 — Start Now</h3>
+        <p><strong>Surplus Record + Machinio.</strong> Best audience-category fit, reasonable cost, strong lead quality. List all inventory immediately. Use AI to write consistent, detailed listings at speed. These two platforms alone should generate meaningful inbound inquiry within 30–60 days of listing.</p>
+      </div>
+      <div class="exec-card" style="border-top:3px solid var(--amber);">
+        <h3 style="color:var(--amber-dark);">Tier 2 — Add in Year 1</h3>
+        <p><strong>eBay (components focus) + ThomasNet (supplier profile).</strong> Both are low/no cost. eBay drives components and parts sales. ThomasNet builds institutional supplier credibility. Machinery Trader is worth evaluating once monthly revenue supports the $799+/month entry cost.</p>
+      </div>
+      <div class="exec-card" style="border-top:3px solid var(--mist);">
+        <h3 style="color:var(--slate);">Tier 3 — Situational Only</h3>
+        <p><strong>IronPlanet, Ritchie Bros, Craigslist.</strong> Use IronPlanet and Ritchie Bros only to liquidate stuck or distressed inventory — commissions are too high for core sales. Craigslist is worth 30 minutes/month for local exposure at near-zero cost.</p>
+      </div>
+    </div>
+
+    <div class="assumption-box">
+      <strong>AI-Powered Listing Workflow</strong>
+      <p>Use AI (Claude or ChatGPT) to generate standardized listing copy from spec sheets: model, kW output, fuel type, hours, condition, location, and key selling points. Consistent, detailed listings outperform sparse ones in search ranking on every platform. Build a listing template once — then apply it across all platforms in minutes per unit. Zoho CRM can track which platform each lead came from, enabling ROI measurement by channel over time.</p>
+    </div>
+  </div>
+
+  <!-- CONCLUSION -->
+  <div class="page-section" style="border-bottom:none; padding-bottom:0;">
+    <div class="conclusion-box">
+      <div class="section-label">11 · Strategic Conclusion</div>
+      <div class="section-title">The Path to $1M and Beyond</div>
+      <p>Crawford Power Systems enters the market with a structural advantage most new entrants never have: an existing buyer network, deployed CRM infrastructure, and a founder with years of industry credibility. These assets compress the typical new-entrant timeline from 18–24 months to 30–60 days — if activated immediately and systematically.</p>
+      <p>The AI-first positioning is not a differentiator for the sake of novelty. It is a genuine operational strategy. Depco, WPP, and national competitors are larger, slower, and locked into legacy processes. A lean, AI-powered Crawford can respond to inquiries faster, generate quotes faster, personalize outreach at scale, and maintain buyer relationships more consistently than any competitor — all on a sub-$1K/month budget.</p>
+      <p>The Year 1 playbook is clear: activate the existing network in Zoho within the first 30 days, launch Google Ads targeting high-intent Texas buyers, use rental as the low-friction entry point for new relationships, and build trade presence to expand the buyer list systematically. These four actions, executed with discipline, are sufficient to generate $1M+ in Year 1 revenue.</p>
+      <p>Year 2 is about scaling what works — expanding geography, deepening the service layer, and increasing marketing investment as revenue grows. The AI infrastructure built in Year 1 scales with the business at near-zero marginal cost. That is the compounding advantage of building AI-first from Day 1.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="disclaimer">
+  <strong>Disclaimer:</strong> This analysis was prepared using publicly available information from crawfordpowersystems.com and competitor websites, supplemented by data and context provided directly by the company. Financial targets reflect reasonable estimates based on commercial/industrial equipment deal sizes and are labeled as assumptions where exact data was not provided. All figures should be validated against actual company financials and pipeline data before use in formal planning or investor presentations.
+</div>
+
+</body>
+</html>
