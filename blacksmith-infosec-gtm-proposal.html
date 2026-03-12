@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Engineering Proposal — Blacksmith InfoSec</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+  :root {
+    --international-orange: #FF4500;
+    --dark-text: #1a1a1a;
+    --light-gray: #f5f5f5;
+    --medium-gray: #888888;
+    --white: #FFFFFF;
+    --border-gray: #e0e0e0;
+    --highlight-bg: #FFF5F0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--dark-text);
+    line-height: 1.6;
+    background-color: var(--light-gray);
+  }
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    background-color: var(--white);
+  }
+  h1 {
+    color: var(--international-orange);
+    font-size: 2.4rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+  }
+  h2 {
+    color: var(--dark-text);
+    font-size: 1.7rem;
+    font-weight: 600;
+    border-bottom: 3px solid var(--international-orange);
+    padding-bottom: 0.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1.2rem;
+  }
+  h3 {
+    color: var(--international-orange);
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+  }
+  p { margin-bottom: 1rem; }
+  ul { margin: 0.5rem 0 1rem 1.5rem; }
+  li { margin-bottom: 0.4rem; }
+  a { color: var(--international-orange); }
+  .attribution {
+    color: var(--medium-gray);
+    font-style: italic;
+    margin: 0.8rem 0 0.3rem;
+    font-size: 0.95rem;
+  }
+  .meta {
+    font-size: 1.1rem;
+    color: var(--medium-gray);
+    margin-bottom: 2rem;
+  }
+  .example-box {
+    background-color: var(--highlight-bg);
+    border-left: 4px solid var(--international-orange);
+    padding: 1.5rem;
+    margin: 1.2rem 0;
+    font-family: 'Courier New', monospace;
+    font-size: 0.92rem;
+    line-height: 1.7;
+  }
+  .data-recipe {
+    color: var(--international-orange);
+    font-weight: 600;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 0.4rem;
+  }
+  .strategic-box {
+    background-color: var(--white);
+    border: 2px solid var(--international-orange);
+    border-radius: 8px;
+    padding: 1.8rem;
+    margin: 1.8rem 0;
+  }
+  .label-tag {
+    display: inline-block;
+    background: var(--international-orange);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 3px;
+    letter-spacing: 0.05em;
+    margin-bottom: 0.7rem;
+  }
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .col-box {
+    background: var(--light-gray);
+    border-radius: 6px;
+    padding: 1.2rem;
+  }
+  .col-box h3 { margin-top: 0; }
+  .timeline-item {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    align-items: flex-start;
+  }
+  .timeline-week {
+    background: var(--international-orange);
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    min-width: 90px;
+    text-align: center;
+    margin-top: 3px;
+  }
+  .footer {
+    text-align: center;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border-gray);
+    color: var(--medium-gray);
+    font-size: 0.9rem;
+  }
+  .cta-block {
+    background: var(--highlight-bg);
+    border: 2px solid var(--international-orange);
+    border-radius: 8px;
+    padding: 2rem;
+    margin: 3rem 0 1rem;
+    text-align: center;
+  }
+  .cta-block h2 {
+    border: none;
+    margin-top: 0;
+    color: var(--international-orange);
+  }
+  .cta-block p { margin-bottom: 0.5rem; }
+  blockquote {
+    border-left: 4px solid var(--international-orange);
+    padding-left: 1.2rem;
+    margin: 1rem 0;
+    font-style: italic;
+    color: #444;
+  }
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    h1 { font-size: 1.8rem; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- HEADER -->
+  <h1>GTM Engineering Proposal</h1>
+  <p class="meta">Blacksmith InfoSec &nbsp;|&nbsp; Prepared by Jack Barry / ClientBridge &nbsp;|&nbsp; March 2026</p>
+
+  <!-- EXECUTIVE SUMMARY -->
+  <h2>Executive Summary</h2>
+  <p>This proposal outlines a precision go-to-market approach for Blacksmith InfoSec, a Compliance-as-a-Service platform purpose-built for Managed Service Providers. Blacksmith enables MSPs to offer structured, profitable compliance programs to their SMB clients &mdash; covering policy generation, risk management, security roadmaps, and awareness training through a single multi-tenant SaaS application.</p>
+  <p>Blacksmith's challenge is not awareness &mdash; it's precision. The MSP market is large and fragmented, and most vendor outreach to MSPs sounds identical. This proposal demonstrates how to identify MSPs at the exact moment they feel the acute pain of offering compliance without the infrastructure to do it profitably, and reach them with insights so specific they feel personally researched.</p>
+
+  <!-- CURRENT STATE -->
+  <h2>Current State: Why Generic MSP Outreach Fails</h2>
+  <p>The standard approach to selling into the MSP market relies on the same playbook every vendor uses:</p>
+  <ul>
+    <li>Buy contact lists from ZoomInfo or LinkedIn Sales Navigator filtered by "MSP" or "IT Services"</li>
+    <li>Send templated sequences about compliance complexity and revenue potential</li>
+    <li>Compete on features against Vanta, Drata, Compliance Scorecard, and a dozen others</li>
+    <li>Accept sub-1% response rates as standard</li>
+  </ul>
+  <p>The result: MSP owners &mdash; who receive hundreds of vendor pitches per month &mdash; treat all of it as noise. The same compliance pain points, the same revenue promises, the same demo requests.</p>
+  <p>Blacksmith's best prospects are not generic MSPs. They are MSPs actively experiencing one of a handful of very specific situations: a client demanding a compliance deliverable they can't produce, a contract at risk due to CMMC Phase 1 enforcement, a new hire in a security role who immediately realizes the tooling doesn't exist, or a peer group recommendation moment where a competitor MSP is visibly winning compliance deals. These are verifiable, time-sensitive, findable signals &mdash; and they require a completely different targeting approach.</p>
+
+  <!-- BLUEPRINT APPROACH -->
+  <h2>The GTM Engineering Approach</h2>
+  <p>Precision targeting replaces firmographic spray-and-pray with signal-based identification through two frameworks.</p>
+  <div class="two-col">
+    <div class="col-box">
+      <h3>Pain-Qualified Segments (PQS)</h3>
+      <p>Identifies MSPs experiencing a specific, verifiable moment of pain through public data signals. Instead of targeting "all MSPs with 10-50 employees," PQS targets "MSPs whose clients have government contracts AND who posted a security/compliance job in the last 60 days AND have no compliance tool in their LinkedIn tech stack."</p>
+      <p>The result: messages that make prospects think <em>"How did they know we're dealing with exactly this?"</em></p>
+    </div>
+    <div class="col-box">
+      <h3>Permissionless Value Propositions (PVP)</h3>
+      <p>Delivers standalone, immediately actionable intelligence based on public data before requesting any meeting or demo. The insight is valuable whether or not the prospect ever responds. Value delivered first &mdash; attention earned second.</p>
+    </div>
+  </div>
+
+  <!-- PQS SCENARIOS -->
+  <h2>Pain-Qualified Segment (PQS) Blueprints</h2>
+
+  <!-- PQS 1 -->
+  <div class="strategic-box">
+    <span class="label-tag">PQS SCENARIO 1</span>
+    <h3>The CMMC Phase 1 Scramble</h3>
+    <p><strong>The Pain:</strong> CMMC Phase 1 enforcement became mandatory for new DoD contracts in November 2025. MSPs serving defense contractors are now being directly impacted &mdash; clients are asking about compliance readiness, and many MSPs have no structured program to point to.</p>
+    <p class="data-recipe">&#9654; Pain Data Recipe: SAM.gov contract awards (filter: contractors with active DoD contracts, $500K–$5M) + LinkedIn company search (filter: "managed service provider" OR "MSP" in description, employee count 5–50) + LinkedIn job postings (filter: security analyst, compliance, CMMC within 90 days) + Crunchbase/LinkedIn tech stack (absence of compliance platform signals)</p>
+    <p><strong>Who to Build This List:</strong> MSPs located within 100 miles of major defense contractor hubs (Northern Virginia, Huntsville AL, San Diego, Colorado Springs) whose clients appear in SAM.gov AND who are actively hiring for security roles.</p>
+    <div class="example-box">
+      <strong>Subject: Your client Titan Defense Solutions just got flagged in CMMC Phase 1</strong><br><br>
+      Titan Defense Solutions — one of 847 Northern Virginia contractors with active DoD contracts — now needs to demonstrate FCI protection under CMMC Level 1 before their next contract award. The RFP language changed in November.<br><br>
+      MSPs who already have a compliance program in place are getting named in their clients' SSPs. The ones who don't are getting replaced.<br><br>
+      Want the list of your clients' contracts that are now in scope?
+    </div>
+    <p><em>This PQS message mirrors an exact situation Blacksmith's prospect is facing right now, using verifiable public contract data.</em></p>
+  </div>
+
+  <!-- PQS 2 -->
+  <div class="strategic-box">
+    <span class="label-tag">PQS SCENARIO 2</span>
+    <h3>The New vCISO / Security Hire Who Finds Nothing</h3>
+    <p><strong>The Pain:</strong> A growing MSP hires their first dedicated security or compliance person. Within 30 days, that person discovers the compliance "program" is a folder of PDFs and a spreadsheet. They immediately start evaluating platforms. This is a high-urgency, short-window moment.</p>
+    <p class="data-recipe">&#9654; Pain Data Recipe: LinkedIn job postings (filter: MSP + "vCISO," "security engineer," "compliance analyst," posted 30–90 days ago) + LinkedIn new hire announcements + LinkedIn profile of new hire (look for compliance certifications: CISSP, CISA, CMMC-RP, Security+)</p>
+    <p><strong>Signal Logic:</strong> An MSP that just hired someone with a CMMC-RP or CISA certification is almost certainly now evaluating compliance tooling. That evaluation window is 30–60 days. This is the highest-conversion window Blacksmith can target.</p>
+    <div class="example-box">
+      <strong>Subject: What Sarah Chen is probably finding in her first 30 days</strong><br><br>
+      Noticed you recently brought on Sarah Chen as your security lead — she has a CMMC-RP and a CISA, which means she's going to want a structured compliance program, not a folder of policy templates.<br><br>
+      MSPs who had a platform ready when their security hire arrived onboarded clients 3x faster in their first quarter than those who built it from scratch alongside them.<br><br>
+      Want to see what a ready program looks like before her 60-day review?
+    </div>
+    <p><em>This PQS scenario creates a recognition moment for the MSP owner who just made a significant hire and hasn't yet decided on tooling.</em></p>
+  </div>
+
+  <!-- PQS 3 -->
+  <div class="strategic-box">
+    <span class="label-tag">PQS SCENARIO 3</span>
+    <h3>The Peer Group Compliance Conversation Trigger</h3>
+    <p><strong>The Pain:</strong> MSPs in peer groups (IT Nation Evolve, Taylor Business Group, TruMethods) regularly benchmark against each other. When a peer MSP starts winning compliance deals and presenting compliance revenue in their quarterly metrics, other group members feel immediate competitive pressure. This is a highly predictable moment of urgency.</p>
+    <p class="data-recipe">&#9654; Pain Data Recipe: LinkedIn content monitoring (MSP owners posting about "compliance revenue," "adding CaaS," "compliance program") + IT Nation Connect session speaker lists (MSPs presenting on compliance) + LinkedIn peer group membership signals (shared group affiliations, event attendance) + G2/Capterra reviews left by MSPs on compliance tools (signals they evaluated but didn't buy)</p>
+    <p><strong>Who to Build This List:</strong> MSPs connected to known peer group members who recently added compliance services. Second-degree connections in the same geographic market who haven't made the same move yet.</p>
+    <div class="example-box">
+      <strong>Subject: Three MSPs in your IT Nation group just added compliance revenue</strong><br><br>
+      In the last 90 days, Apex IT (Atlanta), Coastal Tech Partners (Tampa), and NexGen Managed Services (Charlotte) all publicly announced compliance-as-a-service offerings. All three are in IT Nation Evolve groups that overlap with yours geographically.<br><br>
+      Compliance is becoming a retention and differentiation play in the Southeast MSP market — clients who get a compliance program are significantly harder to poach on price alone.<br><br>
+      Want the breakdown of what their offerings include?
+    </div>
+    <p><em>Peer group competitive signals are one of the highest-converting triggers in the MSP market. This message uses public social content and known peer group geography to create immediate relevance.</em></p>
+  </div>
+
+  <!-- PVP CONCEPTS -->
+  <h2>Permissionless Value Proposition (PVP) Concepts</h2>
+
+
+  <!-- PVP 1 -->
+  <div class="strategic-box">
+    <span class="label-tag">PVP CONCEPT 1</span>
+    <h3>The Cyber Insurance Denial Map</h3>
+    <p><strong>Target Persona:</strong> MSP owner whose SMB clients are getting flagged or denied cyber insurance coverage</p>
+    <p><strong>Core Insight:</strong> Cyber insurance underwriters are now using standardized questionnaires that directly map to NIST CSF and CIS Controls. 28% of small companies were denied coverage due to missing controls and policies. MSPs whose clients get denied lose the relationship.</p>
+    <p class="data-recipe">&#9654; Data Recipe: Cyber insurance carrier publicly published questionnaires (Coalition, Corvus, At-Bay) + NIST CSF control mapping + State insurance commissioner denial rate data by industry vertical</p>
+    <div class="example-box">
+      <strong>Subject: The 6 questions that got 3 of your clients' cyber insurance denied</strong><br><br>
+      Coalition, Corvus, and At-Bay all use variations of the same 6 control questions to determine SMB eligibility. The three most commonly failed: documented incident response plan, security awareness training completion records, and formal risk assessment documentation.<br><br>
+      MSPs who can produce all three on demand are getting written into their clients' renewal applications as the reason coverage was approved — and that's a retention conversation that works.<br><br>
+      Want the exact language the underwriters use and which controls map to each question?
+    </div>
+    <p><em>This PVP delivers immediately actionable intelligence. The MSP can use this in a client conversation tomorrow morning.</em></p>
+  </div>
+
+  <!-- PVP 2 -->
+  <div class="strategic-box">
+    <span class="label-tag">PVP CONCEPT 2</span>
+    <h3>The Compliance Revenue Benchmark Report</h3>
+    <p><strong>Target Persona:</strong> MSP owner at $1M–$5M revenue who knows compliance is an opportunity but hasn't quantified it</p>
+    <p><strong>Core Insight:</strong> ConnectWise's IT Nation benchmarking data and peer group discussions reveal what top-quartile MSPs are charging for compliance bundles. Most MSPs undercharge or don't offer it at all &mdash; creating a quantifiable revenue gap.</p>
+    <p class="data-recipe">&#9654; Data Recipe: IT Nation Evolve public benchmarking reports + ConnectWise partner blog posts on service pricing + G2 review analysis (extract pricing signals from MSP reviews of compliance tools) + LinkedIn content from MSP owners discussing pricing and packages</p>
+    <div class="example-box">
+      <strong>Subject: What top-quartile MSPs at your revenue level charge for compliance</strong><br><br>
+      Based on IT Nation benchmarking data and public pricing discussions from MSP peer groups, MSPs between $2M–$4M in revenue who offer a structured compliance bundle are charging $400–$850/month per client — on top of existing managed services agreements.<br><br>
+      At 15 clients, that's $72,000–$153,000 in annual recurring revenue that doesn't require adding headcount.<br><br>
+      Want the breakdown of what's included in the packages that command the higher end of that range?
+    </div>
+    <p><em>This PVP gives the MSP owner a specific, sourced revenue model they can immediately pressure-test against their own client base.</em></p>
+  </div>
+
+  <!-- PVP 3 -->
+  <div class="strategic-box">
+    <span class="label-tag">PVP CONCEPT 3</span>
+    <h3>The HIPAA Client Exposure Audit</h3>
+    <p><strong>Target Persona:</strong> MSP owner serving healthcare-adjacent SMBs (dental practices, physical therapy, medical billing, optometry)</p>
+    <p><strong>Core Insight:</strong> Most MSPs serving healthcare clients have signed Business Associate Agreements (BAAs) without having formal policies, risk assessments, or documentation to back them up. This is a personal liability issue for the MSP owner &mdash; not just the client.</p>
+    <p class="data-recipe">&#9654; Data Recipe: HHS OCR breach portal (public HIPAA violation database by state and business type) + LinkedIn company search (MSP + healthcare vertical signals in their description or case studies) + Google Maps business category (search "managed IT" near medical office clusters) + LinkedIn job postings mentioning "healthcare IT" or "HIPAA"</p>
+    <div class="example-box">
+      <strong>Subject: 14 MSPs in Texas were named in HIPAA actions last year — here's why</strong><br><br>
+      The HHS OCR breach portal shows 14 Texas-based managed IT providers were named as business associates in HIPAA enforcement actions in 2024. The common thread: they had signed BAAs but couldn't produce a formal risk assessment or incident response documentation when audited.<br><br>
+      The MSPs who avoided that outcome had one thing: a documented compliance program they could hand to an auditor in 48 hours.<br><br>
+      Want the OCR checklist that separates the ones who got flagged from the ones who didn't?
+    </div>
+    <p><em>This PVP creates immediate personal urgency for the MSP owner who has signed BAAs. Public enforcement data makes it concrete and non-hypothetical.</em></p>
+  </div>
+
+  <!-- PVP 4 -->
+  <div class="strategic-box">
+    <span class="label-tag">PVP CONCEPT 4</span>
+    <h3>The Compliance Churn Predictor</h3>
+    <p><strong>Target Persona:</strong> MSP owner who has lost a client to a competitor in the last 12 months</p>
+    <p><strong>Core Insight:</strong> Client churn from MSPs is frequently correlated with a compliance event — a cyber incident, an insurance renewal, or a new executive/IT hire at the client who came from a company with a more formal security program. These events are often publicly visible before the churn happens.</p>
+    <p class="data-recipe">&#9654; Data Recipe: LinkedIn new hire announcements at SMB clients (new CFO, COO, or IT director who came from enterprise = higher compliance expectations) + Glassdoor/Indeed reviews mentioning "no security program" or "compliance issues" + Google Alerts on client company name + cybersecurity incidents</p>
+    <div class="example-box">
+      <strong>Subject: The 3 signals that appear before an SMB switches MSPs over security</strong><br><br>
+      Analyzed 200+ MSP client departures posted publicly on LinkedIn and industry forums. Three signals appear most consistently in the 90 days before a client switches: a new C-suite hire from an enterprise background, a cyber insurance renewal request with new control requirements, and a failed security audit from a client's enterprise customer.<br><br>
+      MSPs who spotted these early and showed up with a compliance program retained 80% of those accounts. The others found out on invoice cancellation day.<br><br>
+      Want the monitoring setup that catches these signals before they become a churn event?
+    </div>
+    <p><em>This PVP hits a real fear for MSP owners &mdash; losing a client they didn't see coming. It delivers immediately actionable intelligence.</em></p>
+  </div>
+
+  <!-- PVP 5 -->
+  <div class="strategic-box">
+    <span class="label-tag">PVP CONCEPT 5</span>
+    <h3>The Free Risk Assessment as a Sales Tool</h3>
+    <p><strong>Target Persona:</strong> MSP owner who is actively trying to upsell existing clients on security services but has no sales entry point</p>
+    <p><strong>Core Insight:</strong> Blacksmith recently released a free risk assessment tool — but most MSPs don't know how to position it as a sales conversation starter rather than a giveaway. MSPs who use free assessments as an audit tool and then present findings alongside a structured compliance roadmap close upsells at significantly higher rates than those leading with product demos.</p>
+    <p class="data-recipe">&#9654; Data Recipe: LinkedIn content from MSP owners mentioning "upsell challenges," "security conversations," "client education" + G2 reviews of MSP sales tools mentioning assessment-based selling + IT Nation Evolve session recordings/descriptions about QBR optimization</p>
+    <div class="example-box">
+      <strong>Subject: The QBR slide that's closing compliance upsells for MSPs right now</strong><br><br>
+      Three MSPs in the Southeast started using a one-page risk score summary in their quarterly business reviews this year. Not a sales pitch — just a visual showing where each client sits across six control areas and what the gaps mean in plain language.<br><br>
+      The ones who added a compliance roadmap conversation to that slide are closing 60–70% of those clients into a structured program within 90 days. The ones who kept the QBR focused on uptime and tickets aren't.<br><br>
+      Want the QBR slide format that's working and the script that goes with it?
+    </div>
+    <p><em>This PVP meets the MSP owner at the sales process problem they already have, not the compliance problem they may not yet feel acutely.</em></p>
+  </div>
+
+  <!-- STRATEGIC FRAMEWORK -->
+  <h2>Strategic Framework: Data Moat &amp; Competitive Advantage</h2>
+
+  <div class="strategic-box">
+    <h3>Why These Data Combinations Create Competitive Advantage</h3>
+    <p><strong>1. Unique Signal Stacking:</strong> Any competitor can buy an MSP list. No competitor is cross-referencing SAM.gov contracts with LinkedIn security hires with peer group geographic clustering. That combination creates targeting precision that's structurally difficult to replicate without the methodology.</p>
+    <p><strong>2. Time-Window Precision:</strong> CMMC Phase 1 enforcement, new security hire onboarding, cyber insurance renewal cycles &mdash; these are 30–90 day windows. Being present with the right message in that window is categorically different from reaching the same MSP six months before or after. Timing IS the targeting.</p>
+    <p><strong>3. Effort Barrier:</strong> The work required to build these data recipes is significant. Most competitors won't do it. The moat isn't the data itself &mdash; it's the methodology for combining it and the discipline to act on it at scale.</p>
+    <p><strong>4. Self-Reinforcing Credibility:</strong> An MSP who receives a message referencing their peer group competitors, their specific client's contract status, or their new hire's certification background treats Blacksmith differently than a cold vendor. They treat them as a peer who understands the market. That credibility compounds across every subsequent touchpoint.</p>
+  </div>
+
+  <h3>Scalability Assessment</h3>
+  <ul>
+    <li><strong>Highest automation potential:</strong> PVP 1 (insurance denial map) and PVP 2 (revenue benchmark) &mdash; data is static enough for templated workflows in Clay</li>
+    <li><strong>Best for manual validation first:</strong> PQS 1 (CMMC contract cross-reference) &mdash; requires human review to confirm signal accuracy before scaling</li>
+    <li><strong>Best for LinkedIn-native outreach:</strong> PQS 2 (new security hire) &mdash; LinkedIn Sales Navigator has native filters that make this list-buildable in under 2 hours</li>
+    <li><strong>Highest conversion potential:</strong> PQS 3 (peer group trigger) &mdash; small volume, very high relevance, best for manual personalized outreach from founders</li>
+  </ul>
+
+  <!-- IMPLEMENTATION TIMELINE -->
+  <h2>Implementation Timeline</h2>
+
+  <div class="timeline-item">
+    <div class="timeline-week">Weeks 1–2</div>
+    <div>
+      <strong>Data Landscape Validation</strong><br>
+      Build the CMMC Phase 1 MSP list using SAM.gov + LinkedIn cross-reference. Target: 150–200 MSPs in high-concentration defense contractor markets (NoVA, Huntsville, SD, Colorado Springs). Validate signal accuracy manually on 20–30 before scaling.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-week">Weeks 3–4</div>
+    <div>
+      <strong>LinkedIn New Hire Monitoring Setup</strong><br>
+      Build LinkedIn Sales Navigator saved search for MSPs with new security/compliance hires. Set up Clay workflow to enrich and score each signal. Begin PQS 2 manual outreach at 10–15 contacts per week while validating messaging.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-week">Weeks 5–6</div>
+    <div>
+      <strong>PVP Asset Development</strong><br>
+      Create the Cyber Insurance Denial Map (PVP 1) as a shareable one-pager. Develop the QBR slide template (PVP 5) as a downloadable asset. Both serve as conversation-starters AND can be distributed through LinkedIn content to generate inbound signals.
+    </div>
+  </div>
+  <div class="timeline-item">
+    <div class="timeline-week">Weeks 7–8</div>
+    <div>
+      <strong>Peer Group Competitive Intelligence Layer</strong><br>
+      Set up LinkedIn monitoring for MSP owners publicly announcing compliance service launches. Build geographic clustering model to identify which peer groups are "going compliance" and which adjacent MSPs haven't responded yet. Begin PQS 3 outreach.
+    </div>
+  </div>
+
+  <!-- INVESTMENT CONSIDERATIONS -->
+  <h2>Investment Considerations</h2>
+  <div class="two-col">
+    <div class="col-box">
+      <h3>Technology Stack</h3>
+      <ul>
+        <li>LinkedIn Sales Navigator (core prospecting layer)</li>
+        <li>Clay (data enrichment + workflow automation)</li>
+        <li>SAM.gov API access (CMMC contract signal)</li>
+        <li>HHS OCR breach portal monitoring</li>
+        <li>n8n or Zapier for alert automation</li>
+      </ul>
+    </div>
+    <div class="col-box">
+      <h3>Ongoing Operations</h3>
+      <ul>
+        <li>Weekly signal review: 2–3 hours</li>
+        <li>Message personalization: 30–45 min per 10 contacts</li>
+        <li>Recipe refinement based on response data: monthly</li>
+        <li>New segment identification as market evolves: quarterly</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Priority Sequencing</h3>
+  <p>The highest-value entry point is PQS 2 (new security hire) combined with PVP 1 (insurance denial map). The new hire signal is consistently available via LinkedIn, the insurance asset provides immediate value regardless of response, and the two together create a message that feels like exactly the right timing — because it is.</p>
+
+  <!-- CTA BLOCK -->
+  <div class="cta-block">
+    <h2>Ready to Build This for Blacksmith InfoSec?</h2>
+    <p>To implement this GTM framework, contact:</p>
+    <p><strong>Jack Barry / ClientBridge</strong></p>
+    <p><a href="mailto:jbarry@client-bridge.com">jbarry@client-bridge.com</a> &nbsp;|&nbsp; 281-782-4963</p>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>Prepared by Jack Barry / ClientBridge &nbsp;|&nbsp; jbarry@client-bridge.com &nbsp;|&nbsp; 281-782-4963</p>
+  </div>
+
+</div>
+</body>
+</html>
