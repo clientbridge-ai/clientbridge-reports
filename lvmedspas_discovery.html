@@ -762,8 +762,8 @@
     <div class="critical-findings">
       <div class="finding-card critical">
         <div class="finding-icon">🚨</div>
-        <div class="finding-title">Zero GBP Bookings</div>
-        <div class="finding-desc">7,319 profile views. 514 website clicks. 106 calls. Zero bookings. The booking integration is broken on both profiles.</div>
+        <div class="finding-title">GBP Name Mismatch + Zero Bookings</div>
+        <div class="finding-desc">Oakland Ave GBP is listed as "Vickmay Skin &amp; Body Spa" — not LVS. Plus: 7,319 combined profile views, 0 bookings. Booking integration broken on both profiles. 3.9★/58 reviews (Oakland) vs 4.1★/101 (Rainey).</div>
       </div>
       <div class="finding-card critical">
         <div class="finding-icon">💸</div>
@@ -803,7 +803,7 @@
       <!-- Oakland -->
       <div class="location-card">
         <div class="location-header">
-          <div class="location-name">Oakland Ave Location</div>
+          <div class="location-name">Oakland Ave Location <span style="color:var(--red);font-size:11px;font-weight:400;margin-left:8px;">⚠️ GBP listed as "Vickmay Skin &amp; Body Spa"</span></div>
           <div class="location-address">509 Oakland Ave, Austin TX 78703 · (512) 478-1915</div>
         </div>
         <div class="location-metrics">
@@ -831,8 +831,18 @@
             <span class="metric-label">Bookings</span>
             <span class="metric-value zero">0</span>
           </div>
+          <div class="metric-row">
+            <span class="metric-label">Google Rating</span>
+            <span class="metric-value" style="color:var(--yellow);">3.9★</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Review Count</span>
+            <span class="metric-value" style="color:var(--yellow);">58</span>
+          </div>
         </div>
-        <div class="location-alert">⚠️ GHL booking link is broken — replace with Mindbody URL immediately</div>
+        <div class="location-alert">🚨 GBP profile name is "Vickmay Skin &amp; Body Spa" — not LVS. Searchers looking for LVS cannot find this location. Brand consistency broken. Update GBP name immediately.</div>
+        <div class="location-alert" style="margin-top:8px;">⚠️ GHL booking link is broken — replace with Mindbody URL immediately</div>
+        <div class="location-alert" style="margin-top:8px;background:rgba(224,184,82,0.1);border-color:rgba(224,184,82,0.2);color:#E8D090;">⚠️ 3.9★ / 58 reviews vs. Rainey St 4.1★ / 101 — lower rating and far fewer reviews. Review velocity program needed for this location.</div>
       </div>
 
       <!-- Rainey -->
@@ -866,6 +876,14 @@
             <span class="metric-label">Bookings</span>
             <span class="metric-value zero">0</span>
           </div>
+          <div class="metric-row">
+            <span class="metric-label">Google Rating</span>
+            <span class="metric-value" style="color:var(--green);">4.1★</span>
+          </div>
+          <div class="metric-row">
+            <span class="metric-label">Review Count</span>
+            <span class="metric-value" style="color:var(--green);">101</span>
+          </div>
         </div>
         <div class="location-alert">⚠️ 428 website clicks, 0 bookings — booking funnel broken despite strong traffic</div>
       </div>
@@ -893,23 +911,23 @@
         <div class="insight-list" style="margin: 0;">
           <div class="insight-item">
             <div class="dot dot-red"></div>
+            <span>🚨 <strong style="color:#fff">Oakland Ave GBP is listed as "Vickmay Skin &amp; Body Spa"</strong> — not LVS. Searchers looking for LVS cannot find this location. The name mismatch explains much of the 55 vs. 1,174 search gap. Fix the GBP name immediately.</span>
+          </div>
+          <div class="insight-item">
+            <div class="dot dot-red"></div>
             <span>Zero bookings across <strong style="color:#fff">7,319 total profile views</strong> — the single highest-leverage fix in this entire report</span>
+          </div>
+          <div class="insight-item">
+            <div class="dot dot-yellow"></div>
+            <span><strong style="color:#fff">Review gap: Oakland Ave 3.9★ / 58 reviews vs. Rainey St 4.1★ / 101 reviews</strong> — lower rating and thin review count suppress local pack ranking for Oakland Ave. Both locations need a review velocity program.</span>
           </div>
           <div class="insight-item">
             <div class="dot dot-yellow"></div>
             <span><strong style="color:#fff">"Milk and honey austin"</strong> is the #2 Rainey St search term — 312 competitor seekers are already landing on LVS</span>
           </div>
           <div class="insight-item">
-            <div class="dot dot-red"></div>
-            <span>Oakland Ave only triggered <strong style="color:#fff">55 searches</strong> vs Rainey's 1,174 — massive visibility gap between locations</span>
-          </div>
-          <div class="insight-item">
             <div class="dot dot-green"></div>
             <span>Rainey St direction requests suggest strong Maps presence — <strong style="color:#fff">45% of views from Maps</strong></span>
-          </div>
-          <div class="insight-item">
-            <div class="dot dot-red"></div>
-            <span>4.1 stars / 101 reviews (Rainey) — review velocity and response rate not captured but critical for local pack ranking</span>
           </div>
         </div>
       </div>
