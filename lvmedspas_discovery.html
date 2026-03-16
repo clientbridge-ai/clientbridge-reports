@@ -36,7 +36,7 @@
   .report-header {
     background: linear-gradient(135deg, #0F0F0F 0%, #1A1510 50%, #0F0F0F 100%);
     border-bottom: 1px solid var(--border);
-    padding: 60px 80px 50px;
+    padding: 60px 60px 50px;
     position: relative;
     overflow: hidden;
   }
@@ -113,7 +113,7 @@
     background: rgba(15,15,15,0.95);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
-    padding: 0 80px;
+    padding: 0 60px;
     display: flex;
     gap: 0;
     overflow-x: auto;
@@ -137,16 +137,14 @@
   }
 
   /* MAIN LAYOUT */
+  html, body { overflow-x: hidden; }
+
   .container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 80px;
-  }
-
-  /* EXECUTIVE SUMMARY */
-  .exec-summary {
-    padding: 60px 0;
-    border-bottom: 1px solid var(--border);
+    padding: 0;
+    box-sizing: border-box;
+    width: 100%;
   }
 
   .section-label {
@@ -226,7 +224,13 @@
 
   /* SECTIONS */
   .report-section {
-    padding: 60px 0;
+    padding: 60px 60px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  /* override exec-summary to use same padding */
+  .exec-summary {
+    padding: 60px 60px;
     border-bottom: 1px solid var(--border);
   }
 
@@ -345,6 +349,7 @@
     border-collapse: collapse;
     margin: 24px 0;
     font-size: 13px;
+    table-layout: fixed;
   }
 
   .data-table th {
@@ -406,6 +411,7 @@
     grid-template-columns: 160px 1fr 80px 80px;
     align-items: center;
     gap: 16px;
+    min-width: 0;
   }
 
   .channel-name {
@@ -608,7 +614,7 @@
 
   /* FOOTER */
   .report-footer {
-    padding: 40px 80px;
+    padding: 40px 60px;
     border-top: 1px solid var(--border);
     display: flex;
     justify-content: space-between;
@@ -704,12 +710,15 @@
   .pos-good { color: var(--green); }
 
   @media (max-width: 900px) {
-    .report-header, .container, .report-footer { padding-left: 24px; padding-right: 24px; }
-    .sticky-nav { padding: 0 24px; }
+    .report-header, .report-footer { padding-left: 20px; padding-right: 20px; }
+    .sticky-nav { padding: 0 20px; }
+    .report-section, .exec-summary { padding: 40px 20px; }
     .critical-findings, .rec-grid { grid-template-columns: 1fr; }
     .stat-grid, .ads-summary { grid-template-columns: repeat(2, 1fr); }
     .location-grid, .two-col { grid-template-columns: 1fr; }
     .report-header h1 { font-size: 36px; }
+    .kw-opp-grid { grid-template-columns: 1fr; }
+    .gap-list { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -1398,7 +1407,7 @@
     <div class="gap-list">
       <div class="gap-item">
         <span class="gap-icon">⭐</span>
-        <span>GBP review count, avg rating, and response rate for both profiles — critical for local pack ranking</span>
+        <span>GBP response rate for both profiles — review count and ratings captured (Rainey: 4.1★/101, Oakland: 3.9★/58) but response rate not yet measured</span>
       </div>
       <div class="gap-item">
         <span class="gap-icon">📍</span>
