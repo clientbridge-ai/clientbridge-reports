@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CRO Audit v2 — LVS La Vie Med Spas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0c0d10;
+  --sidebar: #111317;
+  --card: #181a1f;
+  --border: #252830;
+  --gold: #c9a667;
+  --gold-light: #e8d5a8;
+  --gold-dim: rgba(201,166,103,0.15);
+  --text: #e2e4ea;
+  --muted: #7b7f94;
+  --red: #e05252;
+  --red-bg: rgba(224,82,82,0.12);
+  --amber: #d4943a;
+  --amber-bg: rgba(212,148,58,0.12);
+  --green: #52b052;
+  --green-bg: rgba(82,176,82,0.12);
+  --nav-w: 270px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-size: 14px; display: flex; }
+
+/* ── NAV ── */
+nav {
+  width: var(--nav-w); background: var(--sidebar); position: fixed; top: 0; left: 0;
+  height: 100vh; overflow-y: auto; border-right: 1px solid var(--border); z-index: 100;
+  display: flex; flex-direction: column; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.nav-top { padding: 24px 20px 16px; border-bottom: 1px solid var(--border); }
+.nav-eyebrow { font-size: 10px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--gold); font-weight: 500; }
+.nav-client { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--text); margin-top: 4px; line-height: 1.3; }
+.nav-meta { font-size: 11px; color: var(--muted); margin-top: 4px; }
+
+.overall-score {
+  margin: 16px;
+  background: var(--gold-dim);
+  border: 1px solid var(--gold);
+  border-radius: 10px;
+  padding: 14px 16px;
+  text-align: center;
+}
+.score-big { font-family: 'Cormorant Garamond', serif; font-size: 48px; font-weight: 700; color: var(--gold); line-height: 1; }
+.score-denom { font-size: 20px; color: var(--muted); }
+.score-label { font-size: 11px; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+
+.data-badge {
+  margin: 0 16px 16px;
+  background: var(--green-bg);
+  border: 1px solid var(--green);
+  border-radius: 6px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--green);
+  text-align: center;
+}
+
+nav ul { list-style: none; padding: 8px 0; }
+nav ul li a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 20px; color: var(--muted); text-decoration: none;
+  font-size: 12.5px; font-weight: 500; transition: all 0.15s;
+  border-left: 2px solid transparent;
+}
+nav ul li a:hover, nav ul li a.active {
+  color: var(--gold); border-left-color: var(--gold); background: var(--gold-dim);
+}
+.nav-section-label {
+  padding: 12px 20px 4px;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--border);
+  font-weight: 600;
+}
+
+/* ── MAIN ── */
+main { margin-left: var(--nav-w); flex: 1; max-width: 100%; }
+
+.section { padding: 48px 52px; border-bottom: 1px solid var(--border); }
+.section:last-child { border-bottom: none; }
+
+.section-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 32px; gap: 24px;
+}
+.section-title-group {}
+.section-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); font-weight: 500; margin-bottom: 6px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 600; line-height: 1.2; }
+.section-subtitle { color: var(--muted); margin-top: 6px; font-size: 13px; max-width: 580px; line-height: 1.6; }
+
+/* ── EXEC SUMMARY ── */
+.hero-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 32px; }
+.hero-score-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px; text-align: center;
+}
+.hero-score-card .val { font-family: 'Cormorant Garamond', serif; font-size: 36px; font-weight: 700; }
+.hero-score-card .lbl { font-size: 11px; color: var(--muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.5px; }
+.hero-score-card .sub { font-size: 10px; color: var(--muted); margin-top: 4px; }
+.val.red { color: var(--red); }
+.val.amber { color: var(--amber); }
+.val.green { color: var(--green); }
+
+.key-findings { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 28px; }
+.finding-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+}
+.finding-card h4 { font-size: 12px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+.finding-card ul { list-style: none; }
+.finding-card ul li {
+  padding: 6px 0; border-bottom: 1px solid var(--border); font-size: 13px; line-height: 1.5;
+  color: var(--text); display: flex; gap: 8px;
+}
+.finding-card ul li:last-child { border-bottom: none; }
+.finding-card ul li::before { content: '→'; color: var(--gold); flex-shrink: 0; }
+
+/* ── DATA DASHBOARD ── */
+.dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 24px; }
+.dash-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px;
+}
+.dash-card h4 { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 14px; }
+.dash-card.wide { grid-column: span 2; }
+.dash-card.full { grid-column: span 3; }
+
+.metric-row {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 7px 0; border-bottom: 1px solid var(--border); font-size: 12.5px;
+}
+.metric-row:last-child { border-bottom: none; }
+.metric-name { color: var(--muted); }
+.metric-val { font-weight: 600; color: var(--text); }
+.metric-val.red { color: var(--red); }
+.metric-val.amber { color: var(--amber); }
+.metric-val.green { color: var(--green); }
+.metric-val.gold { color: var(--gold); }
+
+/* Bar chart */
+.bar-chart { display: flex; flex-direction: column; gap: 8px; }
+.bar-row { display: flex; align-items: center; gap: 10px; font-size: 12px; }
+.bar-label { min-width: 100px; color: var(--muted); font-size: 11px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.bar-track { flex: 1; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; border-radius: 4px; transition: width 0.8s ease; }
+.bar-fill.gold { background: var(--gold); }
+.bar-fill.red { background: var(--red); }
+.bar-fill.green { background: var(--green); }
+.bar-fill.blue { background: #4a7fe0; }
+.bar-fill.muted { background: var(--muted); }
+.bar-num { min-width: 44px; text-align: right; color: var(--text); font-size: 11px; font-weight: 500; }
+
+/* Alert box */
+.alert {
+  display: flex; gap: 12px; padding: 14px 18px; border-radius: 8px;
+  margin-bottom: 16px; font-size: 13px; line-height: 1.5;
+  border-left: 3px solid;
+}
+.alert.red { background: var(--red-bg); border-color: var(--red); }
+.alert.amber { background: var(--amber-bg); border-color: var(--amber); }
+.alert.green { background: var(--green-bg); border-color: var(--green); }
+.alert-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+/* ── SCORECARD ── */
+.scorecard-grid { display: grid; gap: 12px; }
+.score-row {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px 22px; display: grid; grid-template-columns: 1fr auto 200px;
+  align-items: center; gap: 20px;
+}
+.score-row-name { font-weight: 500; font-size: 14px; }
+.score-row-name span { font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+.score-row-num { font-family: 'Cormorant Garamond', serif; font-size: 28px; font-weight: 700; text-align: right; }
+.score-bar-track { height: 6px; background: var(--border); border-radius: 3px; overflow: hidden; }
+.score-bar-fill { height: 100%; border-radius: 3px; transition: width 1s ease 0.2s; }
+
+/* ── AUDIT SECTIONS ── */
+.audit-block {
+  background: var(--card); border: 1px solid var(--border); border-radius: 12px;
+  margin-bottom: 16px; overflow: hidden;
+}
+.audit-block-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 24px; cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.audit-block-header:hover { background: rgba(255,255,255,0.02); }
+.audit-block-title { font-size: 15px; font-weight: 500; }
+.audit-block-header-right { display: flex; align-items: center; gap: 12px; }
+.score-chip {
+  padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; font-family: 'DM Sans', sans-serif;
+}
+.score-chip.red { background: var(--red-bg); color: var(--red); border: 1px solid rgba(224,82,82,0.3); }
+.score-chip.amber { background: var(--amber-bg); color: var(--amber); border: 1px solid rgba(212,148,58,0.3); }
+.score-chip.green { background: var(--green-bg); color: var(--green); border: 1px solid rgba(82,176,82,0.3); }
+.chevron { color: var(--muted); font-size: 12px; transition: transform 0.2s; }
+.audit-block.open .chevron { transform: rotate(180deg); }
+.audit-block-body { display: none; padding: 0 24px 24px; border-top: 1px solid var(--border); }
+.audit-block.open .audit-block-body { display: block; }
+
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+.col-box { background: var(--bg); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
+.col-box h5 { font-size: 11px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 10px; }
+.col-box ul { list-style: none; }
+.col-box ul li { font-size: 12.5px; line-height: 1.6; padding: 4px 0; display: flex; gap: 8px; color: var(--text); }
+.col-box ul li::before { flex-shrink: 0; }
+.wins li::before { content: '✓'; color: var(--green); }
+.issues li::before { content: '✗'; color: var(--red); }
+
+.data-insight {
+  background: var(--gold-dim); border: 1px solid rgba(201,166,103,0.3); border-radius: 8px;
+  padding: 12px 16px; margin-top: 14px; font-size: 12.5px; line-height: 1.6;
+}
+.data-insight strong { color: var(--gold); }
+
+.hypothesis {
+  background: var(--bg); border: 1px solid var(--border); border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0; padding: 14px 18px; margin-top: 14px;
+  font-size: 12.5px; line-height: 1.7; color: var(--text);
+}
+.hypothesis .h-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 6px; font-weight: 600; }
+
+/* ── ICE TABLE ── */
+.ice-table { width: 100%; border-collapse: collapse; }
+.ice-table th {
+  text-align: left; padding: 10px 14px; font-size: 11px; text-transform: uppercase;
+  letter-spacing: 1px; color: var(--muted); border-bottom: 1px solid var(--border);
+  cursor: pointer; white-space: nowrap;
+}
+.ice-table th:hover { color: var(--gold); }
+.ice-table td { padding: 11px 14px; border-bottom: 1px solid var(--border); font-size: 12.5px; }
+.ice-table tr:last-child td { border-bottom: none; }
+.ice-table tr:hover td { background: rgba(255,255,255,0.02); }
+.ice-badge { padding: 3px 10px; border-radius: 12px; font-weight: 600; font-size: 11.5px; display: inline-block; }
+.ice-badge.high { background: var(--green-bg); color: var(--green); }
+.ice-badge.med { background: var(--amber-bg); color: var(--amber); }
+.ice-badge.low { background: var(--red-bg); color: var(--red); }
+.effort-tag { font-size: 11px; color: var(--muted); background: var(--border); padding: 2px 8px; border-radius: 10px; }
+
+/* ── QUICK WINS ── */
+.qw-grid { display: grid; gap: 12px; }
+.qw-card {
+  background: var(--card); border: 1px solid var(--border); border-radius: 10px;
+  padding: 18px 22px; display: grid; grid-template-columns: auto 1fr auto;
+  gap: 16px; align-items: start;
+}
+.qw-num { font-family: 'Cormorant Garamond', serif; font-size: 32px; font-weight: 700; color: var(--gold); line-height: 1; }
+.qw-content h4 { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+.qw-content p { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.qw-ice { text-align: right; }
+.qw-ice .ice-num { font-family: 'Cormorant Garamond', serif; font-size: 26px; font-weight: 700; color: var(--green); }
+.qw-ice .ice-lbl { font-size: 10px; color: var(--muted); }
+
+/* ── 48HR PLAN ── */
+.plan-steps { display: flex; flex-direction: column; gap: 0; }
+.plan-step {
+  display: grid; grid-template-columns: 56px 1fr; gap: 0;
+}
+.plan-step-num {
+  display: flex; flex-direction: column; align-items: center;
+}
+.plan-step-circle {
+  width: 36px; height: 36px; border-radius: 50%; background: var(--gold);
+  color: var(--bg); font-weight: 700; font-size: 14px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.plan-step-line { flex: 1; width: 2px; background: var(--border); margin: 4px auto 0; }
+.plan-step:last-child .plan-step-line { display: none; }
+.plan-step-content { padding: 0 0 28px 0; }
+.plan-step-content h4 { font-size: 14px; font-weight: 600; margin-bottom: 4px; line-height: 1.4; }
+.plan-step-content p { font-size: 12.5px; color: var(--muted); line-height: 1.6; }
+.plan-step-tag { display: inline-block; margin-top: 8px; padding: 3px 10px; border-radius: 12px; font-size: 11px; }
+.plan-step-tag.mins { background: var(--green-bg); color: var(--green); }
+.plan-step-tag.hours { background: var(--amber-bg); color: var(--amber); }
+
+/* ── METHODOLOGY ── */
+.method-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.method-card { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 20px; }
+.method-card h4 { font-size: 13px; color: var(--gold); margin-bottom: 8px; font-weight: 600; }
+.method-card p { font-size: 12px; color: var(--muted); line-height: 1.7; }
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<!-- ──────────── SIDEBAR ──────────── -->
+<nav>
+  <div class="nav-top">
+    <div class="nav-eyebrow">CRO Audit v2</div>
+    <div class="nav-client">LVS La Vie Med Spas</div>
+    <div class="nav-meta">lvmedspas.com · March 2026</div>
+  </div>
+
+  <div class="overall-score">
+    <div class="score-big">5.1<span class="score-denom">/10</span></div>
+    <div class="score-label">Weighted CRO Score</div>
+  </div>
+
+  <div class="data-badge">✓ GA4 + GSC Data-Informed</div>
+
+  <div class="nav-section-label">Sections</div>
+  <ul>
+    <li><a href="#exec">Executive Summary</a></li>
+    <li><a href="#data">Analytics Dashboard</a></li>
+    <li><a href="#scorecard">Scorecard</a></li>
+    <li><a href="#findings">Detailed Findings</a></li>
+    <li><a href="#ice">Experiment Backlog</a></li>
+    <li><a href="#quickwins">Quick Wins</a></li>
+    <li><a href="#plan">48-Hour Action Plan</a></li>
+    <li><a href="#method">Methodology</a></li>
+  </ul>
+</nav>
+
+<!-- ──────────── MAIN ──────────── -->
+<main>
+
+<!-- EXEC SUMMARY -->
+<section class="section" id="exec">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Executive Summary</div>
+      <h2 class="section-title">Data-Backed Overview</h2>
+      <p class="section-subtitle">6,418 sessions · 90 days · GA4 + GSC · Local Med Spa — Booking Conversion</p>
+    </div>
+  </div>
+
+  <div class="hero-scores">
+    <div class="hero-score-card">
+      <div class="val amber">6,418</div>
+      <div class="lbl">Total Sessions</div>
+      <div class="sub">Dec 16 – Mar 16</div>
+    </div>
+    <div class="hero-score-card">
+      <div class="val amber">7.7%</div>
+      <div class="lbl">Homepage Conv. Rate</div>
+      <div class="sub">267 / 3,469 sessions</div>
+    </div>
+    <div class="hero-score-card">
+      <div class="val red">56.3%</div>
+      <div class="lbl">Homepage Bounce</div>
+      <div class="sub">3,469 sessions</div>
+    </div>
+    <div class="hero-score-card">
+      <div class="val red">92.3%</div>
+      <div class="lbl">/sxsw Bounce</div>
+      <div class="sub">1,057 sessions · 0 conv.</div>
+    </div>
+  </div>
+
+  <div class="alert amber">
+    <div class="alert-icon">⚠</div>
+    <div><strong>The #1 conversion leak:</strong> The /sxsw page is the site's 2nd-highest traffic landing page (1,057 sessions, 16% of total) with a 92.3% bounce rate and zero conversions. This is a massive waste of SXSW-driven traffic with no CTA or booking path.</div>
+  </div>
+
+  <div class="alert red">
+    <div class="alert-icon">🔴</div>
+    <div><strong>Organic Social is broken:</strong> 882 sessions arrive with only 11.6% engagement rate and 22s avg duration — worst performing channel by far. Social traffic lands and immediately leaves. No landing page match for social intent.</div>
+  </div>
+
+  <div class="alert green">
+    <div class="alert-icon">✓</div>
+    <div><strong>Organic Search is the star:</strong> 1,217 sessions with 65.4% engagement, 232s avg duration, and 2.5 pages/session. The /services page converts at 12.9% (16/124). SEO visitors are highly qualified — the site just needs to stop leaking them.</div>
+  </div>
+
+  <div class="key-findings">
+    <div class="finding-card">
+      <h4>🔴 Critical Issues</h4>
+      <ul>
+        <li>/sxsw page: 1,057 sessions, 0 conversions — zero CTA</li>
+        <li>Hero still shows "Valentine's Glow" — stale seasonal copy</li>
+        <li>Organic Social: 882 sessions, 11.6% engagement rate</li>
+        <li>"Holiday Specials" CTA live in hero (it's March)</li>
+        <li>Oakland Ave location incomplete — "509 Oakland Ave." only</li>
+        <li>CTR for "med spa austin" = 0.3% on 948 impressions</li>
+      </ul>
+    </div>
+    <div class="finding-card">
+      <h4>🟡 High Opportunities</h4>
+      <ul>
+        <li>Mobile: 59.8% of sessions, no data on mobile vs desktop CVR gap</li>
+        <li>/fillers: 38.3% bounce — best page UX — model homepage after it</li>
+        <li>Referral converts at 42.2% engagement + 194s duration — amplify it</li>
+        <li>Brand queries dominate GSC — almost no commercial keyword rankings</li>
+        <li>Event space page: 14 clicks, 67.2% bounce — B2B revenue untapped</li>
+        <li>"Voted #1 Med Spa in Austin" buried in testimonials — not in hero</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- DATA DASHBOARD -->
+<section class="section" id="data">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Analytics Dashboard</div>
+      <h2 class="section-title">GA4 + GSC · 90 Days</h2>
+    </div>
+  </div>
+
+  <div class="dash-grid">
+    <!-- Channel Performance -->
+    <div class="dash-card wide">
+      <h4>Traffic by Channel — Sessions</h4>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">Direct</div><div class="bar-track"><div class="bar-fill gold" style="width:43.5%"></div></div><div class="bar-num">2,794</div></div>
+        <div class="bar-row"><div class="bar-label">Organic Search</div><div class="bar-track"><div class="bar-fill green" style="width:19%"></div></div><div class="bar-num">1,217</div></div>
+        <div class="bar-row"><div class="bar-label">Organic Social</div><div class="bar-track"><div class="bar-fill red" style="width:13.7%"></div></div><div class="bar-num">882</div></div>
+        <div class="bar-row"><div class="bar-label">Unassigned</div><div class="bar-track"><div class="bar-fill muted" style="width:11.6%"></div></div><div class="bar-num">742</div></div>
+        <div class="bar-row"><div class="bar-label">Referral</div><div class="bar-track"><div class="bar-fill blue" style="width:6.6%"></div></div><div class="bar-num">424</div></div>
+        <div class="bar-row"><div class="bar-label">Cross-network</div><div class="bar-track"><div class="bar-fill muted" style="width:5.5%"></div></div><div class="bar-num">350</div></div>
+        <div class="bar-row"><div class="bar-label">Paid Search</div><div class="bar-track"><div class="bar-fill red" style="width:0.1%"></div></div><div class="bar-num">8</div></div>
+      </div>
+    </div>
+
+    <!-- Engagement Quality -->
+    <div class="dash-card">
+      <h4>Engagement Quality by Channel</h4>
+      <div class="metric-row"><span class="metric-name">Organic Search</span><span class="metric-val green">65.4% · 232s</span></div>
+      <div class="metric-row"><span class="metric-name">Referral</span><span class="metric-val green">42.2% · 194s</span></div>
+      <div class="metric-row"><span class="metric-name">Direct</span><span class="metric-val amber">31.9% · 73s</span></div>
+      <div class="metric-row"><span class="metric-name">Cross-network</span><span class="metric-val red">21.4% · 38s</span></div>
+      <div class="metric-row"><span class="metric-name">Unassigned</span><span class="metric-val red">7.4% · 36s</span></div>
+      <div class="metric-row"><span class="metric-name">Organic Social</span><span class="metric-val red">11.6% · 22s</span></div>
+    </div>
+
+    <!-- Top Pages -->
+    <div class="dash-card wide">
+      <h4>Top Landing Pages — Bounce Rate &amp; Conversions</h4>
+      <div class="bar-chart">
+        <div class="bar-row"><div class="bar-label">/ (homepage)</div><div class="bar-track"><div class="bar-fill amber" style="width:56.3%"></div></div><div class="bar-num">56.3% · 267 cv</div></div>
+        <div class="bar-row"><div class="bar-label">/sxsw</div><div class="bar-track"><div class="bar-fill red" style="width:92.3%"></div></div><div class="bar-num">92.3% · 0 cv</div></div>
+        <div class="bar-row"><div class="bar-label">/promotions</div><div class="bar-track"><div class="bar-fill red" style="width:74.9%"></div></div><div class="bar-num">74.9% · 3 cv</div></div>
+        <div class="bar-row"><div class="bar-label">/services</div><div class="bar-track"><div class="bar-fill green" style="width:50.8%"></div></div><div class="bar-num">50.8% · 16 cv</div></div>
+        <div class="bar-row"><div class="bar-label">/fillers</div><div class="bar-track"><div class="bar-fill green" style="width:38.3%"></div></div><div class="bar-num">38.3% · 5 cv</div></div>
+        <div class="bar-row"><div class="bar-label">/about-us</div><div class="bar-track"><div class="bar-fill amber" style="width:74.1%"></div></div><div class="bar-num">74.1% · 10 cv</div></div>
+      </div>
+    </div>
+
+    <!-- Device Split -->
+    <div class="dash-card">
+      <h4>Device Split</h4>
+      <div class="metric-row"><span class="metric-name">Mobile</span><span class="metric-val gold">3,836 sessions · 190 cv</span></div>
+      <div class="metric-row"><span class="metric-name">Desktop</span><span class="metric-val">2,518 sessions · 183 cv</span></div>
+      <div class="metric-row"><span class="metric-name">Tablet</span><span class="metric-val muted">82 sessions · 5 cv</span></div>
+      <div class="metric-row"><span class="metric-name">Mobile CVR</span><span class="metric-val amber">4.95%</span></div>
+      <div class="metric-row"><span class="metric-name">Desktop CVR</span><span class="metric-val green">7.27%</span></div>
+      <div class="metric-row"><span class="metric-name">Mobile CVR Gap</span><span class="metric-val red">−32% vs desktop</span></div>
+    </div>
+
+    <!-- GSC Summary -->
+    <div class="dash-card">
+      <h4>Search Console · 90 Days</h4>
+      <div class="metric-row"><span class="metric-name">Total Clicks</span><span class="metric-val gold">878</span></div>
+      <div class="metric-row"><span class="metric-name">Impressions</span><span class="metric-val">53,095</span></div>
+      <div class="metric-row"><span class="metric-name">Avg CTR</span><span class="metric-val amber">1.65%</span></div>
+      <div class="metric-row"><span class="metric-name">Avg Position</span><span class="metric-val red">30.6</span></div>
+      <div class="metric-row"><span class="metric-name">"med spa austin" CTR</span><span class="metric-val red">0.3% (948 impr.)</span></div>
+      <div class="metric-row"><span class="metric-name">Brand query dominance</span><span class="metric-val amber">~75% of all clicks</span></div>
+    </div>
+
+    <!-- Critical Alert -->
+    <div class="dash-card full">
+      <h4>Key Data Finding: SXSW Traffic Bleed</h4>
+      <div class="alert red" style="margin-bottom:0;">
+        <div class="alert-icon">🚨</div>
+        <div><strong>/sxsw is the #2 landing page by volume with a 92.3% bounce rate and zero recorded conversions.</strong> 1,057 qualified visitors — people actively looking for SXSW beauty/wellness experiences in Austin — are hitting a dead end. During the SXSW window (March 7–16), this page alone likely cost 50–100+ bookings. An emergency CTA and booking widget on this page should be priority #1 this week.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCORECARD -->
+<section class="section" id="scorecard">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Scoring Overview</div>
+      <h2 class="section-title">7-Section CRO Scorecard</h2>
+      <p class="section-subtitle">Weighted overall score: <strong style="color:var(--amber)">5.1 / 10</strong> · Local services weighting applied</p>
+    </div>
+  </div>
+
+  <div class="scorecard-grid">
+    <div class="score-row">
+      <div><div class="score-row-name">Message Match &amp; Clarity<span>20% weight · Homepage hero confusion</span></div></div>
+      <div class="score-row-num red">3.5</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill red" style="width:35%; background:var(--red)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">Trust &amp; Credibility<span>25% weight · Best local services lever</span></div></div>
+      <div class="score-row-num amber">5.0</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:50%; background:var(--amber)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">CTA &amp; Conversion Path<span>15% weight · CTA chaos confirmed by data</span></div></div>
+      <div class="score-row-num red">3.5</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:35%; background:var(--red)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">Value Proposition<span>15% weight · Generic headline, strong services</span></div></div>
+      <div class="score-row-num amber">5.5</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:55%; background:var(--amber)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">Mobile Experience<span>5% weight · 32% CVR gap vs desktop</span></div></div>
+      <div class="score-row-num amber">5.5</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:55%; background:var(--amber)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">Content &amp; Persuasion<span>10% weight · Good testimonials, poor placement</span></div></div>
+      <div class="score-row-num amber">6.0</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:60%; background:var(--amber)"></div></div></div>
+    </div>
+    <div class="score-row">
+      <div><div class="score-row-name">Form / Booking UX<span>10% weight · Off-site Mindbody dependency</span></div></div>
+      <div class="score-row-num amber">5.5</div>
+      <div><div class="score-bar-track"><div class="score-bar-fill" style="width:55%; background:var(--amber)"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- DETAILED FINDINGS -->
+<section class="section" id="findings">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Detailed Findings</div>
+      <h2 class="section-title">Section-by-Section Analysis</h2>
+    </div>
+  </div>
+
+  <!-- 1. Message Match -->
+  <div class="audit-block open">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">1. Message Match &amp; Clarity</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip red">3.5 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> Homepage bounce rate is 56.3% on 3,469 sessions. Valentine's hero copy is still live in March. The /sxsw landing page (1,057 sessions) has a 92.3% bounce — highest of all top pages — indicating a severe message-match failure for event-driven traffic.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>Navigation is well-organized by category (Med Spa, Luxe, Wellness, Salon)</li>
+            <li>Austin geo-targeting is clear throughout</li>
+            <li>March Specials now live in the nav (good seasonal awareness)</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>Hero headline is "Valentine's Glow Starts Here" — it's March 16</li>
+            <li>Subheadline "Transforming Beauty, Empowering Confidence" is generic, 0 differentiation</li>
+            <li>"Holiday Specials" CTA still in hero section — creates trust erosion</li>
+            <li>/sxsw page: 1,057 sessions, zero booking CTA, 0 conversions — message dead end</li>
+            <li>Browser tab says "Transforming Beauty Austin" but brand is LVS / La Vie — identity fragmentation</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we replace the seasonal hero with an evergreen benefit-driven headline ("Austin's Premier Med Spa — Voted #1, Two Locations") and remove stale CTAs, THEN homepage bounce rate will decrease from 56.3% BECAUSE visitors can't quickly answer "Am I in the right place?" with outdated seasonal copy.
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. Trust -->
+  <div class="audit-block">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">2. Trust &amp; Credibility</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip amber">5.0 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> "la vie med spas &amp; salon austin reviews" has a 5.3% CTR at position 3.1 in GSC — people are actively seeking reviews. The about-us page gets 54 sessions with 10 conversions (18.5% CVR) — high trust signals on that page work. The homepage testimonials section exists but is below the fold.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>"Voted #1 Med Spa in Austin" stated in testimonial section</li>
+            <li>Real named testimonials with specific services mentioned</li>
+            <li>Woman-owned business mentioned — relevant differentiator for ICP</li>
+            <li>Real phone number and address in footer</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>"Voted #1 Med Spa in Austin" buried 60%+ down the page — not in hero</li>
+            <li>No Google star rating badge near Book Now CTA</li>
+            <li>Oakland Ave location incomplete: "509 Oakland Ave." — no city, state, zip, no phone</li>
+            <li>No review count displayed anywhere on page</li>
+            <li>Testimonials have no dates — recency matters for trust</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we add a Google Reviews widget (star rating + count) adjacent to the primary "Book Now" CTA and move "Voted #1 Med Spa in Austin" into the hero subtext, THEN booking conversion rate will increase BECAUSE local service buyers require trust signals at the point of commitment (Cialdini: social proof).
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. CTA -->
+  <div class="audit-block">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">3. CTA &amp; Conversion Path</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip red">3.5 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> Homepage CVR is 7.7% (267/3,469) but bounce rate is 56.3% — meaning a huge portion never engage with CTAs at all. /sxsw gets 1,057 sessions with 0 conversions and has no booking path. /promotions gets 350 sessions, 74.9% bounce, only 3 conversions — competing CTAs confuse visitors.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>"Book Now" CTA is present and links to Mindbody</li>
+            <li>Gift card CTA exists for gifting intent visitors</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>Hero has 3 competing CTAs: "our services," "Book Now," "holiday specials"</li>
+            <li>"Holiday Specials" links to /promotions but it's March — erodes trust</li>
+            <li>/sxsw page: no CTA, no booking link, no redirect — 1,057 sessions abandoned</li>
+            <li>/promotions: 350 sessions, 74.9% bounce — no clear primary CTA on page</li>
+            <li>CTA copy "our services" is passive — doesn't drive commitment</li>
+            <li>Booking goes off-site to Mindbody with no pre-selection — extra friction</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we reduce hero CTAs to one primary ("Book Now") + one secondary ("View Specials") and add a booking button + embedded widget to /sxsw, THEN conversion rate on both pages will increase BECAUSE reducing choice eliminates decision paralysis (Hick's Law) and the SXSW page currently has no conversion path at all.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Organic Social -->
+  <div class="audit-block">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">4. Organic Social Traffic Quality</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip red">4.0 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> Organic Social = 882 sessions, 11.6% engagement rate, 22s avg duration, 1.14 pages/session. This is the worst channel by engagement quality. Compare to Organic Search: 65.4% engagement, 232s. Social visitors are arriving at pages that don't match their intent from the post.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>Active on Instagram + Facebook — driving meaningful traffic volume</li>
+            <li>Social traffic is 3rd-largest channel at 882 sessions</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>11.6% engagement rate — 88% of social visitors leave immediately</li>
+            <li>22s avg duration — no time to read any content</li>
+            <li>Social posts likely link to homepage, not specific service/offer pages</li>
+            <li>No Instagram link-in-bio dedicated landing page</li>
+            <li>No social-specific offer or CTA to capture social intent</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we create a dedicated Instagram/social landing page (/welcome or via Linktree alternative) matching the visual language of social posts with a specific offer CTA, THEN Organic Social engagement rate will increase from 11.6% BECAUSE current post → homepage routing destroys message match for social visitors.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Mobile -->
+  <div class="audit-block">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">5. Mobile Experience</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip amber">5.5 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> Mobile = 59.8% of all sessions (3,836) but only 4.95% CVR vs 7.27% desktop CVR. That's a 32% conversion rate gap. If mobile converted at desktop rate, the site would add ~88 additional conversions over this 90-day period from the same traffic.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>Site is responsive and renders on mobile</li>
+            <li>Phone number in footer is clickable (tel: link assumed)</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>32% mobile-to-desktop CVR gap is significant and data-confirmed</li>
+            <li>Hero with decorative animated icons (lips, hearts, roses) likely heavy on mobile</li>
+            <li>Navigation mega-menu is complex — mobile UX unclear</li>
+            <li>Off-site Mindbody booking increases mobile drop-off risk</li>
+            <li>No sticky "Book Now" button on mobile scroll</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we add a sticky mobile "Book Now" button and simplify the mobile hero to a single CTA, THEN mobile CVR will improve from 4.95% toward desktop's 7.27% BECAUSE 59.8% of traffic is mobile and currently loses 32% conversion efficiency vs desktop.
+        <br><br><strong style="color:var(--gold)">Estimated impact:</strong> Closing even half the CVR gap on mobile traffic adds ~44 conversions over 90 days from existing traffic.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. SEO Opportunity -->
+  <div class="audit-block">
+    <div class="audit-block-header" onclick="toggle(this)">
+      <div class="audit-block-title">6. Search Intent &amp; Commercial Keyword Gap</div>
+      <div class="audit-block-header-right">
+        <span class="score-chip red">4.0 / 10</span>
+        <span class="chevron">▼</span>
+      </div>
+    </div>
+    <div class="audit-block-body">
+      <div class="data-insight">
+        <strong>📊 Data signal:</strong> "med spa austin" gets 948 impressions at avg position 20.6 with only 3 clicks (0.3% CTR). "lip fillers austin" gets 393 impressions at position 85.5 — not on page 1. The homepage ranks for 20,963 impressions but at avg position 21.3. ~75% of all GSC clicks are brand queries (la vie, vickmay). Commercial intent keywords are barely showing.
+      </div>
+      <div class="two-col">
+        <div class="col-box wins">
+          <h5>✓ Working</h5>
+          <ul>
+            <li>Strong brand recognition — "la vie en rainey" at position 2.2, 36.8% CTR</li>
+            <li>/liquid-lipo page gets 32 clicks, 3,558 impressions — on the radar</li>
+            <li>Event space page: 14 clicks, 1,587 impressions, position 8.3 — near page 1</li>
+          </ul>
+        </div>
+        <div class="col-box issues">
+          <h5>✗ Issues</h5>
+          <ul>
+            <li>"med spa austin" (948 impr.) only 0.3% CTR at position 20 — not on page 1</li>
+            <li>"lip fillers austin" (393 impr.) at position 85 — not ranking at all</li>
+            <li>Homepage at avg position 21.3 for 20,963 impressions — huge CTR opportunity</li>
+            <li>No page targeting "botox austin" despite clear demand</li>
+            <li>avg CTR of 1.65% is below local services benchmark (~4-6%)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hypothesis">
+        <div class="h-label">Testable Hypothesis</div>
+        IF we optimize the homepage title tag and H1 for "med spa austin" and build dedicated landing pages for high-impression keywords (botox, lip fillers, liquid lipo), THEN organic clicks will increase from 878 over 90 days BECAUSE the site has 53,095 impressions but converts them at only 1.65% CTR — a positioning problem, not a visibility problem.
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ICE TABLE -->
+<section class="section" id="ice">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Experiment Backlog</div>
+      <h2 class="section-title">ICE-Scored Recommendations</h2>
+      <p class="section-subtitle">Click column headers to sort. Confidence scores are data-backed (7–9) where supported by GA4/GSC.</p>
+    </div>
+  </div>
+
+  <div style="overflow-x:auto;">
+    <table class="ice-table" id="iceTable" data-sort-dir="desc">
+      <thead>
+        <tr>
+          <th onclick="sortTable(0)">Recommendation</th>
+          <th onclick="sortTable(1)">Category</th>
+          <th onclick="sortTable(2)">Impact</th>
+          <th onclick="sortTable(3)">Confidence</th>
+          <th onclick="sortTable(4)">Ease</th>
+          <th onclick="sortTable(5)">ICE</th>
+          <th onclick="sortTable(6)">Effort</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Add Book Now CTA + service menu to /sxsw page</td><td>CTA</td><td>9</td><td>9</td><td>8</td><td><span class="ice-badge high">8.7</span></td><td><span class="effort-tag">30 min</span></td></tr>
+        <tr><td>Remove "Holiday Specials" &amp; "Valentine's" hero copy; replace with evergreen headline</td><td>Message Match</td><td>8</td><td>8</td><td>9</td><td><span class="ice-badge high">8.3</span></td><td><span class="effort-tag">1 hr</span></td></tr>
+        <tr><td>Add sticky "Book Now" button on mobile scroll</td><td>Mobile</td><td>8</td><td>8</td><td>7</td><td><span class="ice-badge high">7.7</span></td><td><span class="effort-tag">2 hrs</span></td></tr>
+        <tr><td>Move "Voted #1 Med Spa in Austin" into hero subheadline</td><td>Trust</td><td>7</td><td>8</td><td>9</td><td><span class="ice-badge high">8.0</span></td><td><span class="effort-tag">15 min</span></td></tr>
+        <tr><td>Add Google Reviews star rating badge adjacent to Book Now CTA</td><td>Trust</td><td>8</td><td>8</td><td>7</td><td><span class="ice-badge high">7.7</span></td><td><span class="effort-tag">1 hr</span></td></tr>
+        <tr><td>Reduce hero CTAs from 3 to 2 (primary: Book Now, secondary: View Specials)</td><td>CTA</td><td>7</td><td>8</td><td>9</td><td><span class="ice-badge high">8.0</span></td><td><span class="effort-tag">30 min</span></td></tr>
+        <tr><td>Complete Oakland Ave. location listing with full address, zip, phone</td><td>Trust</td><td>6</td><td>9</td><td>9</td><td><span class="ice-badge high">8.0</span></td><td><span class="effort-tag">15 min</span></td></tr>
+        <tr><td>Create dedicated social landing page for Instagram link-in-bio</td><td>Social</td><td>8</td><td>8</td><td>6</td><td><span class="ice-badge high">7.3</span></td><td><span class="effort-tag">1 day</span></td></tr>
+        <tr><td>Optimize homepage title tag for "med spa austin" (948 impr, pos 20)</td><td>SEO/Match</td><td>7</td><td>8</td><td>8</td><td><span class="ice-badge high">7.7</span></td><td><span class="effort-tag">30 min</span></td></tr>
+        <tr><td>Build dedicated /botox-austin and /lip-fillers-austin landing pages</td><td>SEO</td><td>8</td><td>7</td><td>5</td><td><span class="ice-badge med">6.7</span></td><td><span class="effort-tag">1 week</span></td></tr>
+        <tr><td>Add date stamps to homepage testimonials</td><td>Trust</td><td>4</td><td>7</td><td>9</td><td><span class="ice-badge med">6.7</span></td><td><span class="effort-tag">30 min</span></td></tr>
+        <tr><td>Link Organic Social posts to specific service/offer pages, not homepage</td><td>Social</td><td>8</td><td>8</td><td>6</td><td><span class="ice-badge high">7.3</span></td><td><span class="effort-tag">Ongoing</span></td></tr>
+        <tr><td>Add email capture (free consultation or specials) to reduce social bounce</td><td>Social/Capture</td><td>6</td><td>6</td><td>5</td><td><span class="ice-badge med">5.7</span></td><td><span class="effort-tag">3 hrs</span></td></tr>
+        <tr><td>Add progress indicator / service pre-selection to Mindbody booking flow</td><td>Booking UX</td><td>7</td><td>6</td><td>4</td><td><span class="ice-badge med">5.7</span></td><td><span class="effort-tag">1 day</span></td></tr>
+        <tr><td>Event space page: add B2B inquiry form or CTA (14 clicks, 67.2% bounce)</td><td>Revenue</td><td>6</td><td>7</td><td>7</td><td><span class="ice-badge med">6.7</span></td><td><span class="effort-tag">2 hrs</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- QUICK WINS -->
+<section class="section" id="quickwins">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Quick Wins</div>
+      <h2 class="section-title">ICE Score ≥ 7.7 · Under 2 Hours Each</h2>
+    </div>
+  </div>
+
+  <div class="qw-grid">
+    <div class="qw-card">
+      <div class="qw-num">1</div>
+      <div class="qw-content">
+        <h4>Add Book Now CTA to /sxsw page</h4>
+        <p>1,057 sessions landed on this page with zero conversion path. SXSW is happening right now (March 7–16). Adding a single "Book a Treatment" button and Mindbody link could recover dozens of bookings today.</p>
+        <span class="plan-step-tag mins">30 minutes</span>
+      </div>
+      <div class="qw-ice"><div class="ice-num">8.7</div><div class="ice-lbl">ICE Score</div></div>
+    </div>
+
+    <div class="qw-card">
+      <div class="qw-num">2</div>
+      <div class="qw-content">
+        <h4>Replace stale hero copy — Valentine's → Evergreen</h4>
+        <p>Hero still says "Valentine's Glow Starts Here." Visitors bounce when the first thing they see is a month-old promotion. Swap to evergreen headline with "Voted #1" proof point in under an hour.</p>
+        <span class="plan-step-tag mins">1 hour</span>
+      </div>
+      <div class="qw-ice"><div class="ice-num">8.3</div><div class="ice-lbl">ICE Score</div></div>
+    </div>
+
+    <div class="qw-card">
+      <div class="qw-num">3</div>
+      <div class="qw-content">
+        <h4>Move "Voted #1 Med Spa in Austin" to the hero</h4>
+        <p>This proof statement is buried in a testimonial 60%+ down the page. Adding it to the hero subheadline as a one-line credibility anchor costs 15 minutes and immediately answers "Can I trust you?"</p>
+        <span class="plan-step-tag mins">15 minutes</span>
+      </div>
+      <div class="qw-ice"><div class="ice-num">8.0</div><div class="ice-lbl">ICE Score</div></div>
+    </div>
+
+    <div class="qw-card">
+      <div class="qw-num">4</div>
+      <div class="qw-content">
+        <h4>Complete the Oakland Ave. location listing</h4>
+        <p>"509 Oakland Ave." with no city, state, zip, or phone number is not a location — it's a fragment. This erodes trust and kills Local SEO for that location. Add full address + phone in 15 minutes.</p>
+        <span class="plan-step-tag mins">15 minutes</span>
+      </div>
+      <div class="qw-ice"><div class="ice-num">8.0</div><div class="ice-lbl">ICE Score</div></div>
+    </div>
+
+    <div class="qw-card">
+      <div class="qw-num">5</div>
+      <div class="qw-content">
+        <h4>Optimize homepage title tag for "med spa austin"</h4>
+        <p>The homepage gets 20,963 impressions at avg position 21.3 but only 3.2% CTR. The title tag is "Transforming Beauty Austin | LVS Med Spas" — weak for commercial intent. Updating to target "med spa austin" directly could meaningfully lift click-through from 53K impressions.</p>
+        <span class="plan-step-tag mins">30 minutes</span>
+      </div>
+      <div class="qw-ice"><div class="ice-num">7.7</div><div class="ice-lbl">ICE Score</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 48HR PLAN -->
+<section class="section" id="plan">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Action Plan</div>
+      <h2 class="section-title">48-Hour Priority List</h2>
+      <p class="section-subtitle">Ordered by impact per time invested. All completable by a non-developer.</p>
+    </div>
+  </div>
+
+  <div class="plan-steps">
+    <div class="plan-step">
+      <div class="plan-step-num">
+        <div class="plan-step-circle">1</div>
+        <div class="plan-step-line"></div>
+      </div>
+      <div class="plan-step-content">
+        <h4>Fix /sxsw page — add Book Now button + March Specials link</h4>
+        <p>SXSW is live right now. This page has 1,057 sessions and zero conversions. Add: (a) "Book Your SXSW Treatment" button linking to Mindbody, (b) mention of walk-in availability if applicable, (c) link to March Specials. This is the single highest-ROI action available today.</p>
+        <span class="plan-step-tag mins">✓ 30 minutes</span>
+      </div>
+    </div>
+
+    <div class="plan-step">
+      <div class="plan-step-num">
+        <div class="plan-step-circle">2</div>
+        <div class="plan-step-line"></div>
+      </div>
+      <div class="plan-step-content">
+        <h4>Update hero: remove Valentine's + Holiday Specials, add evergreen headline + #1 proof</h4>
+        <p>New headline suggestion: "Austin's Premier Med Spa — Voted #1, Two Locations." Remove "Holiday Specials" CTA. Keep "Book Now" as sole primary CTA, "View March Specials" as secondary. 56.3% homepage bounce rate directly tied to stale hero.</p>
+        <span class="plan-step-tag mins">✓ 1 hour</span>
+      </div>
+    </div>
+
+    <div class="plan-step">
+      <div class="plan-step-num">
+        <div class="plan-step-circle">3</div>
+        <div class="plan-step-line"></div>
+      </div>
+      <div class="plan-step-content">
+        <h4>Complete Oakland Ave. location block + update footer</h4>
+        <p>Add full address (509 Oakland Ave., Austin, TX 78703), phone number, and hours. An incomplete location listing loses trust at the moment visitors are deciding whether to show up. Also add to Google Business Profile if not already listed.</p>
+        <span class="plan-step-tag mins">✓ 15 minutes</span>
+      </div>
+    </div>
+
+    <div class="plan-step">
+      <div class="plan-step-num">
+        <div class="plan-step-circle">4</div>
+        <div class="plan-step-line"></div>
+      </div>
+      <div class="plan-step-content">
+        <h4>Update homepage title tag + meta description for "med spa austin"</h4>
+        <p>Recommended title: "Med Spa Austin | LVS La Vie Med Spas — Voted #1 in Austin." Meta: "Austin's premier med spa with two locations. Botox, fillers, facials, massage, and wellness treatments. Book online." This targets 948 impressions/month at position 20 — small position improvement = significant click volume.</p>
+        <span class="plan-step-tag mins">✓ 30 minutes</span>
+      </div>
+    </div>
+
+    <div class="plan-step">
+      <div class="plan-step-num">
+        <div class="plan-step-circle">5</div>
+        <div class="plan-step-line"></div>
+      </div>
+      <div class="plan-step-content">
+        <h4>Add Google Reviews embed near Book Now CTA</h4>
+        <p>Install a Google Reviews widget (Elfsight or native embed) directly above or below the primary Book Now button. Visitors searching "la vie med spas reviews" (94 impressions, 5.3% CTR) deserve to find those reviews on the page, not just in GSC. Trust at point of commitment = higher conversion.</p>
+        <span class="plan-step-tag hours">✓ 1 hour</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section class="section" id="method">
+  <div class="section-header">
+    <div class="section-title-group">
+      <div class="section-label">Methodology</div>
+      <h2 class="section-title">How This Audit Was Conducted</h2>
+    </div>
+  </div>
+
+  <div class="method-grid">
+    <div class="method-card">
+      <h4>Data Sources</h4>
+      <p>GA4 (90-day period: Dec 16, 2025 – Mar 16, 2026) via service account pull. Google Search Console (same 90-day window). Live homepage crawl (March 16, 2026). ICE confidence scores: 7–9 for data-backed findings, 4–6 for heuristic-only.</p>
+    </div>
+    <div class="method-card">
+      <h4>CRO Frameworks Applied</h4>
+      <p>Conversion Equation: Motivation − Friction − Anxiety + Incentive. Visitor 5 Questions. Hick's Law (choice reduction). Cialdini's social proof. Fogg Behavior Model. Decision Design — System 1 optimization first.</p>
+    </div>
+    <div class="method-card">
+      <h4>Section Weights</h4>
+      <p>Local Services profile applied: Trust &amp; Credibility 25%, Message Match 20%, CTA Path 15%, Value Prop 15%, Form/Booking UX 10%, Content/Persuasion 10%, Mobile 5%.</p>
+    </div>
+    <div class="method-card">
+      <h4>ICE Scoring</h4>
+      <p>Impact (1–10) × Confidence (1–10) × Ease (1–10) averaged to ICE Score. Confidence is capped at 9 for data-backed recommendations and 6 for heuristic-only. Sortable in the backlog table above.</p>
+    </div>
+    <div class="method-card">
+      <h4>Business Context</h4>
+      <p>Local med spa, two Austin locations. Primary goal: booking conversions via Mindbody. ICP: Austin women seeking luxury beauty and wellness services. SXSW seasonal traffic surge confirmed in data.</p>
+    </div>
+    <div class="method-card">
+      <h4>Next Steps</h4>
+      <p>After quick wins: set up conversion event tracking in GA4 to properly measure booking CVR. Implement heatmap (Hotjar or Microsoft Clarity) to confirm mobile UX friction points. A/B test hero headline with Google Optimize or VWO.</p>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<script>
+function toggle(header) {
+  header.parentElement.classList.toggle('open');
+}
+
+function sortTable(col) {
+  const table = document.getElementById('iceTable');
+  const tbody = table.tBodies[0];
+  const rows = Array.from(tbody.rows);
+  const dir = table.dataset.sortDir === 'asc' ? 1 : -1;
+  table.dataset.sortDir = dir === 1 ? 'desc' : 'asc';
+  rows.sort((a, b) => {
+    const av = a.cells[col].innerText.trim();
+    const bv = b.cells[col].innerText.trim();
+    const an = parseFloat(av), bn = parseFloat(bv);
+    if (!isNaN(an) && !isNaN(bn)) return (an - bn) * dir;
+    return av.localeCompare(bv) * dir;
+  });
+  rows.forEach(r => tbody.appendChild(r));
+}
+
+document.querySelectorAll('nav a').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+});
+
+// Animate bars on load
+window.addEventListener('load', () => {
+  document.querySelectorAll('.bar-fill, .score-bar-fill').forEach(el => {
+    const w = el.style.width;
+    el.style.width = '0';
+    setTimeout(() => { el.style.width = w; }, 200);
+  });
+});
+</script>
+</body>
+</html>
