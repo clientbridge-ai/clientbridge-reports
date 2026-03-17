@@ -1,0 +1,211 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .wrap { padding: 1.5rem 0; font-family: var(--font-sans); }
+  .nav { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem; }
+  .nav-btn { padding: 6px 16px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: transparent; font-size: 13px; cursor: pointer; color: var(--color-text-secondary); transition: all .15s; }
+  .nav-btn.active { background: #E1F5EE; border-color: #1D9E75; color: #0F6E56; font-weight: 500; }
+  .section { display: none; }
+  .section.active { display: block; }
+  .card { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 1.25rem; margin-bottom: 12px; background: var(--color-background-primary); }
+  .card-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .card-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; }
+  .phase { border-left: 2px solid #1D9E75; padding-left: 1rem; margin-bottom: 20px; }
+  .phase-label { font-size: 11px; font-weight: 500; letter-spacing: .05em; color: #1D9E75; text-transform: uppercase; margin-bottom: 4px; }
+  .phase-title { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .phase-body { font-size: 13px; color: var(--color-text-secondary); line-height: 1.7; }
+  .signal { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: .85rem 1rem; margin-bottom: 10px; }
+  .signal-label { font-size: 11px; font-weight: 500; color: #0F6E56; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+  .signal-text { font-size: 13px; line-height: 1.6; }
+  .kill { background: #FCEBEB; border-radius: var(--border-radius-md); padding: .85rem 1rem; margin-bottom: 10px; }
+  .kill-label { font-size: 11px; font-weight: 500; color: #A32D2D; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+  .kill-text { font-size: 13px; color: #791F1F; line-height: 1.6; }
+  .pivot { background: #FAEEDA; border-radius: var(--border-radius-md); padding: .85rem 1rem; margin-bottom: 10px; }
+  .pivot-label { font-size: 11px; font-weight: 500; color: #854F0B; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+  .pivot-text { font-size: 13px; color: #633806; line-height: 1.6; }
+  .q { font-size: 13px; font-weight: 500; margin-bottom: 4px; color: var(--color-text-primary); }
+  .a { font-size: 13px; color: var(--color-text-secondary); line-height: 1.6; margin-bottom: 12px; padding-bottom: 12px; border-bottom: 0.5px solid var(--color-border-tertiary); }
+  .a:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .metric-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+  .metric { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: .85rem; }
+  .metric-label { font-size: 12px; color: var(--color-text-secondary); margin-bottom: 4px; }
+  .metric-val { font-size: 20px; font-weight: 500; }
+  .metric-note { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .green { color: #0F6E56; }
+  .red { color: #A32D2D; }
+  @media (max-width: 480px) { .metric-row { grid-template-columns: 1fr 1fr; } }
+</style>
+
+<div class="wrap">
+  <div class="nav">
+    <button class="nav-btn active" onclick="show('sprint')">30-day sprint</button>
+    <button class="nav-btn" onclick="show('interviews')">Discovery questions</button>
+    <button class="nav-btn" onclick="show('signals')">PMF signals</button>
+    <button class="nav-btn" onclick="show('kill')">Kill / pivot criteria</button>
+  </div>
+
+  <!-- 30-DAY SPRINT -->
+  <div id="sprint" class="section active">
+
+    <div class="phase">
+      <div class="phase-label">Days 1–7 · Phase 1</div>
+      <div class="phase-title">20 conversations, no pitch</div>
+      <div class="phase-body">Contact every Tier 1 professional in your existing network — not to sell, to learn. Frame it explicitly: "I'm building something for [industry] firms and want 20 minutes of honest feedback before I launch. No pitch." People love being asked for their opinion. Target: 20 conversations in 7 days. This is your only job this week.<br><br>
+      Who to call: former colleagues, clients, referral partners, LinkedIn connections you already have. Houston-first. You need real humans, not survey responses.</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Days 8–14 · Phase 2</div>
+      <div class="phase-title">Identify the hairiest pain</div>
+      <div class="phase-body">After 20 conversations, pattern-match the answers. You're looking for the pain point that makes people lean forward, interrupt you, or say "yes, that's exactly it." That's your wedge — not the platform, not the workflow library, not the training. The one problem that creates an instant emotional response.<br><br>
+      Rewrite your positioning around that pain. If "inconsistent AI usage" isn't making them lean forward but "scaling without hiring" is — pivot to that. Let the market tell you the headline.</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Days 15–21 · Phase 3</div>
+      <div class="phase-title">Sell to 3 people, manually</div>
+      <div class="phase-body">Take the sharpened positioning and sell it — in person or on Zoom — to the 3 most interested people from your conversations. No automation. No sequences. Just you, the pitch, and a credit card ask at the end. If they won't pay, the hypothesis is broken. If 2 of 3 say yes, you have signal.<br><br>
+      Price point: $2,500–$3,500 founding client rate. You're not optimizing for revenue yet — you're testing willingness to pay and validating the problem is real enough to open a wallet.</div>
+    </div>
+
+    <div class="phase">
+      <div class="phase-label">Days 22–30 · Phase 4</div>
+      <div class="phase-title">Deliver and measure activation</div>
+      <div class="phase-body">Start delivering the Sprint for your paying clients. Watch for the one metric that predicts retention: are they logging deliverables daily by week 2? If yes — the product has a hook. If no — you have a delivery or product problem regardless of how good the sale was.<br><br>
+      At day 30: debrief every client. Ask the Sean Ellis question directly: "How would you feel if you could no longer use this?" If 40%+ say "very disappointed" — you have PMF. Below 40% — you have work to do.</div>
+    </div>
+  </div>
+
+  <!-- DISCOVERY QUESTIONS -->
+  <div id="interviews" class="section">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">The 20-minute discovery script</div>
+      <div class="card-body">These are in order. Do not pitch. Do not mention H+A until they ask or until the very end. Your job is to listen and take notes verbatim — their exact words become your copy.</div>
+    </div>
+
+    <div class="card">
+      <div class="q">1. "Walk me through how your team produces its most important work right now."</div>
+      <div class="a">Listen for: manual vs. systematic, individual vs. shared, consistent vs. ad hoc. You want them to describe their current state unprompted.</div>
+
+      <div class="q">2. "Where does AI show up in that process today — if at all?"</div>
+      <div class="a">Listen for: which tools, who uses them, how consistently. Are they proud or embarrassed about their answer?</div>
+
+      <div class="q">3. "What's the biggest bottleneck in scaling your output without adding headcount?"</div>
+      <div class="a">This is your money question. The answer tells you what pain is worth paying to solve. Write it down word for word.</div>
+
+      <div class="q">4. "If you could wave a magic wand and fix one thing about how your team works, what would it be?"</div>
+      <div class="a">Ignore the literal answer. Listen for the emotion. Frustration = real pain. Shrug = low urgency.</div>
+
+      <div class="q">5. "Have you tried solving this before? What happened?"</div>
+      <div class="a">Prior attempts = proven pain. Failed attempts = they've already paid to solve it = they'll pay again if you have a better answer.</div>
+
+      <div class="q">6. "What would it mean for your business if this was solved?"</div>
+      <div class="a">This surfaces the value. If they can articulate a dollar figure or a time impact — you have a buyer. If they shrug — you have a browser.</div>
+
+      <div class="q">7. (End of call only) "I'm building something that addresses exactly this. Can I show you a quick overview and get your honest reaction?"</div>
+      <div class="a">This is your only pitch moment. If they say yes — great. If they say no — that's data too. Don't push.</div>
+    </div>
+  </div>
+
+  <!-- PMF SIGNALS -->
+  <div id="signals" class="section">
+    <div class="card" style="margin-bottom:4px">
+      <div class="card-title">The 3 signals that confirm PMF</div>
+      <div class="card-body">You need all three. Two out of three means you're close but not there.</div>
+    </div>
+
+    <div class="signal">
+      <div class="signal-label">Signal 1 · Language match</div>
+      <div class="signal-text">Prospects describe their problem using your exact words before you say them. When you hear "we have AI tools but no system" from someone you haven't pitched — that's language match. Your copy is reflecting their reality back at them.</div>
+    </div>
+
+    <div class="signal">
+      <div class="signal-label">Signal 2 · Inbound pull</div>
+      <div class="signal-text">People start referring you without being asked. A discovery conversation ends with "you should talk to my partner" or "can I forward this to someone?" Organic referral within the first 30 days is one of the strongest early PMF signals that exists.</div>
+    </div>
+
+    <div class="signal">
+      <div class="signal-label">Signal 3 · Fast close</div>
+      <div class="signal-text">The sales conversation is short. Objections are light. People say "how do I get started" before you've finished the pitch. If you're fighting hard to close every deal — the positioning or the ICP is wrong. PMF feels like pushing a door that's already open.</div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="card-title">The Sean Ellis test — use at day 30</div>
+      <div class="card-body">Ask every paying client: <strong>"How would you feel if you could no longer use this program?"</strong><br><br>
+      Very disappointed: counts as a yes<br>
+      Somewhat disappointed: neutral<br>
+      Not disappointed: red flag<br><br>
+      <strong>40%+ "very disappointed" = PMF confirmed.</strong> Below 40% = iterate before scaling.</div>
+    </div>
+
+    <div class="metric-row" style="margin-top:16px">
+      <div class="metric">
+        <div class="metric-label">Conversations needed</div>
+        <div class="metric-val">20</div>
+        <div class="metric-note">Week 1</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Paying clients needed</div>
+        <div class="metric-val">3</div>
+        <div class="metric-note">Week 3</div>
+      </div>
+      <div class="metric">
+        <div class="metric-label">Ellis score target</div>
+        <div class="metric-val">40%+</div>
+        <div class="metric-note">Day 30</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- KILL / PIVOT -->
+  <div id="kill" class="section">
+    <div class="card" style="margin-bottom:16px">
+      <div class="card-title">Be ruthless. Set your kill criteria before you start.</div>
+      <div class="card-body">The biggest PMF mistake founders make is moving the goalposts. Decide now what failure looks like — so you don't rationalize your way past it in week 3.</div>
+    </div>
+
+    <div class="kill">
+      <div class="kill-label">Kill signal 1</div>
+      <div class="kill-text">Fewer than 5 of 20 conversations express genuine pain around AI inconsistency or scaling. If the problem isn't resonating broadly — you're solving the wrong problem or talking to the wrong people.</div>
+    </div>
+
+    <div class="kill">
+      <div class="kill-label">Kill signal 2</div>
+      <div class="kill-text">Zero of 3 pilot pitches convert to a paid engagement. If nobody will pay $2,500 for a clear, demonstrated solution — the pain isn't acute enough or the trust isn't there yet.</div>
+    </div>
+
+    <div class="kill">
+      <div class="kill-label">Kill signal 3</div>
+      <div class="kill-text">Paying clients don't activate — they're not logging deliverables by week 2. Product works but nobody uses it = delivery problem that kills retention and referrals regardless of how good the sale was.</div>
+    </div>
+
+    <div class="pivot" style="margin-top:16px">
+      <div class="pivot-label">Pivot option 1 — wrong ICP</div>
+      <div class="pivot-text">If conversations light up in one vertical but go flat in others — go all-in on the one that's working. Don't spread. If accounting firms are leaning in and insurance agencies aren't — you have your answer.</div>
+    </div>
+
+    <div class="pivot">
+      <div class="pivot-label">Pivot option 2 — wrong pain hook</div>
+      <div class="pivot-text">If "AI consistency" doesn't land but "scale without hiring" does — rewrite every message around that. The platform is the same. The entry point changes. Test a new hook for 2 weeks before concluding the offer doesn't work.</div>
+    </div>
+
+    <div class="pivot">
+      <div class="pivot-label">Pivot option 3 — wrong delivery model</div>
+      <div class="pivot-text">If people love the idea but balk at the Sprint format — test a lighter entry: a 1-day AI workflow workshop at $997. Lower barrier, faster yes, still gets them into the platform. Upsell the Sprint from there.</div>
+    </div>
+
+    <div class="card" style="margin-top:16px; border-color: #1D9E75;">
+      <div class="card-title" style="color:#0F6E56">The founder's rule</div>
+      <div class="card-body">You don't have a marketing problem until you have a PMF problem solved. No sequence, no landing page, no content strategy fixes a broken hypothesis. Do the 20 conversations first. Everything else waits.</div>
+    </div>
+  </div>
+</div>
+
+<script>
+function show(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
