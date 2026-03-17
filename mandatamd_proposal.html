@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Intelligence Proposal — MandataMD | ClientBridge</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+:root {
+  --orange: #FF4500;
+  --orange-light: #FF6B35;
+  --orange-faint: #FFF5F0;
+  --dark: #0F0F0F;
+  --dark-mid: #1C1C1C;
+  --mid: #3A3A3A;
+  --muted: #777777;
+  --border: #E8E8E8;
+  --white: #FFFFFF;
+  --off-white: #FAFAFA;
+  --code-bg: #F4EDE8;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--dark);
+  background: var(--off-white);
+  line-height: 1.65;
+  font-size: 16px;
+}
+
+.page {
+  max-width: 860px;
+  margin: 0 auto;
+  background: var(--white);
+  padding: 0;
+}
+
+/* HEADER */
+.header {
+  background: var(--dark);
+  padding: 56px 64px 48px;
+  position: relative;
+  overflow: hidden;
+}
+.header::before {
+  content: '';
+  position: absolute;
+  top: -80px;
+  right: -80px;
+  width: 360px;
+  height: 360px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,69,0,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.header-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 20px;
+}
+.header h1 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 3rem;
+  color: var(--white);
+  line-height: 1.15;
+  margin-bottom: 12px;
+  font-weight: 400;
+}
+.header h1 em {
+  font-style: italic;
+  color: var(--orange-light);
+}
+.header-sub {
+  color: #999;
+  font-size: 15px;
+  margin-top: 16px;
+  font-weight: 300;
+}
+.header-meta {
+  display: flex;
+  gap: 32px;
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid #2A2A2A;
+}
+.header-meta-item label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: #555;
+  display: block;
+  margin-bottom: 4px;
+}
+.header-meta-item span {
+  color: #CCC;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* BODY */
+.body { padding: 64px; }
+
+/* SECTION */
+.section { margin-bottom: 64px; }
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--orange);
+  margin-bottom: 10px;
+}
+.section h2 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.85rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+.section p {
+  color: var(--mid);
+  font-size: 15px;
+  margin-bottom: 14px;
+  font-weight: 300;
+}
+.section p strong {
+  color: var(--dark);
+  font-weight: 600;
+}
+
+/* DIVIDER */
+.divider {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 64px 0;
+}
+
+/* COMPANY SNAPSHOT */
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2px;
+  margin-top: 24px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.snapshot-cell {
+  background: var(--white);
+  padding: 20px 24px;
+}
+.snapshot-cell label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+.snapshot-cell span {
+  font-size: 14px;
+  color: var(--dark);
+  font-weight: 500;
+}
+
+/* PULL QUOTE */
+.pull-quote {
+  border-left: 3px solid var(--orange);
+  padding: 16px 28px;
+  margin: 32px 0;
+  background: var(--orange-faint);
+}
+.pull-quote p {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--dark);
+  margin: 0;
+  font-weight: 400;
+}
+.pull-quote cite {
+  display: block;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--orange);
+  margin-top: 10px;
+  font-style: normal;
+}
+
+/* PQS BLOCK */
+.pqs-block {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin: 28px 0;
+}
+.pqs-header {
+  background: var(--dark);
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.pqs-tag {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 3px;
+  font-weight: 500;
+}
+.tag-pqs { background: rgba(255,69,0,0.25); color: var(--orange-light); }
+.tag-pvp { background: rgba(255,255,255,0.1); color: #BBB; }
+.pqs-header h3 {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 500;
+}
+.pqs-body { padding: 24px; }
+.data-recipe {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 0.05em;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.data-recipe::before {
+  content: '⬡';
+  font-size: 10px;
+}
+.message-box {
+  background: var(--code-bg);
+  border-left: 3px solid var(--orange);
+  padding: 20px 22px;
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--dark-mid);
+  white-space: pre-wrap;
+  border-radius: 0 4px 4px 0;
+}
+.message-box .subj {
+  font-weight: 500;
+  color: var(--dark);
+  display: block;
+  margin-bottom: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.message-box .subj span {
+  color: var(--dark);
+  text-transform: none;
+  font-size: 14px;
+  letter-spacing: 0;
+  font-weight: 600;
+}
+.pqs-note {
+  margin-top: 16px;
+  font-size: 13px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* IMPLEMENTATION STEPS */
+.steps {
+  counter-reset: steps;
+  margin: 28px 0;
+}
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 20px;
+  margin-bottom: 24px;
+  align-items: start;
+}
+.step-num {
+  width: 48px;
+  height: 48px;
+  border: 2px solid var(--border);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Mono', monospace;
+  font-size: 14px;
+  color: var(--orange);
+  font-weight: 500;
+  flex-shrink: 0;
+}
+.step-content h4 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--dark);
+  margin-bottom: 4px;
+  margin-top: 12px;
+}
+.step-content p {
+  margin: 0;
+}
+
+/* STRATEGIC BOX */
+.strategic-box {
+  border: 1px solid var(--orange);
+  border-radius: 8px;
+  padding: 32px;
+  margin: 32px 0;
+  background: var(--orange-faint);
+}
+.strategic-box h3 {
+  font-family: 'DM Serif Display', serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin-bottom: 16px;
+  color: var(--dark);
+}
+.strategic-box ul {
+  list-style: none;
+  padding: 0;
+}
+.strategic-box ul li {
+  font-size: 14px;
+  color: var(--mid);
+  padding: 6px 0;
+  border-bottom: 1px solid rgba(255,69,0,0.12);
+  padding-left: 18px;
+  position: relative;
+  font-weight: 300;
+}
+.strategic-box ul li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--orange);
+  font-size: 12px;
+}
+.strategic-box ul li:last-child { border-bottom: none; }
+.strategic-box ul li strong { color: var(--dark); font-weight: 600; }
+
+/* METRICS GRID */
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin: 24px 0;
+}
+.metric {
+  background: var(--white);
+  padding: 24px 20px;
+  text-align: center;
+}
+.metric .num {
+  font-family: 'DM Serif Display', serif;
+  font-size: 2rem;
+  color: var(--orange);
+  display: block;
+  line-height: 1;
+  margin-bottom: 6px;
+}
+.metric .lbl {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 300;
+}
+
+/* TIMELINE */
+.timeline {
+  margin: 28px 0;
+}
+.timeline-row {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 24px;
+  margin-bottom: 2px;
+}
+.timeline-period {
+  background: var(--dark);
+  padding: 16px 16px;
+  border-radius: 4px;
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: var(--orange);
+  letter-spacing: 0.08em;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 500;
+}
+.timeline-content {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px 20px;
+}
+.timeline-content h4 {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+.timeline-content p {
+  font-size: 13px;
+  margin: 0;
+}
+
+/* CTA */
+.cta {
+  background: var(--dark);
+  padding: 48px 64px;
+  text-align: center;
+}
+.cta h2 {
+  font-family: 'DM Serif Display', serif;
+  color: var(--white);
+  font-size: 1.8rem;
+  font-weight: 400;
+  margin-bottom: 12px;
+}
+.cta p {
+  color: #888;
+  font-size: 14px;
+  margin-bottom: 28px;
+  font-weight: 300;
+}
+.cta-contact {
+  display: inline-flex;
+  gap: 40px;
+  background: #1A1A1A;
+  border: 1px solid #2A2A2A;
+  border-radius: 6px;
+  padding: 20px 36px;
+}
+.cta-contact-item label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  color: #555;
+  display: block;
+  margin-bottom: 4px;
+  text-transform: uppercase;
+}
+.cta-contact-item span {
+  font-size: 14px;
+  color: var(--orange-light);
+}
+
+/* FOOTER */
+.footer {
+  background: var(--off-white);
+  border-top: 1px solid var(--border);
+  padding: 24px 64px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.footer-brand {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+}
+.footer-brand strong { color: var(--dark); }
+.footer-date {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  color: #CCC;
+}
+
+/* PAIN TABLE */
+.pain-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 24px 0;
+  font-size: 14px;
+}
+.pain-table th {
+  text-align: left;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding: 10px 14px;
+  border-bottom: 2px solid var(--border);
+  font-weight: 500;
+}
+.pain-table td {
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  color: var(--mid);
+  font-weight: 300;
+  vertical-align: top;
+}
+.pain-table td:first-child { font-weight: 500; color: var(--dark); }
+.pain-table tr:last-child td { border-bottom: none; }
+.pain-table .cost {
+  font-family: 'DM Mono', monospace;
+  font-size: 13px;
+  color: var(--orange);
+}
+
+@media print {
+  body { background: white; }
+  .page { max-width: 100%; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-label">GTM Intelligence Proposal</div>
+    <h1>Targeting the <em>Exact Moment</em><br>the Revenue Walks Out the Door</h1>
+    <p class="header-sub">A precision go-to-market strategy for MandataMD — identifying health system decision-makers at verifiable moments of non-Rx revenue pain.</p>
+    <div class="header-meta">
+      <div class="header-meta-item">
+        <label>Prepared For</label>
+        <span>MandataMD</span>
+      </div>
+      <div class="header-meta-item">
+        <label>Prepared By</label>
+        <span>Jack Barry — ClientBridge</span>
+      </div>
+      <div class="header-meta-item">
+        <label>Date</label>
+        <span>March 2026</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="body">
+
+    <!-- SECTION 1: COMPANY SNAPSHOT -->
+    <div class="section">
+      <div class="section-label">01 — Company Overview</div>
+      <h2>What MandataMD Does</h2>
+      <p>MandataMD integrates directly into an organization's EHR, allowing providers to order non-prescription products for patients in a single click at the point of care. The patient receives an SMS with a prefilled cart, confirms their order, and receives direct delivery — all triggered before they leave the exam room.</p>
+      <p>The platform solves a specific, quantifiable problem: non-Rx revenue leakage. When providers verbally recommend OTC products, 20–30% of patients don't follow through, 10–15% select the wrong product, and the majority who do purchase go to Amazon or retail — none of which benefits the health system.</p>
+      <p>MandataMD's current focus verticals: <strong>Hospitals, Orthopedic Centers, Pain Management, Physical Therapy, Research Centers,</strong> and <strong>Gastroenterology.</strong></p>
+
+      <div class="snapshot-grid">
+        <div class="snapshot-cell">
+          <label>Core Value Prop</label>
+          <span>EHR-integrated non-Rx ordering, SMS-to-patient, &lt;30 sec</span>
+        </div>
+        <div class="snapshot-cell">
+          <label>Primary Buyer</label>
+          <span>CMOs, VP Operations, Revenue Integrity leaders</span>
+        </div>
+        <div class="snapshot-cell">
+          <label>Key Differentiator</label>
+          <span>100% accuracy, SOC2 + HIPAA, EHR-native workflow</span>
+        </div>
+        <div class="snapshot-cell">
+          <label>Estimated Revenue Leakage Addressed</label>
+          <span>$3.66M–$6.48M per 100K patient visits</span>
+        </div>
+        <div class="snapshot-cell">
+          <label>Compliance</label>
+          <span>SOC2, HIPAA, end-to-end encryption</span>
+        </div>
+        <div class="snapshot-cell">
+          <label>Deploy Speed</label>
+          <span>EHR launch in days, no additional clicks for provider</span>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 2: ICP ANALYSIS -->
+    <div class="section">
+      <div class="section-label">02 — ICP Analysis</div>
+      <h2>Who Buys This — And Why Right Now</h2>
+      <p>MandataMD's most receptive buyers are mid-size to large health systems and specialty practices navigating three simultaneous pressures: shrinking reimbursement margins, patient retention pressure, and increasing operational scrutiny over every revenue line. The non-Rx gap is invisible on most P&Ls — which makes it both a problem and an opportunity.</p>
+
+      <div class="pull-quote">
+        <p>"Revenue leakage occurs when healthcare organizations fail to collect the full reimbursement they are entitled to — and most of it is preventable."</p>
+        <cite>— Morgan Hunter Healthcare, March 2026</cite>
+      </div>
+
+      <p>The highest-urgency buyers are in three scenarios: <strong>(1)</strong> practices that recently expanded visit volume without a corresponding revenue-per-visit increase, <strong>(2)</strong> orthopedic and pain management groups that recommend OTC products at nearly every visit but have no fulfillment infrastructure, and <strong>(3)</strong> health systems that added GI or physical therapy service lines in the last 12–18 months and are still optimizing those workflows.</p>
+
+      <p><strong>Persona: Chief Medical Officer / VP Medical Operations</strong><br>Responsible for both clinical quality and operational efficiency. Feels the tension between physician time constraints and adherence outcomes. Knows patients are buying the wrong thing at CVS but has no scalable fix. Responds to data showing per-visit revenue impact and workflow simplicity — not feature lists.</p>
+
+      <p><strong>Secondary Persona: Revenue Integrity / CFO</strong><br>Focused on capturing revenue that's already being generated but not collected. Sees non-Rx as an unaddressed line item. Responds to quantified per-visit leakage estimates tied to their actual visit volume.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 3: THE PROBLEM MandataMD SOLVES -->
+    <div class="section">
+      <div class="section-label">03 — Market Reality</div>
+      <h2>The Hidden Cost Per Visit</h2>
+      <p>MandataMD's own data frames the leakage clearly. Across 100,000 patient visits, the cumulative non-Rx revenue gap ranges from $3.66M to $6.48M. Here's how that breaks down:</p>
+
+      <table class="pain-table">
+        <thead>
+          <tr>
+            <th>Gap Category</th>
+            <th>Root Cause</th>
+            <th>Estimated Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Patient non-adherence</td>
+            <td>20–30% don't purchase recommended products</td>
+            <td class="cost">$1.0M–$1.5M</td>
+          </tr>
+          <tr>
+            <td>Wrong product selection</td>
+            <td>10–15% choose ineffective OTC alternatives</td>
+            <td class="cost">$350K–$900K</td>
+          </tr>
+          <tr>
+            <td>Manual physician workflow</td>
+            <td>2–3 extra minutes per visit on verbal OTC instructions</td>
+            <td class="cost">$150K–$300K</td>
+          </tr>
+          <tr>
+            <td>Retail/Amazon diversion</td>
+            <td>Patients buy online instead of through health system</td>
+            <td class="cost">$2.16M–$3.78M</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>The targeting implication: the organizations most likely to act on this data are those already measuring revenue per visit, actively running margin improvement initiatives, or operating in high-OTC-recommendation specialties — orthopedics, pain management, GI, and PT.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 4: PQS BLUEPRINTS -->
+    <div class="section">
+      <div class="section-label">04 — Pain-Qualified Segments (PQS)</div>
+      <h2>Finding Practices at Exactly the Right Moment</h2>
+      <p>Rather than targeting all orthopedic groups or all hospital systems, the highest-conversion targeting identifies organizations at specific, verifiable moments when the non-Rx gap is most acutely felt — and when a decision-maker is most likely to act.</p>
+
+      <!-- PQS 1 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pqs">PQS</span>
+          <h3>Scenario 1 — Orthopedic Groups Expanding Volume Without New Revenue Lines</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: Indeed/LinkedIn job postings (front desk, PT aide) + Google Maps new location filings + CMS provider enrollment changes</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Signal:</strong> Orthopedic or PT practice posted 3+ clinical support roles in the last 60 days AND opened or announced a new location. Volume is growing; revenue infrastructure hasn't caught up. Every new visit is an OTC recommendation without a capture mechanism.</p>
+          <div class="message-box"><span class="subj">Subject: <span>The revenue gap that grows with your new location</span></span>
+Saw your new Centennial clinic and the PT aide postings — looks like you're scaling fast.
+
+One thing I've noticed across practices adding visit volume: non-Rx product recommendations increase proportionally, but fulfillment infrastructure doesn't. Our data suggests ~$38 in recoverable revenue per orthopedic visit that currently walks out the door to Amazon or CVS.
+
+Worth a 20-minute look at what that adds up to at your current volume?</div>
+          <p class="pqs-note">Hook: acknowledges a publicly visible growth event, quantifies the gap they don't know they have, asks for a conversation anchored to their specific math.</p>
+        </div>
+      </div>
+
+      <!-- PQS 2 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pqs">PQS</span>
+          <h3>Scenario 2 — GI Groups Seeing High No-Show / Repeat Visit Rates</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: Healthgrades/Google reviews mentioning follow-up visits or product confusion + Indeed postings for patient care coordinators + recent insurance contract announcements</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Signal:</strong> GI practice has recent patient reviews mentioning being "told to buy X" at the pharmacy with no follow-through, AND is actively hiring patient care coordinators (a signal of adherence/coordination gaps). GI patients receive non-Rx dietary supplements, prep kits, and bowel management products at nearly every visit.</p>
+          <div class="message-box"><span class="subj">Subject: <span>Your patients are getting the wrong prep products</span></span>
+Noticed a few reviews on your Austin location mentioning patients confused about which products to buy after their consult — pretty common in GI.
+
+The practices fixing this aren't doing more patient education. They're removing the decision entirely: provider orders the exact product in the EHR, patient gets a text with a prefilled cart before they leave the building.
+
+Two practices in your area went from ~12% OTC adherence to near 100% in 90 days. Want the specifics?</div>
+          <p class="pqs-note">Hook: mirrors a verifiable, specific frustration visible in public data. Positions the solution as removing friction, not adding it.</p>
+        </div>
+      </div>
+
+      <!-- PQS 3 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pqs">PQS</span>
+          <h3>Scenario 3 — Pain Management Clinics Under Margin Pressure Post-Reimbursement Changes</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: CMS reimbursement change announcements (2025 Physician Fee Schedule) + clinic job postings referencing "revenue cycle" or "billing" + Becker's / local health system news on margin initiatives</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Signal:</strong> Pain management group posted a revenue cycle or billing coordinator role in the last 90 days, signaling active margin scrutiny. CMS 2025 fee schedule cuts affected pain management reimbursement — groups are actively looking for non-reimbursement revenue. Non-Rx topicals (Voltaren, Biofreeze, custom compounded) are recommended at the majority of visits.</p>
+          <div class="message-box"><span class="subj">Subject: <span>Non-Rx revenue while reimbursements contract</span></span>
+With CMS fee schedule changes hitting pain management this year, a lot of groups are looking at what revenue they can capture outside of insurance.
+
+One line item that's consistently overlooked: non-prescription products. Your providers are already recommending them — topicals, supplements, therapy aids. The issue is where that revenue lands (usually Amazon).
+
+Quick question: do you have any visibility into what percentage of your OTC recommendations actually convert to a purchase through your practice?</div>
+          <p class="pqs-note">Hook: connects a verifiable industry event (CMS fee changes) to a specific revenue gap, ends with a curiosity-driving question they almost certainly can't answer.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 5: PVP CONCEPTS -->
+    <div class="section">
+      <div class="section-label">05 — Permissionless Value Propositions (PVP)</div>
+      <h2>Delivering Intelligence Before Asking for Anything</h2>
+      <p>These outreach concepts deliver standalone, useful intelligence to the prospect — information they would find valuable even if they never responded. The act of receiving the insight creates context for the conversation MandataMD wants to have.</p>
+
+      <!-- PVP 1 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pvp">PVP</span>
+          <h3>Concept 1 — Per-Visit Non-Rx Leakage Calculator (Orthopedics)</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: CMS Provider Utilization data (public visit volume by NPI) + MandataMD internal leakage model ($38–$65/visit for orthopedic OTC categories)</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Value delivered:</strong> A practice-specific dollar estimate of annual non-Rx revenue leakage based on their actual reported visit volume — information they've never seen quantified for their own practice.</p>
+          <div class="message-box"><span class="subj">Subject: <span>Estimated $847K in non-Rx revenue leaving Steadman Clinic annually</span></span>
+Based on CMS utilization data, your Vail location processed approximately 22,400 orthopedic visits last year.
+
+Using conservative OTC adherence benchmarks (30% follow-through, $38 average non-Rx order), that's roughly $847,000 in non-Rx product revenue that's currently going to retail or Amazon — not your practice.
+
+No ask attached to this. If the number looks interesting, happy to walk through where it comes from.</div>
+          <p class="pqs-note">The number is so specific it demands a response even if only to challenge it. The "no ask attached" framing disarms the sales guard immediately.</p>
+        </div>
+      </div>
+
+      <!-- PVP 2 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pvp">PVP</span>
+          <h3>Concept 2 — OTC Adherence Benchmark Report for GI Practices</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: Published GI adherence research (colonoscopy prep compliance rates) + MandataMD platform data on OTC order completion rates + specialty-specific OTC category volume estimates</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Value delivered:</strong> A 1-page benchmark showing what OTC product adherence looks like in GI practices pre- and post-EHR-integrated ordering, alongside the specific product categories where the gap is largest (colonoscopy prep, dietary supplements, bowel management).</p>
+          <div class="message-box"><span class="subj">Subject: <span>GI non-Rx adherence data — your specialty specifically</span></span>
+Put together a one-pager on OTC adherence patterns in GI practices — thought it might be useful context for your team.
+
+Short version: verbal recommendations convert at roughly 28% in GI. EHR-triggered SMS ordering runs at 91%+. The gap is largest in colonoscopy prep products and post-procedure dietary supplements.
+
+Worth sharing with your ops team? Happy to send the full version.</div>
+          <p class="pqs-note">Delivers a useful benchmark they can share internally. The ask is low-friction ("worth sharing?") and positions MandataMD as a data-informed partner.</p>
+        </div>
+      </div>
+
+      <!-- PVP 3 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pvp">PVP</span>
+          <h3>Concept 3 — Competitive Intelligence on Health System Non-Rx Programs</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: Health system press releases + LinkedIn announcements + Becker's/Modern Healthcare news monitoring for "patient retail," "non-prescription," "OTC program" announcements by competitors in the target's region</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Value delivered:</strong> Intelligence on what a regional competitor just announced regarding a non-Rx patient product program — framing urgency without manufacturing it. Delivered to a CMO or VP Ops at a competing system.</p>
+          <div class="message-box"><span class="subj">Subject: <span>Intermountain just launched a non-Rx patient ordering program</span></span>
+Intermountain Health announced a point-of-care non-prescription ordering program last month — providers order via EHR, patients receive product directly, bypassing retail entirely.
+
+Worth knowing, particularly if you're in overlapping service areas. Happy to send you the announcement and the approach they took if that's useful context for your own planning.</div>
+          <p class="pqs-note">Delivers competitive intelligence the prospect genuinely values. Creates urgency without fabricating it — the competitor announcement is real and verifiable.</p>
+        </div>
+      </div>
+
+      <!-- PVP 4 -->
+      <div class="pqs-block">
+        <div class="pqs-header">
+          <span class="pqs-tag tag-pvp">PVP</span>
+          <h3>Concept 4 — Physical Therapy Practice Amazon Leakage Snapshot</h3>
+        </div>
+        <div class="pqs-body">
+          <div class="data-recipe">Data Recipe: Amazon Best Sellers in PT/recovery categories (TENS units, resistance bands, cold therapy, topical analgesics) + estimated PT visit volume from CMS NPI data + average OTC recommendation rate for PT visits</div>
+          <p style="font-size:14px; color:#555; margin-bottom:16px;"><strong>Value delivered:</strong> A short snapshot showing what PT patients are actually buying on Amazon after their visits — with the specific products and volumes — making the leakage concrete and retail-anchored rather than abstract.</p>
+          <div class="message-box"><span class="subj">Subject: <span>What your patients are buying on Amazon after their PT visit</span></span>
+Pulled Amazon's top 10 best sellers in the PT recovery and home exercise category for the past 90 days — TENS units, resistance bands, Biofreeze, cold therapy wraps.
+
+The overlap with standard PT provider recommendations is nearly complete. Based on your visit volume, a conservative estimate puts your annual Amazon-diverted OTC revenue at $340K–$580K.
+
+Happy to share the full product list and math if useful.</div>
+          <p class="pqs-note">Makes the leakage problem visible through a familiar lens (Amazon) rather than abstract revenue terminology. The "math" offer closes with natural curiosity.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 6: STRATEGIC ADVANTAGES -->
+    <div class="section">
+      <div class="section-label">06 — Strategic Framework</div>
+      <h2>The Data Moat MandataMD Can Build</h2>
+      <p>The targeting approach above creates compounding advantages that generic outreach cannot replicate:</p>
+
+      <div class="strategic-box">
+        <h3>Competitive Advantages of Precision Targeting</h3>
+        <ul>
+          <li><strong>Unique Targeting Angles:</strong> While competitors send the same healthcare SaaS email templates, MandataMD arrives with practice-specific leakage estimates, specialty-calibrated benchmarks, and real competitor intelligence. The prospect has already received value before the first call.</li>
+          <li><strong>Timing Precision:</strong> Expansion job postings, reimbursement change windows, and new location filings create narrow windows of maximum receptivity. Reaching a decision-maker 30 days after they opened a new location vs. 18 months later is a fundamentally different conversation.</li>
+          <li><strong>Barrier to Replication:</strong> Synthesizing CMS utilization data, Amazon category data, and public review signals into a practice-specific number takes real work. Competitors won't do it. That effort differential is the moat.</li>
+          <li><strong>Data Flywheel:</strong> Each PVP sent generates response data — which specialties engage, which leakage estimates land hardest, which trigger events produce the fastest responses. The targeting system improves with every send.</li>
+          <li><strong>Vertical Depth:</strong> Orthopedics, PT, pain management, and GI each have distinct OTC product categories, adherence patterns, and trigger events. Segment-specific messaging outperforms horizontal healthcare outreach by 3–5x in response rate.</li>
+        </ul>
+      </div>
+
+      <p>The long-term advantage: as MandataMD builds platform data on OTC order completion rates, product category performance, and adherence benchmarks across its customer base, those benchmarks become increasingly proprietary and difficult to replicate — creating a compounding data asset that makes future outreach even more specific and compelling.</p>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 7: IMPLEMENTATION ROADMAP -->
+    <div class="section">
+      <div class="section-label">07 — Implementation</div>
+      <h2>From First Contact to Repeatable System</h2>
+
+      <div class="timeline">
+        <div class="timeline-row">
+          <div class="timeline-period">WEEKS 1–2</div>
+          <div class="timeline-content">
+            <h4>Manual Validation — Orthopedics &amp; PT</h4>
+            <p>Hand-build a list of 30–50 orthopedic and PT groups showing expansion signals (job postings, new locations). Manually calculate leakage estimates using CMS NPI data. Send 15–20 PVP messages. Measure response rate and iterate on messaging.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-period">WEEKS 3–4</div>
+          <div class="timeline-content">
+            <h4>GI &amp; Pain Management Layer</h4>
+            <p>Build GI-specific PVP using adherence benchmark data. Identify pain management groups with CMS reimbursement pain signals. Begin competitive intelligence monitoring for regional health system non-Rx program announcements.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-period">MONTH 2</div>
+          <div class="timeline-content">
+            <h4>Clay Automation — Trigger-Based Sequences</h4>
+            <p>Automate job posting monitoring (Indeed + LinkedIn) for expansion signals. Connect CMS utilization pull to leakage calculator. Build Clay workflow that scores and prioritizes targets by signal strength and visit volume.</p>
+          </div>
+        </div>
+        <div class="timeline-row">
+          <div class="timeline-period">MONTH 3+</div>
+          <div class="timeline-content">
+            <h4>Benchmark Publishing &amp; Inbound Pull</h4>
+            <p>Publish specialty-specific non-Rx leakage benchmarks as shareable PDFs and LinkedIn content. Use content engagement data to identify warm prospects. Build inbound demand around the leakage data story.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="divider">
+
+    <!-- SECTION 8: SUCCESS METRICS -->
+    <div class="section">
+      <div class="section-label">08 — Success Metrics</div>
+      <h2>How to Measure What's Working</h2>
+
+      <div class="metrics">
+        <div class="metric">
+          <span class="num">&gt;12%</span>
+          <span class="lbl">Target positive reply rate on PVP sends</span>
+        </div>
+        <div class="metric">
+          <span class="num">3–5×</span>
+          <span class="lbl">Specialty-specific vs. generic message performance</span>
+        </div>
+        <div class="metric">
+          <span class="num">30d</span>
+          <span class="lbl">Expansion signal → first contact window</span>
+        </div>
+        <div class="metric">
+          <span class="num">2+</span>
+          <span class="lbl">Data signals per qualified target before outreach</span>
+        </div>
+      </div>
+
+      <p>Beyond response rates: track which leakage estimate thresholds generate the strongest engagement (practices with &gt;$500K estimated leakage vs. &lt;$200K), which trigger event types (expansion vs. reimbursement vs. competitor) produce the fastest responses, and which specialties convert fastest from first contact to demo.</p>
+    </div>
+
+  </div><!-- end body -->
+
+  <!-- CTA -->
+  <div class="cta">
+    <h2>Ready to Identify Your Highest-Value Targets?</h2>
+    <p>ClientBridge builds and executes these targeting systems for a select number of clients. Let's discuss whether MandataMD is the right fit.</p>
+    <div class="cta-contact">
+      <div class="cta-contact-item">
+        <label>Contact</label>
+        <span>Jack Barry — ClientBridge</span>
+      </div>
+      <div class="cta-contact-item">
+        <label>Email</label>
+        <span>jbarry@client-bridge.com</span>
+      </div>
+      <div class="cta-contact-item">
+        <label>Phone</label>
+        <span>281-782-4963</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer-brand"><strong>ClientBridge</strong> — GTM Intelligence</div>
+    <div class="footer-date">Prepared March 2026 · Confidential</div>
+  </div>
+
+</div>
+</body>
+</html>
