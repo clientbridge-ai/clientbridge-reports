@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTM Intelligence Proposal — ProGuard Building | ClientBridge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --orange: #FF4500;
+    --orange-light: #FFF5F0;
+    --orange-mid: #FFE8DE;
+    --dark: #1a1a1a;
+    --mid: #444444;
+    --muted: #888888;
+    --border: #e8e4e0;
+    --white: #ffffff;
+    --bg: #FAF8F6;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* ── COVER ── */
+  .cover {
+    background: var(--dark);
+    color: white;
+    padding: 80px 60px 70px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cover::before {
+    content: '';
+    position: absolute;
+    top: -120px; right: -120px;
+    width: 500px; height: 500px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,69,0,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .cover-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 3.2rem;
+    line-height: 1.15;
+    font-weight: 400;
+    margin-bottom: 12px;
+    max-width: 700px;
+  }
+  .cover h1 span { color: var(--orange); }
+  .cover-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 48px;
+    font-weight: 300;
+  }
+  .cover-meta {
+    display: flex;
+    gap: 48px;
+    flex-wrap: wrap;
+    padding-top: 32px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .cover-meta-item { }
+  .cover-meta-item .label {
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 4px;
+  }
+  .cover-meta-item .value {
+    font-size: 0.95rem;
+    color: rgba(255,255,255,0.85);
+    font-weight: 500;
+  }
+
+  /* ── LAYOUT ── */
+  .container {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 64px 40px;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 10px;
+  }
+  h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    font-weight: 400;
+    color: var(--dark);
+    margin-bottom: 20px;
+    line-height: 1.25;
+  }
+  h3 {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--dark);
+    margin-bottom: 10px;
+  }
+  p { margin-bottom: 16px; color: var(--mid); }
+  p:last-child { margin-bottom: 0; }
+
+  /* ── DIVIDER ── */
+  .divider {
+    border: none;
+    border-top: 1px solid var(--border);
+    margin: 56px 0;
+  }
+
+  /* ── QUOTE BLOCK ── */
+  .pull-quote {
+    border-left: 3px solid var(--orange);
+    padding: 20px 28px;
+    background: var(--orange-light);
+    margin: 32px 0;
+    border-radius: 0 6px 6px 0;
+  }
+  .pull-quote p {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.25rem;
+    font-style: italic;
+    color: var(--dark);
+    line-height: 1.5;
+  }
+
+  /* ── ICP TABLE ── */
+  .icp-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .icp-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .icp-card .card-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .icp-card .card-value {
+    font-size: 0.95rem;
+    color: var(--dark);
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* ── PQS SCENARIO CARD ── */
+  .pqs-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 28px 0;
+  }
+  .pqs-header {
+    background: var(--dark);
+    color: white;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .pqs-badge {
+    background: var(--orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+  }
+  .pqs-title {
+    font-size: 1rem;
+    font-weight: 500;
+  }
+  .pqs-body { padding: 24px; }
+  .data-recipe-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    background: var(--orange-light);
+    border-radius: 6px;
+    padding: 14px 18px;
+    margin-bottom: 20px;
+  }
+  .data-recipe-row .dr-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    white-space: nowrap;
+    padding-top: 2px;
+  }
+  .data-recipe-row .dr-sources {
+    font-size: 0.88rem;
+    color: var(--mid);
+    line-height: 1.6;
+  }
+  .pqs-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 20px;
+  }
+  .pqs-detail {
+    background: var(--bg);
+    border-radius: 6px;
+    padding: 14px 16px;
+  }
+  .pqs-detail .dl { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+  .pqs-detail .dv { font-size: 0.9rem; color: var(--dark); line-height: 1.5; }
+
+  /* ── MESSAGE BOX ── */
+  .message-box {
+    background: #fafafa;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--orange);
+    border-radius: 0 6px 6px 0;
+    padding: 20px 24px;
+    font-family: 'DM Mono', 'Courier New', monospace;
+    font-size: 0.875rem;
+    line-height: 1.7;
+    color: var(--dark);
+    margin-top: 16px;
+  }
+  .message-subject {
+    font-weight: 700;
+    color: var(--orange);
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  /* ── PVP CARD ── */
+  .pvp-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 28px 0;
+  }
+  .pvp-header {
+    background: var(--orange);
+    color: white;
+    padding: 18px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .pvp-badge {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    border-radius: 3px;
+    white-space: nowrap;
+    border: 1px solid rgba(255,255,255,0.3);
+  }
+  .pvp-title { font-size: 1rem; font-weight: 500; }
+  .pvp-body { padding: 24px; }
+
+  /* ── STRATEGIC BOX ── */
+  .strategic-box {
+    border: 1.5px solid var(--orange);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 28px 0;
+    background: white;
+  }
+  .strategic-box h3 { color: var(--orange); margin-bottom: 12px; }
+
+  /* ── ROADMAP ── */
+  .roadmap {
+    margin: 28px 0;
+    position: relative;
+  }
+  .roadmap-item {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    align-items: flex-start;
+  }
+  .roadmap-item:last-child { margin-bottom: 0; }
+  .rm-number {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--orange);
+    color: white;
+    font-weight: 700;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .rm-content .rm-phase {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 4px;
+  }
+  .rm-content .rm-title { font-weight: 600; margin-bottom: 4px; }
+  .rm-content .rm-desc { font-size: 0.9rem; color: var(--mid); margin: 0; }
+
+  /* ── METRICS ── */
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin: 28px 0;
+  }
+  .metric-card {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 20px;
+    text-align: center;
+  }
+  .metric-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.2rem;
+    color: var(--orange);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .metric-label {
+    font-size: 0.82rem;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  /* ── FOOTER ── */
+  .footer {
+    background: var(--dark);
+    color: rgba(255,255,255,0.5);
+    text-align: center;
+    padding: 40px;
+    font-size: 0.85rem;
+    line-height: 1.8;
+  }
+  .footer a { color: var(--orange); text-decoration: none; }
+  .footer .footer-brand {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.2rem;
+    color: white;
+    margin-bottom: 8px;
+  }
+
+  /* ── TAGS ── */
+  .tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 16px 0; }
+  .tag {
+    background: var(--orange-mid);
+    color: var(--orange);
+    font-size: 0.78rem;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  ul { padding-left: 20px; }
+  li { margin-bottom: 8px; color: var(--mid); font-size: 0.95rem; }
+
+  @media (max-width: 640px) {
+    .cover { padding: 48px 28px 40px; }
+    .cover h1 { font-size: 2.2rem; }
+    .container { padding: 40px 20px; }
+    .icp-grid, .pqs-detail-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .cover-meta { gap: 24px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ COVER ═══════════════════════ -->
+<div class="cover">
+  <div class="cover-label">ClientBridge Intelligence Proposal</div>
+  <h1>GTM Engineering<br>for <span>ProGuard Building</span></h1>
+  <div class="cover-sub">Precision targeting for a roof coating distributor competing on product quality in a market where everyone sells on price.</div>
+  <div class="cover-meta">
+    <div class="cover-meta-item">
+      <div class="label">Prepared By</div>
+      <div class="value">Jack Barry — ClientBridge</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Contact</div>
+      <div class="value">jbarry@client-bridge.com</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Phone</div>
+      <div class="value">281-782-4963</div>
+    </div>
+    <div class="cover-meta-item">
+      <div class="label">Date</div>
+      <div class="value">March 2026</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ EXEC SUMMARY ═══════════════════════ -->
+<div class="container">
+  <div class="section-label">Executive Summary</div>
+  <h2>The Message Isn't the Problem.<br>The List Is.</h2>
+
+  <p>ProGuard Building is the #1 supplier of GE Silicone roof coatings in the U.S., with products distributed across 20+ regional territories. The core value proposition — restore instead of re-roof, one-coat application, no primer, lowest cost per applied square — is strong. The problem is who hears it and when.</p>
+
+  <p>Most outreach in this space targets roofing contractors based on company size or geography. Every competitor with a rep team does the same. The result: undifferentiated cold calls to contractors who aren't in a buying moment, selling on spec sheets that all look alike.</p>
+
+  <div class="pull-quote">
+    <p>"The coating sells itself to a facility manager staring at a $400K replacement bid. The job is finding them at that exact moment — not blasting a list of roofing contractors who last bought six months ago."</p>
+  </div>
+
+  <p>This proposal identifies three Pain-Qualified Segment (PQS) scenarios and three Permissionless Value Proposition (PVP) concepts that reach ProGuard's highest-value buyers — facility managers, commercial property owners, and roofing contractors — at the specific moments when they are most likely to act.</p>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ COMPANY OVERVIEW ═══════════════════════ -->
+  <div class="section-label">Company Intelligence</div>
+  <h2>What ProGuard Building Actually Sells</h2>
+
+  <p>ProGuard Building (Santa Fe Springs, CA) is a specialty roofing products distributor — not a contractor. Their core business is channel sales: getting roofing contractors to specify and use GE Enduris silicone coatings and ProGuard acrylic coatings instead of competing products (or recommending full replacement). End customers are commercial facilities, industrial buildings, schools, government properties, and large retail/warehouse properties.</p>
+
+  <div class="icp-grid">
+    <div class="icp-card">
+      <div class="card-label">Primary Buyers (End Customers)</div>
+      <div class="card-value">Facility managers, commercial property owners, building operations directors at institutions with 10,000–200,000 sq ft flat/low-slope roofs</div>
+    </div>
+    <div class="icp-card">
+      <div class="card-label">Channel Customers (Who Orders)</div>
+      <div class="card-value">Commercial roofing contractors, restoration specialists, coating-focused subcontractors in TX, CA, LA, HI, and other ProGuard distribution territories</div>
+    </div>
+    <div class="icp-card">
+      <div class="card-label">Best-Fit Projects</div>
+      <div class="card-value">Roofs 10–25 years old showing minor deterioration, ponding, or minor leaks where the membrane is structurally intact — coating candidates, not tear-offs</div>
+    </div>
+    <div class="icp-card">
+      <div class="card-label">Core Competitive Angle</div>
+      <div class="card-value">GE Enduris requires no primer, single-coat application, no MEKO off-gas, 50+ year manufacturer pedigree — specs competitors can't match at the same price point</div>
+    </div>
+  </div>
+
+  <div class="section-label" style="margin-top:40px;">Target Personas</div>
+  <h2>Two Distinct Buyer Types,<br>Two Very Different Conversations</h2>
+
+  <p><strong style="color:var(--dark);">Persona A — The Facility Manager / Director of Operations</strong> at a commercial building, manufacturing plant, school district, or logistics facility. Roof issues show up as work order backlogs, emergency repair costs, and budget surprises. They have one roof they're watching. The trigger for action: a leak, a pending inspection, a capital budget cycle, or a re-roofing bid that came in much higher than expected.</p>
+
+  <p><strong style="color:var(--dark);">Persona B — The Coating-Capable Roofing Contractor</strong> who already does restoration work or wants to add it. They're looking for a product with better margins, better specs, and a distributor who will actually support the job. Their trigger: a large coating job coming up, a GE certification opportunity, or losing a spec comparison to another product.</p>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ CURRENT STATE ═══════════════════════ -->
+  <div class="section-label">Current State Analysis</div>
+  <h2>What the Current GTM Playbook Looks Like</h2>
+
+  <p>The standard approach for a specialty building products distributor in 2026:</p>
+  <ul style="margin-bottom:20px;">
+    <li>Cold call roofing contractors from a purchased list, filtered by geography</li>
+    <li>Email campaigns to facility managers with product spec sheets and a "call us for a free sample" CTA</li>
+    <li>Trade show presence at regional roofing associations</li>
+    <li>Rep-driven relationships with existing contractor accounts</li>
+  </ul>
+
+  <p>These tactics reach people who are <em>not yet</em> in a buying moment. The facility manager who gets an email about silicone coatings in October isn't thinking about their roof. The one getting three replacement bids in March is. The difference isn't the message — it's the timing and the list.</p>
+
+  <div class="pull-quote">
+    <p>80% of commercial roofs are replaced before they need to be. The building owner who just got a $380,000 tear-off bid hasn't heard that a coating might solve the same problem for $65,000. That's the conversation ProGuard should be having — but only the right 1% of facility managers is in that moment at any given time.</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ PQS SECTION ═══════════════════════ -->
+  <div class="section-label">Pain-Qualified Segments</div>
+  <h2>Three PQS Scenarios Built on<br>Verifiable Public Signals</h2>
+
+  <p>Each scenario identifies a specific, verifiable situation where a facility manager or property owner is actively experiencing roof-related pain — and is reachable before a competitor claims the job.</p>
+
+  <!-- PQS 1 -->
+  <div class="pqs-card">
+    <div class="pqs-header">
+      <div class="pqs-badge">PQS 01</div>
+      <div class="pqs-title">Commercial Buildings That Just Filed for Roofing Permits (Replacement Intent)</div>
+    </div>
+    <div class="pqs-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">Municipal building permit databases (state/county open data portals) → filter for commercial roofing permits, type: "re-roof" or "roof replacement" → cross-reference property age via assessor records → identify buildings where coating was a viable alternative</div>
+      </div>
+      <div class="pqs-detail-grid">
+        <div class="pqs-detail">
+          <div class="dl">Pain Signal</div>
+          <div class="dv">Owner/FM filed for a full replacement permit — they're in procurement mode and likely just got their first expensive bid</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Why Now</div>
+          <div class="dv">Permit is pulled but contract likely not yet signed — there's a 2–6 week window before they commit to a contractor</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Target</div>
+          <div class="dv">Commercial facilities 15,000–200,000 sq ft with flat/low-slope roofs aged 10–20 years in ProGuard distribution territories</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Public Data Source</div>
+          <div class="dv">County assessor sites, state open data portals (e.g., Texas DPS permit search, LA City LADBS permit portal), BuildZoom API</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Building Permits</span>
+        <span class="tag">Assessor Records</span>
+        <span class="tag">BuildZoom</span>
+        <span class="tag">TX/CA/LA Territories</span>
+      </div>
+      <h3 style="margin-top:20px;">Outreach Hook (to Facility Manager)</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: Your re-roof permit — there may be a cheaper option</span>
+        Noticed you pulled a commercial roofing permit for the facility on [address] last week. Before that contract goes out, it's worth knowing that 60–70% of flat roofs that get replacement bids are actually coating candidates — at roughly 20–30% of the replacement cost and no tear-off.
+
+        GE Enduris silicone goes on in one coat, no primer, and carries up to a 20-year warranty. We've done this on properties similar to yours in [city] that had received $300K+ replacement quotes.
+
+        Want me to connect you with a certified ProGuard contractor for a second-opinion inspection? No obligation — takes about an hour.
+      </div>
+    </div>
+  </div>
+
+  <!-- PQS 2 -->
+  <div class="pqs-card">
+    <div class="pqs-header">
+      <div class="pqs-badge">PQS 02</div>
+      <div class="pqs-title">Roofing Contractors Bidding Work They're Not Equipped to Win on Price</div>
+    </div>
+    <div class="pqs-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">LinkedIn job postings from commercial roofing contractors → filter for "commercial restoration," "flat roof," or "low-slope" language → cross-reference Google reviews mentioning competitor products (Gaco, Conklin, GAF) → identify contractors not yet GE-certified</div>
+      </div>
+      <div class="pqs-detail-grid">
+        <div class="pqs-detail">
+          <div class="dl">Pain Signal</div>
+          <div class="dv">Contractor is hiring for commercial restoration work, indicating active pipeline — but using competitor products where GE Enduris has a clear spec advantage</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Why Now</div>
+          <div class="dv">Hiring activity means active jobs. GE certification process takes ~1 day. Switching product mid-growth is low friction if specs support it</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Target</div>
+          <div class="dv">Commercial roofing contractors with 5–50 employees, actively hiring, located in ProGuard regions (TX, CA, LA, HI)</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Public Data Source</div>
+          <div class="dv">LinkedIn Sales Navigator (job posting filter), Indeed, Google Business reviews, contractor license lookup (state contractor databases)</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">LinkedIn Job Postings</span>
+        <span class="tag">Indeed</span>
+        <span class="tag">Google Reviews</span>
+        <span class="tag">State License DB</span>
+      </div>
+      <h3 style="margin-top:20px;">Outreach Hook (to Roofing Contractor)</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: Saw you're hiring for commercial restoration — quick question</span>
+        Noticed [Company] is expanding the restoration crew. Wanted to reach out because we hear a lot from contractors who are winning coating jobs but leaving margin on the table using acrylic systems that need primer and multiple coats.
+
+        GE Enduris — the silicone we distribute — goes on single coat, no primer, no MEKO off-gas. Your crew does less prep, the job takes fewer days, and you're quoting a warranted 20-year system. The certification is one day, and we support the spec process.
+
+        Worth a conversation before your next big coating bid?
+      </div>
+    </div>
+  </div>
+
+  <!-- PQS 3 -->
+  <div class="pqs-card">
+    <div class="pqs-header">
+      <div class="pqs-badge">PQS 03</div>
+      <div class="pqs-title">Institutions with Aging Flat Roofs in Energy Compliance Pressure</div>
+    </div>
+    <div class="pqs-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">State energy office databases (Title 24 in CA, Texas SECO) → identify commercial/institutional buildings that completed energy audits in last 18 months → cross-reference building age via county assessor → filter for flat/low-slope roof typology (school districts, municipal buildings, retail chains)</div>
+      </div>
+      <div class="pqs-detail-grid">
+        <div class="pqs-detail">
+          <div class="dl">Pain Signal</div>
+          <div class="dv">Recent energy audit flags aging cool-roof system or non-compliant roof surface temperature — creates a mandatory upgrade path tied to compliance, not just maintenance</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Why Now</div>
+          <div class="dv">Energy audit findings trigger capital budget allocation cycles. Decision-making window is typically 6–18 months post-audit, before next audit cycle</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Target</div>
+          <div class="dv">School districts, county government buildings, large retail chains (CA/TX focus) with 50,000+ sq ft of flat commercial roof</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Public Data Source</div>
+          <div class="dv">California Energy Commission building database, Texas SECO audit registry, ENERGY STAR certified building tracker, LA County facilities audit disclosures</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Title 24 / SECO</span>
+        <span class="tag">ENERGY STAR</span>
+        <span class="tag">County Assessor</span>
+        <span class="tag">Institutional Targets</span>
+      </div>
+      <h3 style="margin-top:20px;">Outreach Hook (to Facilities Director)</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: [District/County] energy audit findings — roof coating may qualify for Title 24 credit</span>
+        Saw [organization] completed a facility energy audit recently. If roofing came up — which it often does for flat-roof buildings your age — it's worth knowing that reflective silicone coatings meet Title 24 cool-roof requirements and are typically expensed in the fiscal year applied (not depreciated like a new roof system).
+
+        GE Enduris on an existing flat roof adds 10–20 years of service life and qualifies for the reflectivity credits your audit is likely recommending. We've helped [school district/municipality] in [county] address the same finding at roughly a quarter of replacement cost.
+
+        Would it be useful to send you the Title 24 compliance sheet and a sample cost comparison?
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ PVP SECTION ═══════════════════════ -->
+  <div class="section-label">Permissionless Value Propositions</div>
+  <h2>Three PVP Concepts That Deliver<br>Intelligence Before Asking for Anything</h2>
+
+  <p>Each PVP concept delivers a piece of analysis or intelligence that is immediately useful to the recipient — whether or not they ever engage ProGuard. The goal is to create a message so useful they'd forward it to a colleague.</p>
+
+  <!-- PVP 1 -->
+  <div class="pvp-card">
+    <div class="pvp-header">
+      <div class="pvp-badge">PVP 01</div>
+      <div class="pvp-title">The "Your Roof Age vs. Coating Window" Analysis</div>
+    </div>
+    <div class="pvp-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">County assessor records (building age, last permit) + Google Maps satellite imagery (roof type/condition visual) + local climate data (UV index, precipitation patterns for territory)</div>
+      </div>
+
+      <p><strong style="color:var(--dark);">Core Insight:</strong> There's a specific age window — roughly years 10–18 for most commercial flat roof systems — where coating is viable and cost-effective. Before year 10, it's not needed. After year 20, replacement is often more prudent. Facility managers don't know where their roof sits in this window. ProGuard does, with public data.</p>
+
+      <p><strong style="color:var(--dark);">Target Persona:</strong> Facility Manager or Director of Operations, commercial/industrial buildings 15,000–100,000 sq ft, buildings constructed 2000–2014 (in the coating-eligible age band).</p>
+
+      <h3 style="margin-top:20px;">Outreach Message</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: [Property address] — your roof coating window</span>
+        Based on public permit and assessor records, your facility at [address] has a flat/low-slope roof installed around [year]. That puts it in what we'd call the optimal coating window — old enough to benefit from restoration, not yet at the point where underlying system integrity becomes a question.
+
+        Coatings applied in this window typically add 15–20 years of service life at 20–30% of what a tear-off runs in your market. Waiting another 3–5 years significantly narrows your options.
+
+        I put together a one-page comparison of coating vs. replacement cost ranges for [city] properties in your roof type — want me to send it over?
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">Assessor Records</span>
+        <span class="tag">Satellite Imagery</span>
+        <span class="tag">Climate Data</span>
+        <span class="tag">Facility Manager Persona</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PVP 2 -->
+  <div class="pvp-card">
+    <div class="pvp-header">
+      <div class="pvp-badge">PVP 02</div>
+      <div class="pvp-title">The "Coating vs. Replacement Cost Map" for Roofing Contractors</div>
+    </div>
+    <div class="pvp-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">RSMeans regional cost data (public annual reports) + local contractor job posting rates (Indeed/LinkedIn) + ProGuard regional material pricing + recent permit valuations from municipal databases</div>
+      </div>
+
+      <p><strong style="color:var(--dark);">Core Insight:</strong> Most roofing contractors quote replacement jobs because that's where they know the margin. But in the current labor market, coating jobs — properly spec'd with single-coat silicone — have higher gross margin per day of crew time than tear-offs in most metro markets. This analysis makes that case with current numbers, specific to the contractor's territory.</p>
+
+      <p><strong style="color:var(--dark);">Target Persona:</strong> Owner or estimator at a commercial roofing company doing $2M–$15M annually, primarily replacement-focused, in ProGuard distribution territory.</p>
+
+      <h3 style="margin-top:20px;">Outreach Message</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: [City] roofing margins — coating vs. replacement by crew day</span>
+        Quick data point for you: based on current labor rates in [city] and material costs on our end, a 20,000 sq ft silicone coating job runs about 3–4 crew days with one-coat application — no tear-off, no disposal. At current market pricing for that scope, gross margin per crew day runs about 30–40% higher than a comparable TPO replacement.
+
+        I put together a one-page breakdown comparing coating vs. replacement margins for jobs in your size range in [metro area]. Happy to send it — no pitch attached, just the numbers.
+
+        Would that be useful?
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">RSMeans Data</span>
+        <span class="tag">Local Labor Rates</span>
+        <span class="tag">Permit Valuations</span>
+        <span class="tag">Contractor Persona</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- PVP 3 -->
+  <div class="pvp-card">
+    <div class="pvp-header">
+      <div class="pvp-badge">PVP 03</div>
+      <div class="pvp-title">The "Competitor Product Spec Comparison" for Contractors at Bid Time</div>
+    </div>
+    <div class="pvp-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">Manufacturer TDS (Technical Data Sheets, publicly available) for GacoFlex, Conklin, GAF, Tremco + published warranty terms + material cost per sq ft (distributor pricing, publicly quoted) + application requirement comparison</div>
+      </div>
+
+      <p><strong style="color:var(--dark);">Core Insight:</strong> When a facility manager gets competing coating bids, the spec sheets all look similar. But the application requirements are dramatically different — primer requirements, number of coats, cure time, ponding water performance, and warranty terms vary widely. ProGuard can deliver a side-by-side comparison that makes GE Enduris's advantages immediately visible — and gives the contractor a tool to use when their customer asks "why this product?"</p>
+
+      <p><strong style="color:var(--dark);">Target Persona:</strong> Commercial roofing contractor estimator or owner preparing a coating bid where the end customer is comparing multiple proposals. Trigger: contractor has an active bid in progress (visible from permit activity or active job postings).</p>
+
+      <h3 style="margin-top:20px;">Outreach Message</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: Coating spec comparison — useful if you're bidding against Gaco or Conklin</span>
+        If you're putting together a coating bid where the customer is comparing products, I put together a side-by-side spec comparison — GE Enduris vs. GacoFlex S20 vs. Conklin — covering primer requirements, coat count, ponding water rating, warranty structure, and cost per square at current pricing.
+
+        It's built to hand directly to a facility manager who asks "why GE?" Short answer: no primer, one coat, no MEKO, 50+ year manufacturer. Longer answer is in the comparison.
+
+        Want me to send the PDF? Takes 30 seconds to review.
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">Manufacturer TDS</span>
+        <span class="tag">Warranty Comparisons</span>
+        <span class="tag">Bid Intelligence</span>
+        <span class="tag">Contractor Persona</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ DATA MOAT ═══════════════════════ -->
+  <div class="section-label">Strategic Advantage</div>
+  <h2>The Data Moat ProGuard Can Build</h2>
+
+  <div class="strategic-box">
+    <h3>Why These Signals Create Durable Competitive Advantage</h3>
+    <p>ProGuard's competitors — other silicone distributors, acrylic coating suppliers, full-line roofing distributors — are reaching roofing contractors through the same channels: trade shows, reps, cold calls, spec sheets. None of them are identifying facility managers at the permit stage, or contractors hiring for restoration work, or institutions inside post-audit budget cycles.</p>
+    <p>Once ProGuard builds the workflow to monitor these signals consistently, the advantage compounds. Each job won through permit monitoring adds a reference property in that market. Each contractor converted through hiring signal monitoring reduces competitor share in that territory. The effort to build these data recipes is high; the effort to maintain them is low.</p>
+    <p>Competitors who continue outreach based on geography and company size don't know what they're missing. That gap is the moat.</p>
+  </div>
+
+  <div class="metrics-grid">
+    <div class="metric-card">
+      <div class="metric-num">10–18</div>
+      <div class="metric-label">Year window where coating outperforms replacement for most commercial flat roofs</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-num">~20–30%</div>
+      <div class="metric-label">Coating cost as a percentage of replacement cost — the financial case that closes deals</div>
+    </div>
+    <div class="metric-card">
+      <div class="metric-num">2–6 wks</div>
+      <div class="metric-label">Window between permit filing and contract signing — the targeting precision that matters</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ ROADMAP ═══════════════════════ -->
+  <div class="section-label">Implementation</div>
+  <h2>From Manual Validation to<br>Systematic Pipeline</h2>
+
+  <div class="roadmap">
+    <div class="roadmap-item">
+      <div class="rm-number">1</div>
+      <div class="rm-content">
+        <div class="rm-phase">Weeks 1–3 · Manual Validation</div>
+        <div class="rm-title">Hand-pull permit data in one territory and run 20 outreach tests</div>
+        <div class="rm-desc">Select one ProGuard distribution territory (recommended: Texas, given permit data accessibility). Pull 20–30 commercial roofing permits from the county portal. Send PQS Scenario 1 messages manually to the property contacts. Track response rate and quality.</div>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-number">2</div>
+      <div class="rm-content">
+        <div class="rm-phase">Weeks 3–6 · Parallel Track</div>
+        <div class="rm-title">Run contractor hiring signal test simultaneously</div>
+        <div class="rm-desc">Use LinkedIn Sales Navigator to identify commercial roofing contractors in Texas and SoCal who posted restoration-related jobs in last 60 days. Send PQS Scenario 2 messages to owners/estimators. Compare response quality to permit-based outreach.</div>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-number">3</div>
+      <div class="rm-content">
+        <div class="rm-phase">Weeks 6–10 · PVP Asset Build</div>
+        <div class="rm-title">Create the three PVP assets in deliverable form</div>
+        <div class="rm-desc">Build the coating window analysis one-pager (PVP 1), the coating vs. replacement margin breakdown (PVP 2), and the GE Enduris spec comparison PDF (PVP 3). These become repeatable deliverables that any ProGuard rep can deploy.</div>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-number">4</div>
+      <div class="rm-content">
+        <div class="rm-phase">Weeks 10–16 · Automation &amp; Scale</div>
+        <div class="rm-title">Build Clay workflows to monitor signals across all ProGuard territories</div>
+        <div class="rm-desc">Automate permit monitoring via Clay + BuildZoom API. Set up LinkedIn job posting alerts for contractor hiring signals. Build a simple scoring layer to prioritize outreach by building size and roof age. Roll out to all 20+ ProGuard regional territories.</div>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ SUCCESS METRICS ═══════════════════════ -->
+  <div class="section-label">Success Metrics</div>
+  <h2>How to Measure What's Working</h2>
+
+  <div class="strategic-box">
+    <ul style="list-style:none; padding:0;">
+      <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+        <strong style="color:var(--dark);">Reply Rate on PQS Outreach</strong> — Target: 8–15% (vs. industry standard 1–3% for cold outreach in construction/facilities). A reply rate below 5% signals the signal or the message needs refinement, not more volume.
+      </li>
+      <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+        <strong style="color:var(--dark);">PVP Asset Requests</strong> — Number of facility managers or contractors who request the comparison PDF or margin analysis. Each request is a qualified conversation, not a cold follow-up.
+      </li>
+      <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+        <strong style="color:var(--dark);">Permit-to-Inspection Conversion</strong> — Of facility managers reached via permit signal, how many request a free inspection referral to a ProGuard contractor? This is the clearest pipeline signal.
+      </li>
+      <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+        <strong style="color:var(--dark);">Contractor Certification Rate</strong> — Of contractors reached via hiring signal, how many complete GE certification within 90 days? This measures downstream product adoption, not just outreach metrics.
+      </li>
+      <li>
+        <strong style="color:var(--dark);">Territory Coverage Rate</strong> — By month 4, how many of ProGuard's 20+ territories have an active signal monitoring workflow in place? Coverage is the scale metric.
+      </li>
+    </ul>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ CTA ═══════════════════════ -->
+  <div class="section-label">Next Step</div>
+  <h2>How to Move Forward</h2>
+
+  <p>The fastest way to validate this approach is a single territory test — Texas, given the accessibility of permit data and the size of the ProGuard footprint there. A 3-week manual test covering 25 permit-based outreach contacts will tell you whether the signal converts before building any automation.</p>
+
+  <p>ClientBridge can manage the full implementation — from data sourcing and signal monitoring to message development and rep training. The deliverable is a working, scalable GTM system across all ProGuard territories, not a strategy document.</p>
+
+  <div class="strategic-box">
+    <h3>Get in Touch</h3>
+    <p style="margin-bottom:4px;"><strong style="color:var(--dark);">Jack Barry</strong> — ClientBridge</p>
+    <p style="margin-bottom:4px;">jbarry@client-bridge.com</p>
+    <p>281-782-4963</p>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<div class="footer">
+  <div class="footer-brand">ClientBridge</div>
+  <p>This proposal was prepared by Jack Barry / ClientBridge for ProGuard Building.<br>
+  All targeting frameworks and data strategies are proprietary ClientBridge methodologies.</p>
+  <p style="margin-top:12px;">© 2026 ClientBridge · jbarry@client-bridge.com · 281-782-4963</p>
+</div>
+
+</body>
+</html>
