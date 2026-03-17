@@ -76,7 +76,6 @@
     padding-top: 32px;
     border-top: 1px solid rgba(255,255,255,0.12);
   }
-  .cover-meta-item { }
   .cover-meta-item .label {
     font-size: 10px;
     letter-spacing: 2px;
@@ -88,6 +87,18 @@
     font-size: 0.95rem;
     color: rgba(255,255,255,0.85);
     font-weight: 500;
+  }
+  .cover-version {
+    display: inline-block;
+    background: var(--orange);
+    color: white;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 4px 12px;
+    border-radius: 3px;
+    margin-bottom: 20px;
   }
 
   /* ── LAYOUT ── */
@@ -201,6 +212,9 @@
     border-radius: 3px;
     white-space: nowrap;
   }
+  .pqs-badge.new {
+    background: #2a7a2a;
+  }
   .pqs-title {
     font-size: 1rem;
     font-weight: 500;
@@ -279,6 +293,9 @@
     align-items: center;
     gap: 14px;
   }
+  .pvp-header.new-pvp {
+    background: #2a7a2a;
+  }
   .pvp-badge {
     background: rgba(255,255,255,0.2);
     color: white;
@@ -293,6 +310,22 @@
   }
   .pvp-title { font-size: 1rem; font-weight: 500; }
   .pvp-body { padding: 24px; }
+
+  /* ── NEW LABEL ── */
+  .new-label {
+    display: inline-block;
+    background: #e8f5e8;
+    color: #2a7a2a;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 3px;
+    margin-left: 8px;
+    vertical-align: middle;
+    border: 1px solid #c3e6c3;
+  }
 
   /* ── STRATEGIC BOX ── */
   .strategic-box {
@@ -368,6 +401,43 @@
     line-height: 1.4;
   }
 
+  /* ── TOC ── */
+  .toc {
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+  .toc-title {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 16px;
+  }
+  .toc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px 32px;
+  }
+  .toc-item {
+    font-size: 0.88rem;
+    color: var(--mid);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .toc-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--orange);
+    flex-shrink: 0;
+  }
+  .toc-dot.green { background: #2a7a2a; }
+
   /* ── FOOTER ── */
   .footer {
     background: var(--dark);
@@ -377,7 +447,6 @@
     font-size: 0.85rem;
     line-height: 1.8;
   }
-  .footer a { color: var(--orange); text-decoration: none; }
   .footer .footer-brand {
     font-family: 'DM Serif Display', serif;
     font-size: 1.2rem;
@@ -403,7 +472,7 @@
     .cover { padding: 48px 28px 40px; }
     .cover h1 { font-size: 2.2rem; }
     .container { padding: 40px 20px; }
-    .icp-grid, .pqs-detail-grid, .metrics-grid { grid-template-columns: 1fr; }
+    .icp-grid, .pqs-detail-grid, .metrics-grid, .toc-grid { grid-template-columns: 1fr; }
     .cover-meta { gap: 24px; }
   }
 </style>
@@ -412,6 +481,7 @@
 
 <!-- ═══════════════════════ COVER ═══════════════════════ -->
 <div class="cover">
+  <div class="cover-version">Version 2 — Updated with Market Research</div>
   <div class="cover-label">ClientBridge Intelligence Proposal</div>
   <h1>GTM Engineering<br>for <span>ProGuard Building</span></h1>
   <div class="cover-sub">Precision targeting for a roof coating distributor competing on product quality in a market where everyone sells on price.</div>
@@ -437,6 +507,27 @@
 
 <!-- ═══════════════════════ EXEC SUMMARY ═══════════════════════ -->
 <div class="container">
+
+  <div class="toc">
+    <div class="toc-title">What's in This Proposal</div>
+    <div class="toc-grid">
+      <div class="toc-item"><div class="toc-dot"></div>Company Intelligence &amp; ICP Analysis</div>
+      <div class="toc-item"><div class="toc-dot"></div>Current State Analysis</div>
+      <div class="toc-item"><div class="toc-dot"></div>PQS 01 — Re-Roof Permit Signal</div>
+      <div class="toc-item"><div class="toc-dot"></div>PQS 02 — Contractor Hiring Signal</div>
+      <div class="toc-item"><div class="toc-dot"></div>PQS 03 — Energy Audit / Title 24</div>
+      <div class="toc-item"><div class="toc-dot green"></div>PQS 04 — Solar Permit Signal <span class="new-label">New</span></div>
+      <div class="toc-item"><div class="toc-dot green"></div>PQS 05 — CRE Transaction Signal <span class="new-label">New</span></div>
+      <div class="toc-item"><div class="toc-dot"></div>PVP 01 — Roof Age Coating Window</div>
+      <div class="toc-item"><div class="toc-dot"></div>PVP 02 — Margin Analysis for Contractors</div>
+      <div class="toc-item"><div class="toc-dot"></div>PVP 03 — Competitor Spec Comparison</div>
+      <div class="toc-item"><div class="toc-dot green"></div>PVP 04 — PACE Financing Intelligence <span class="new-label">New</span></div>
+      <div class="toc-item"><div class="toc-dot green"></div>New Buyer: Property Management Cos. <span class="new-label">New</span></div>
+      <div class="toc-item"><div class="toc-dot"></div>Data Moat &amp; Strategic Advantage</div>
+      <div class="toc-item"><div class="toc-dot"></div>Implementation Roadmap</div>
+    </div>
+  </div>
+
   <div class="section-label">Executive Summary</div>
   <h2>The Message Isn't the Problem.<br>The List Is.</h2>
 
@@ -448,7 +539,7 @@
     <p>"The coating sells itself to a facility manager staring at a $400K replacement bid. The job is finding them at that exact moment — not blasting a list of roofing contractors who last bought six months ago."</p>
   </div>
 
-  <p>This proposal identifies three Pain-Qualified Segment (PQS) scenarios and three Permissionless Value Proposition (PVP) concepts that reach ProGuard's highest-value buyers — facility managers, commercial property owners, and roofing contractors — at the specific moments when they are most likely to act.</p>
+  <p>This proposal — updated with validated market research — identifies five Pain-Qualified Segment (PQS) scenarios and four Permissionless Value Proposition (PVP) concepts across a broader set of buyer types than the original draft. Two new PQS scenarios (solar permit activity, commercial real estate transactions) and one new PVP (PACE financing intelligence) were added based on research confirming accessible signals and strong buyer intent. A fourth buyer type — regional property management companies — is identified as a channel opportunity with a distinct outreach approach.</p>
 
   <hr class="divider">
 
@@ -469,20 +560,20 @@
     </div>
     <div class="icp-card">
       <div class="card-label">Best-Fit Projects</div>
-      <div class="card-value">Roofs 10–25 years old showing minor deterioration, ponding, or minor leaks where the membrane is structurally intact — coating candidates, not tear-offs</div>
+      <div class="card-value">Roofs 10–20 years old showing minor deterioration, ponding, or minor leaks where the membrane is structurally intact — coating candidates, not tear-offs. Industry data confirms ~60% of commercial flat roofs are coating-viable at some point in their service life.</div>
     </div>
     <div class="icp-card">
       <div class="card-label">Core Competitive Angle</div>
-      <div class="card-value">GE Enduris requires no primer, single-coat application, no MEKO off-gas, 50+ year manufacturer pedigree — specs competitors can't match at the same price point</div>
+      <div class="card-value">GE Enduris requires no primer, single-coat application, no MEKO off-gas, 50+ year manufacturer pedigree — specs competitors (GacoFlex, Conklin, GAF, Tremco) can't match at the same price point</div>
     </div>
   </div>
 
-  <div class="section-label" style="margin-top:40px;">Target Personas</div>
-  <h2>Two Distinct Buyer Types,<br>Two Very Different Conversations</h2>
+  <div class="section-label" style="margin-top:40px;">Market Context</div>
+  <h2>The Market ProGuard Is Selling Into</h2>
 
-  <p><strong style="color:var(--dark);">Persona A — The Facility Manager / Director of Operations</strong> at a commercial building, manufacturing plant, school district, or logistics facility. Roof issues show up as work order backlogs, emergency repair costs, and budget surprises. They have one roof they're watching. The trigger for action: a leak, a pending inspection, a capital budget cycle, or a re-roofing bid that came in much higher than expected.</p>
+  <p>The U.S. commercial roof coating market sits in the low-to-mid single-digit billions, growing at 4–6% annually. Silicone and acrylic are the dominant chemistries. The restoration-vs-replacement decision point — where ProGuard's message is most relevant — is specifically concentrated in commercial flat and low-slope roofs in the 10–20 year age band. In high-growth metros like Houston, Dallas, Los Angeles, and the Inland Empire, the 2006–2016 construction wave means a large portion of commercial stock is entering that window right now.</p>
 
-  <p><strong style="color:var(--dark);">Persona B — The Coating-Capable Roofing Contractor</strong> who already does restoration work or wants to add it. They're looking for a product with better margins, better specs, and a distributor who will actually support the job. Their trigger: a large coating job coming up, a GE certification opportunity, or losing a spec comparison to another product.</p>
+  <p>Industry data confirms that 80% of commercial roofs are replaced before they need to be. That's ProGuard's entire market opportunity — and it's a targeting problem, not a product problem.</p>
 
   <hr class="divider">
 
@@ -501,16 +592,16 @@
   <p>These tactics reach people who are <em>not yet</em> in a buying moment. The facility manager who gets an email about silicone coatings in October isn't thinking about their roof. The one getting three replacement bids in March is. The difference isn't the message — it's the timing and the list.</p>
 
   <div class="pull-quote">
-    <p>80% of commercial roofs are replaced before they need to be. The building owner who just got a $380,000 tear-off bid hasn't heard that a coating might solve the same problem for $65,000. That's the conversation ProGuard should be having — but only the right 1% of facility managers is in that moment at any given time.</p>
+    <p>53% of commercial roofing contractors are involved in coatings — but coatings represent only 6% of their average revenue. The gap between involvement and commitment is exactly where ProGuard's targeting should focus.</p>
   </div>
 
   <hr class="divider">
 
   <!-- ═══════════════════════ PQS SECTION ═══════════════════════ -->
   <div class="section-label">Pain-Qualified Segments</div>
-  <h2>Three PQS Scenarios Built on<br>Verifiable Public Signals</h2>
+  <h2>Five PQS Scenarios Built on<br>Verifiable Public Signals</h2>
 
-  <p>Each scenario identifies a specific, verifiable situation where a facility manager or property owner is actively experiencing roof-related pain — and is reachable before a competitor claims the job.</p>
+  <p>Each scenario identifies a specific, verifiable situation where a facility manager, property owner, or roofing contractor is actively experiencing roof-related pain — and is reachable before a competitor claims the job. Scenarios 4 and 5 are new, added based on market research confirming signal accessibility and buyer intent.</p>
 
   <!-- PQS 1 -->
   <div class="pqs-card">
@@ -538,19 +629,19 @@
         </div>
         <div class="pqs-detail">
           <div class="dl">Public Data Source</div>
-          <div class="dv">County assessor sites, state open data portals (e.g., Texas DPS permit search, LA City LADBS permit portal), BuildZoom API</div>
+          <div class="dv">County assessor sites, state open data portals (TX DPS permit search, LA City LADBS portal), BuildZoom API, Shovels.ai</div>
         </div>
       </div>
       <div class="tag-row">
         <span class="tag">Building Permits</span>
         <span class="tag">Assessor Records</span>
-        <span class="tag">BuildZoom</span>
+        <span class="tag">BuildZoom / Shovels.ai</span>
         <span class="tag">TX/CA/LA Territories</span>
       </div>
       <h3 style="margin-top:20px;">Outreach Hook (to Facility Manager)</h3>
       <div class="message-box">
         <span class="message-subject">Subject: Your re-roof permit — there may be a cheaper option</span>
-        Noticed you pulled a commercial roofing permit for the facility on [address] last week. Before that contract goes out, it's worth knowing that 60–70% of flat roofs that get replacement bids are actually coating candidates — at roughly 20–30% of the replacement cost and no tear-off.
+        Noticed you pulled a commercial roofing permit for the facility on [address] last week. Before that contract goes out, it's worth knowing that the majority of flat roofs that get replacement bids are actually coating candidates — at roughly 20–30% of the replacement cost and no tear-off.
 
         GE Enduris silicone goes on in one coat, no primer, and carries up to a 20-year warranty. We've done this on properties similar to yours in [city] that had received $300K+ replacement quotes.
 
@@ -577,7 +668,7 @@
         </div>
         <div class="pqs-detail">
           <div class="dl">Why Now</div>
-          <div class="dv">Hiring activity means active jobs. GE certification process takes ~1 day. Switching product mid-growth is low friction if specs support it</div>
+          <div class="dv">Hiring activity means active jobs. GE certification takes ~1 day. Switching product mid-growth is low friction if specs support it</div>
         </div>
         <div class="pqs-detail">
           <div class="dl">Target</div>
@@ -597,9 +688,9 @@
       <h3 style="margin-top:20px;">Outreach Hook (to Roofing Contractor)</h3>
       <div class="message-box">
         <span class="message-subject">Subject: Saw you're hiring for commercial restoration — quick question</span>
-        Noticed [Company] is expanding the restoration crew. Wanted to reach out because we hear a lot from contractors who are winning coating jobs but leaving margin on the table using acrylic systems that need primer and multiple coats.
+        Noticed [Company] is expanding the restoration crew. Wanted to reach out because we hear from contractors who are winning coating jobs but leaving margin on the table using acrylic systems that need primer and multiple coats.
 
-        GE Enduris — the silicone we distribute — goes on single coat, no primer, no MEKO off-gas. Your crew does less prep, the job takes fewer days, and you're quoting a warranted 20-year system. The certification is one day, and we support the spec process.
+        GE Enduris — the silicone we distribute — goes on single coat, no primer, no MEKO off-gas. Your crew does less prep, the job takes fewer days, and you're quoting a warranted 20-year system. The certification is one day and we support the spec process.
 
         Worth a conversation before your next big coating bid?
       </div>
@@ -624,7 +715,7 @@
         </div>
         <div class="pqs-detail">
           <div class="dl">Why Now</div>
-          <div class="dv">Energy audit findings trigger capital budget allocation cycles. Decision-making window is typically 6–18 months post-audit, before next audit cycle</div>
+          <div class="dv">Energy audit findings trigger capital budget allocation cycles. Decision window is typically 6–18 months post-audit, before next audit cycle</div>
         </div>
         <div class="pqs-detail">
           <div class="dl">Target</div>
@@ -644,7 +735,7 @@
       <h3 style="margin-top:20px;">Outreach Hook (to Facilities Director)</h3>
       <div class="message-box">
         <span class="message-subject">Subject: [District/County] energy audit findings — roof coating may qualify for Title 24 credit</span>
-        Saw [organization] completed a facility energy audit recently. If roofing came up — which it often does for flat-roof buildings your age — it's worth knowing that reflective silicone coatings meet Title 24 cool-roof requirements and are typically expensed in the fiscal year applied (not depreciated like a new roof system).
+        Saw [organization] completed a facility energy audit recently. If roofing came up — which it often does for flat-roof buildings your age — it's worth knowing that reflective silicone coatings meet Title 24 cool-roof requirements and are typically expensed in the fiscal year applied rather than depreciated like a new roof system.
 
         GE Enduris on an existing flat roof adds 10–20 years of service life and qualifies for the reflectivity credits your audit is likely recommending. We've helped [school district/municipality] in [county] address the same finding at roughly a quarter of replacement cost.
 
@@ -653,13 +744,107 @@
     </div>
   </div>
 
+  <!-- PQS 4 — NEW -->
+  <div class="pqs-card">
+    <div class="pqs-header">
+      <div class="pqs-badge new">PQS 04</div>
+      <div class="pqs-title">Commercial Properties Filing Solar Rooftop Installation Permits <span class="new-label">New</span></div>
+    </div>
+    <div class="pqs-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">Municipal permit databases → filter for commercial solar/PV installation permits on flat-roof buildings → cross-reference building age via county assessor (target: roofs 10–20 years old) → identify properties where roof life is shorter than the 25-year solar asset life</div>
+      </div>
+      <div class="pqs-detail-grid">
+        <div class="pqs-detail">
+          <div class="dl">Pain Signal</div>
+          <div class="dv">Owner is planning a rooftop solar installation on a building with an aging flat roof — a combination that routinely surfaces in solar site assessments as a risk requiring roof action before panels go on</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Why Now</div>
+          <div class="dv">Solar EPCs conduct roof assessments before install. If the roof won't survive the 25-year solar contract, coating is the lowest-cost path to extend it — and the decision must happen before panels are placed</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Target</div>
+          <div class="dv">Commercial/industrial property owners in CA and TX filing solar permits on buildings with flat roofs built 2004–2016. Warehouses, distribution centers, big-box retail, and manufacturing facilities are the highest-volume targets</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Public Data Source</div>
+          <div class="dv">BuildZoom API / Shovels.ai (solar permit filter) + county assessor (building age) + Google Maps satellite (flat roof confirmation). CA and TX have among the highest commercial solar permit volumes in the U.S.</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">Solar Permits</span>
+        <span class="tag">BuildZoom / Shovels.ai</span>
+        <span class="tag">Assessor Records</span>
+        <span class="tag">CA / TX Priority</span>
+      </div>
+      <h3 style="margin-top:20px;">Outreach Hook (to Property Owner / Facilities Manager)</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: Solar install on [address] — one thing to check before panels go on</span>
+        Noticed you filed a solar permit for [address]. One thing that comes up consistently in commercial solar site assessments: if the roof underneath won't last 20+ years, the solar EPC will flag it — and you'll either delay the install or face a full re-roof mid-project.
+
+        Your building's roof was installed around [year]. That puts it in the range where a silicone coating now extends service life by 15–20 years at roughly 20–30% of replacement cost — and keeps the solar timeline intact. No tear-off, no disruption, and it qualifies as a cool-roof upgrade under Title 24 if you're in California.
+
+        Worth a quick conversation before your solar contractor runs their assessment?
+      </div>
+    </div>
+  </div>
+
+  <!-- PQS 5 — NEW -->
+  <div class="pqs-card">
+    <div class="pqs-header">
+      <div class="pqs-badge new">PQS 05</div>
+      <div class="pqs-title">Commercial Properties in Active Sale or Due Diligence <span class="new-label">New</span></div>
+    </div>
+    <div class="pqs-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">CoStar / LoopNet active commercial listings → filter for industrial, warehouse, and retail properties with flat roofs built 2004–2016 in ProGuard territories → cross-reference listing age (30–90 days on market = active due diligence likely) → identify sellers or buyers using commercial broker relationships</div>
+      </div>
+      <div class="pqs-detail-grid">
+        <div class="pqs-detail">
+          <div class="dl">Pain Signal</div>
+          <div class="dv">In CRE transactions, buyers commission Property Condition Assessments (PCAs) that flag roof lifespan and deferred capex. A coating-eligible roof showing deferred maintenance can kill a deal or create a price reduction — unless it's addressed before closing</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Why Now</div>
+          <div class="dv">The window is 30–90 days during due diligence — before PCA findings become a negotiating point. Sellers who can show a freshly coated roof with a new 20-year warranty remove a major objection from the buyer's inspector</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Target</div>
+          <div class="dv">Sellers of commercial industrial/retail/warehouse properties in active listing, particularly 1031 exchange sellers who need to close on a timeline. Buyers also relevant when acquiring aging-roof properties at a discount with capex planned</div>
+        </div>
+        <div class="pqs-detail">
+          <div class="dl">Public Data Source</div>
+          <div class="dv">CoStar / LoopNet listing data (accessible via API or manual pull), county deed transfer records, commercial broker outreach (CCIM, SIOR member directories)</div>
+        </div>
+      </div>
+      <div class="tag-row">
+        <span class="tag">CoStar / LoopNet</span>
+        <span class="tag">Deed Transfer Records</span>
+        <span class="tag">Commercial Brokers</span>
+        <span class="tag">1031 Exchange Sellers</span>
+      </div>
+      <h3 style="margin-top:20px;">Outreach Hook (to Seller / Asset Manager)</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: [Property address] — roof condition before your PCA</span>
+        Saw [property] is listed. One item that consistently shows up in buyer PCAs for flat-roof buildings your age: roof remaining service life. If the inspector flags deferred maintenance or limited remaining life, it usually becomes a negotiating point — or a deal condition.
+
+        A silicone coating applied now adds 15–20 years of documented service life and comes with a transferable 20-year warranty — which a buyer's inspector sees as a positive rather than a liability. The cost is typically 20–30% of what a full replacement runs.
+
+        Worth knowing about before your PCA date? Happy to connect you with a certified contractor in [city] for a quick assessment.
+      </div>
+    </div>
+  </div>
+
   <hr class="divider">
 
   <!-- ═══════════════════════ PVP SECTION ═══════════════════════ -->
   <div class="section-label">Permissionless Value Propositions</div>
-  <h2>Three PVP Concepts That Deliver<br>Intelligence Before Asking for Anything</h2>
+  <h2>Four PVP Concepts That Deliver<br>Intelligence Before Asking for Anything</h2>
 
-  <p>Each PVP concept delivers a piece of analysis or intelligence that is immediately useful to the recipient — whether or not they ever engage ProGuard. The goal is to create a message so useful they'd forward it to a colleague.</p>
+  <p>Each PVP concept delivers a piece of analysis or intelligence that is immediately useful to the recipient — whether or not they ever engage ProGuard. The goal is to create a message so useful they'd forward it to a colleague. PVP 4 is new, targeting property owners in PACE financing conversations.</p>
 
   <!-- PVP 1 -->
   <div class="pvp-card">
@@ -708,14 +893,14 @@
         <div class="dr-sources">RSMeans regional cost data (public annual reports) + local contractor job posting rates (Indeed/LinkedIn) + ProGuard regional material pricing + recent permit valuations from municipal databases</div>
       </div>
 
-      <p><strong style="color:var(--dark);">Core Insight:</strong> Most roofing contractors quote replacement jobs because that's where they know the margin. But in the current labor market, coating jobs — properly spec'd with single-coat silicone — have higher gross margin per day of crew time than tear-offs in most metro markets. This analysis makes that case with current numbers, specific to the contractor's territory.</p>
+      <p><strong style="color:var(--dark);">Core Insight:</strong> Most roofing contractors quote replacement jobs because that's where they know the margin. But coating jobs — properly spec'd with single-coat silicone — carry higher gross margin per day of crew time than tear-offs in most metro markets. This analysis makes that case with current numbers specific to the contractor's territory.</p>
 
       <p><strong style="color:var(--dark);">Target Persona:</strong> Owner or estimator at a commercial roofing company doing $2M–$15M annually, primarily replacement-focused, in ProGuard distribution territory.</p>
 
       <h3 style="margin-top:20px;">Outreach Message</h3>
       <div class="message-box">
         <span class="message-subject">Subject: [City] roofing margins — coating vs. replacement by crew day</span>
-        Quick data point for you: based on current labor rates in [city] and material costs on our end, a 20,000 sq ft silicone coating job runs about 3–4 crew days with one-coat application — no tear-off, no disposal. At current market pricing for that scope, gross margin per crew day runs about 30–40% higher than a comparable TPO replacement.
+        Quick data point for you: based on current labor rates in [city] and material costs on our end, a 20,000 sq ft silicone coating job runs about 3–4 crew days with one-coat application — no tear-off, no disposal. At current market pricing for that scope, gross margin per crew day runs meaningfully higher than a comparable TPO replacement.
 
         I put together a one-page breakdown comparing coating vs. replacement margins for jobs in your size range in [metro area]. Happy to send it — no pitch attached, just the numbers.
 
@@ -743,7 +928,7 @@
         <div class="dr-sources">Manufacturer TDS (Technical Data Sheets, publicly available) for GacoFlex, Conklin, GAF, Tremco + published warranty terms + material cost per sq ft (distributor pricing, publicly quoted) + application requirement comparison</div>
       </div>
 
-      <p><strong style="color:var(--dark);">Core Insight:</strong> When a facility manager gets competing coating bids, the spec sheets all look similar. But the application requirements are dramatically different — primer requirements, number of coats, cure time, ponding water performance, and warranty terms vary widely. ProGuard can deliver a side-by-side comparison that makes GE Enduris's advantages immediately visible — and gives the contractor a tool to use when their customer asks "why this product?"</p>
+      <p><strong style="color:var(--dark);">Core Insight:</strong> When a facility manager gets competing coating bids, the spec sheets all look similar. But application requirements differ dramatically — primer requirements, number of coats, cure time, ponding water performance, and warranty terms vary widely. ProGuard can deliver a side-by-side comparison that makes GE Enduris's advantages immediately visible, and gives the contractor a tool to use when their customer asks "why this product?"</p>
 
       <p><strong style="color:var(--dark);">Target Persona:</strong> Commercial roofing contractor estimator or owner preparing a coating bid where the end customer is comparing multiple proposals. Trigger: contractor has an active bid in progress (visible from permit activity or active job postings).</p>
 
@@ -766,6 +951,57 @@
     </div>
   </div>
 
+  <!-- PVP 4 — NEW -->
+  <div class="pvp-card">
+    <div class="pvp-header new-pvp">
+      <div class="pvp-badge">PVP 04</div>
+      <div class="pvp-title">The "PACE Financing Eligibility" Brief for Property Owners <span class="new-label">New</span></div>
+    </div>
+    <div class="pvp-body">
+      <div class="data-recipe-row">
+        <div class="dr-label">Data Recipe</div>
+        <div class="dr-sources">C-PACE eligible measures lists by state (TX: PACELoanGroup, CA: CounterpointeSRE, LA: LA Clean Energy) → confirm silicone cool-roof coating eligibility by jurisdiction → cross-reference with target property list (aged flat-roof commercial buildings in PACE-active counties)</div>
+      </div>
+
+      <p><strong style="color:var(--dark);">Core Insight:</strong> C-PACE (Commercial Property Assessed Clean Energy) financing is available in Texas, California, and Louisiana — and covers energy efficiency improvements including cool-roof coatings. Property owners can finance 100% of a silicone coating project off-balance-sheet, with repayment attached to the property tax bill rather than a loan. Most facility managers and property owners in the target market don't know coating qualifies. ProGuard can deliver that intelligence before any competitor does.</p>
+
+      <p><strong style="color:var(--dark);">Target Persona:</strong> Commercial property owner or asset manager for buildings in PACE-active counties in TX and CA. Particularly effective for owners who have deferred roof maintenance due to capital budget constraints — PACE removes the budget objection entirely.</p>
+
+      <h3 style="margin-top:20px;">Outreach Message</h3>
+      <div class="message-box">
+        <span class="message-subject">Subject: Roof coating at [address] — there may be 100% financing available</span>
+        Quick intelligence item that most building owners in [county] haven't heard yet: C-PACE financing — the commercial property energy efficiency program — covers silicone roof coatings as a qualifying cool-roof improvement in [TX/CA]. That means 100% of project cost, no upfront capital, repaid through your property tax bill over 10–25 years.
+
+        For a 30,000 sq ft flat roof, a GE Enduris silicone coating typically runs $45,000–$90,000. Under PACE, that's zero out-of-pocket today. The roof gets 15–20 more years of service life and you've satisfied any cool-roof compliance requirements.
+
+        I put together a one-page summary of PACE eligibility and sample project economics for [county]. Want me to send it over?
+      </div>
+
+      <div class="tag-row">
+        <span class="tag">C-PACE TX / CA / LA</span>
+        <span class="tag">PACELoanGroup</span>
+        <span class="tag">CounterpointeSRE</span>
+        <span class="tag">Property Owner Persona</span>
+      </div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ═══════════════════════ NEW BUYER: PROPERTY MGMT ═══════════════════════ -->
+  <div class="section-label">New Buyer Type — Research Finding</div>
+  <h2>Property Management Companies:<br>Portfolio-Scale Opportunity</h2>
+
+  <p>Research confirmed a buyer type not addressed in the original proposal: regional and national property management companies managing portfolios of commercial or industrial properties across multiple buildings. These firms make roofing decisions centrally — through a Director of Facilities, VP of Asset Management, or Regional Engineering head — rather than building-by-building.</p>
+
+  <div class="strategic-box">
+    <h3>Why This Buyer Type Is Different</h3>
+    <p>A single facility manager controls one roof. A property management company controls 20–200 roofs across a portfolio. One converted relationship at a regional PM firm can produce multiple coating projects per year across their managed properties — all using the same preferred vendor and spec.</p>
+    <p>These firms run formal annual improvement plans and capital replacement schedules (aligned with IFMA guidance). Roof condition is a line item in their asset management system. The decision-maker is evaluating cost-per-building across the portfolio, not just one property's replacement quote.</p>
+    <p><strong style="color:var(--dark);">Targeting approach:</strong> BOMA (Building Owners and Managers Association) and NAIOP member directories in ProGuard territories provide direct access to portfolio-level facilities contacts. LinkedIn search for "Director of Facilities" or "VP Asset Management" at property management companies with 10+ managed commercial properties in TX/CA/LA. The outreach angle is a portfolio-wide "Restore vs. Replace" cost baseline analysis — a PVP deliverable that requires their building list as input and returns a prioritized maintenance schedule.</p>
+    <p><strong style="color:var(--dark);">Key channel note:</strong> These firms source vendors through preferred-vendor lists and RFP processes. The goal of first outreach is not to sell product — it's to get onto the preferred vendor list or into their next capital planning cycle. Aligning ProGuard's certified contractors with a PM firm's existing roofing contractor relationships is the most efficient path.</p>
+  </div>
+
   <hr class="divider">
 
   <!-- ═══════════════════════ DATA MOAT ═══════════════════════ -->
@@ -774,23 +1010,23 @@
 
   <div class="strategic-box">
     <h3>Why These Signals Create Durable Competitive Advantage</h3>
-    <p>ProGuard's competitors — other silicone distributors, acrylic coating suppliers, full-line roofing distributors — are reaching roofing contractors through the same channels: trade shows, reps, cold calls, spec sheets. None of them are identifying facility managers at the permit stage, or contractors hiring for restoration work, or institutions inside post-audit budget cycles.</p>
-    <p>Once ProGuard builds the workflow to monitor these signals consistently, the advantage compounds. Each job won through permit monitoring adds a reference property in that market. Each contractor converted through hiring signal monitoring reduces competitor share in that territory. The effort to build these data recipes is high; the effort to maintain them is low.</p>
-    <p>Competitors who continue outreach based on geography and company size don't know what they're missing. That gap is the moat.</p>
+    <p>ProGuard's competitors — other silicone distributors, acrylic coating suppliers, full-line roofing distributors — are reaching roofing contractors through the same channels: trade shows, reps, cold calls, spec sheets. None of them are identifying facility managers at the permit stage, intercepting solar project timelines, or reaching commercial property sellers before their PCA.</p>
+    <p>The five PQS signals in this proposal operate at different points in the buyer journey — from years before a decision (PVP 1, roof age analysis) to weeks before a contract is signed (PQS 1, permit signal) to a specific project deadline (PQS 4, solar install timing). Covering multiple entry points means ProGuard captures buyers at whichever moment they become ready, regardless of which trigger fires first.</p>
+    <p>The effort to identify and operationalize these data recipes is high. The effort to run them at scale once built is low. Competitors who rely on geography and firmographics don't know what they're missing — and that gap is the moat.</p>
   </div>
 
   <div class="metrics-grid">
     <div class="metric-card">
-      <div class="metric-num">10–18</div>
-      <div class="metric-label">Year window where coating outperforms replacement for most commercial flat roofs</div>
+      <div class="metric-num">5</div>
+      <div class="metric-label">Distinct signal types monitoring different entry points in the buyer journey</div>
     </div>
     <div class="metric-card">
       <div class="metric-num">~20–30%</div>
-      <div class="metric-label">Coating cost as a percentage of replacement cost — the financial case that closes deals</div>
+      <div class="metric-label">Coating cost as a percentage of full replacement — the financial case that closes deals</div>
     </div>
     <div class="metric-card">
-      <div class="metric-num">2–6 wks</div>
-      <div class="metric-label">Window between permit filing and contract signing — the targeting precision that matters</div>
+      <div class="metric-num">4–6%</div>
+      <div class="metric-label">Annual U.S. commercial roof coating market growth rate — a rising tide for every deal ProGuard wins</div>
     </div>
   </div>
 
@@ -804,33 +1040,41 @@
     <div class="roadmap-item">
       <div class="rm-number">1</div>
       <div class="rm-content">
-        <div class="rm-phase">Weeks 1–3 · Manual Validation</div>
-        <div class="rm-title">Hand-pull permit data in one territory and run 20 outreach tests</div>
-        <div class="rm-desc">Select one ProGuard distribution territory (recommended: Texas, given permit data accessibility). Pull 20–30 commercial roofing permits from the county portal. Send PQS Scenario 1 messages manually to the property contacts. Track response rate and quality.</div>
+        <div class="rm-phase">Weeks 1–3 · Signal Prioritization</div>
+        <div class="rm-title">Pick two signals for manual validation — permit + solar</div>
+        <div class="rm-desc">PQS 1 (re-roof permits) and PQS 4 (solar permits) are the highest-signal, most accessible tests. Pull 20–25 contacts in Texas using county permit portals and BuildZoom. Run outreach manually. The solar signal is worth testing simultaneously because it reaches the owner before the permit is even pulled for the roof — an earlier intercept than any other scenario.</div>
       </div>
     </div>
     <div class="roadmap-item">
       <div class="rm-number">2</div>
       <div class="rm-content">
-        <div class="rm-phase">Weeks 3–6 · Parallel Track</div>
-        <div class="rm-title">Run contractor hiring signal test simultaneously</div>
-        <div class="rm-desc">Use LinkedIn Sales Navigator to identify commercial roofing contractors in Texas and SoCal who posted restoration-related jobs in last 60 days. Send PQS Scenario 2 messages to owners/estimators. Compare response quality to permit-based outreach.</div>
+        <div class="rm-phase">Weeks 3–6 · Parallel Tracks</div>
+        <div class="rm-title">Add contractor hiring signal and CRE transaction outreach</div>
+        <div class="rm-desc">Run PQS 2 (contractor hiring signal) via LinkedIn Sales Navigator in TX and SoCal. In parallel, pull 10–15 active commercial listings from LoopNet for flat-roof industrial/retail properties in ProGuard territories and test PQS 5 messaging with the listing broker or property contact.</div>
       </div>
     </div>
     <div class="roadmap-item">
       <div class="rm-number">3</div>
       <div class="rm-content">
         <div class="rm-phase">Weeks 6–10 · PVP Asset Build</div>
-        <div class="rm-title">Create the three PVP assets in deliverable form</div>
-        <div class="rm-desc">Build the coating window analysis one-pager (PVP 1), the coating vs. replacement margin breakdown (PVP 2), and the GE Enduris spec comparison PDF (PVP 3). These become repeatable deliverables that any ProGuard rep can deploy.</div>
+        <div class="rm-title">Create all four PVP deliverables in shareable form</div>
+        <div class="rm-desc">Build the coating window one-pager (PVP 1), the contractor margin breakdown (PVP 2), the GE Enduris spec comparison PDF (PVP 3), and the PACE financing eligibility brief by county (PVP 4). These become repeatable assets any ProGuard rep or contractor can deploy — the PACE brief in particular requires confirming eligible measures lists by jurisdiction in TX and CA before launch.</div>
       </div>
     </div>
     <div class="roadmap-item">
       <div class="rm-number">4</div>
       <div class="rm-content">
-        <div class="rm-phase">Weeks 10–16 · Automation &amp; Scale</div>
-        <div class="rm-title">Build Clay workflows to monitor signals across all ProGuard territories</div>
-        <div class="rm-desc">Automate permit monitoring via Clay + BuildZoom API. Set up LinkedIn job posting alerts for contractor hiring signals. Build a simple scoring layer to prioritize outreach by building size and roof age. Roll out to all 20+ ProGuard regional territories.</div>
+        <div class="rm-phase">Weeks 8–12 · Property Management Channel</div>
+        <div class="rm-title">Build the PM company outreach track separately</div>
+        <div class="rm-desc">This is a longer-cycle, higher-value channel. Pull BOMA and NAIOP member lists in ProGuard territories. Identify Director of Facilities contacts at PM companies managing 10+ commercial properties. Develop the "portfolio-wide Restore vs. Replace baseline" PVP concept as a bespoke deliverable for this persona. Expect a 60–90 day sales cycle, but a single converted PM relationship can yield multiple coating projects annually.</div>
+      </div>
+    </div>
+    <div class="roadmap-item">
+      <div class="rm-number">5</div>
+      <div class="rm-content">
+        <div class="rm-phase">Weeks 12–18 · Automation &amp; Scale</div>
+        <div class="rm-title">Build Clay workflows to monitor all signals across all ProGuard territories</div>
+        <div class="rm-desc">Automate permit monitoring (re-roof + solar) via Clay + BuildZoom/Shovels.ai API. Set up LinkedIn job posting alerts for contractor hiring signals. Add LoopNet new-listing monitoring for CRE transactions. Build a scoring layer by building size, roof age, and territory priority. Roll out to all 20+ ProGuard territories.</div>
       </div>
     </div>
   </div>
@@ -847,16 +1091,19 @@
         <strong style="color:var(--dark);">Reply Rate on PQS Outreach</strong> — Target: 8–15% (vs. industry standard 1–3% for cold outreach in construction/facilities). A reply rate below 5% signals the signal or the message needs refinement, not more volume.
       </li>
       <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
-        <strong style="color:var(--dark);">PVP Asset Requests</strong> — Number of facility managers or contractors who request the comparison PDF or margin analysis. Each request is a qualified conversation, not a cold follow-up.
+        <strong style="color:var(--dark);">PVP Asset Requests</strong> — Number of facility managers, property owners, or contractors who request any of the four PVP deliverables. Each request is a qualified conversation, not a cold follow-up. Track which PVP converts highest by persona type.
       </li>
       <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
-        <strong style="color:var(--dark);">Permit-to-Inspection Conversion</strong> — Of facility managers reached via permit signal, how many request a free inspection referral to a ProGuard contractor? This is the clearest pipeline signal.
+        <strong style="color:var(--dark);">Permit-to-Inspection Conversion</strong> — Of facility managers reached via permit signal (PQS 1), how many request a free inspection referral to a ProGuard contractor? This is the clearest pipeline signal for the core scenario.
       </li>
       <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
-        <strong style="color:var(--dark);">Contractor Certification Rate</strong> — Of contractors reached via hiring signal, how many complete GE certification within 90 days? This measures downstream product adoption, not just outreach metrics.
+        <strong style="color:var(--dark);">Solar Signal Response Quality</strong> — Track separately from the re-roof permit signal (PQS 4). Solar contacts are earlier in the buyer journey — response rate may be lower but conversation quality higher. A single converted solar project = coating + potential repeat as panels are maintained.
+      </li>
+      <li style="margin-bottom:14px; padding-bottom:14px; border-bottom:1px solid var(--border);">
+        <strong style="color:var(--dark);">Contractor Certification Rate</strong> — Of contractors reached via hiring signal (PQS 2), how many complete GE certification within 90 days? Measures downstream product adoption.
       </li>
       <li>
-        <strong style="color:var(--dark);">Territory Coverage Rate</strong> — By month 4, how many of ProGuard's 20+ territories have an active signal monitoring workflow in place? Coverage is the scale metric.
+        <strong style="color:var(--dark);">Territory Coverage Rate</strong> — By month 5, how many of ProGuard's 20+ territories have an active signal monitoring workflow in place across at least two signal types? Coverage + signal diversity is the scale metric.
       </li>
     </ul>
   </div>
@@ -867,9 +1114,9 @@
   <div class="section-label">Next Step</div>
   <h2>How to Move Forward</h2>
 
-  <p>The fastest way to validate this approach is a single territory test — Texas, given the accessibility of permit data and the size of the ProGuard footprint there. A 3-week manual test covering 25 permit-based outreach contacts will tell you whether the signal converts before building any automation.</p>
+  <p>The fastest validation path is a two-signal test in Texas: re-roof permits (PQS 1) and solar permits (PQS 4), run simultaneously with 20–25 contacts each. Three weeks of manual outreach will tell you which signal converts before any automation is built.</p>
 
-  <p>ClientBridge can manage the full implementation — from data sourcing and signal monitoring to message development and rep training. The deliverable is a working, scalable GTM system across all ProGuard territories, not a strategy document.</p>
+  <p>ClientBridge can manage the full implementation — from data sourcing and signal monitoring to message development, PVP asset creation, and rep training. The deliverable is a working, scalable GTM system across all ProGuard territories, not a strategy document.</p>
 
   <div class="strategic-box">
     <h3>Get in Touch</h3>
